@@ -5,5 +5,12 @@
         "latex",
         "plaintext",
         "bibtex"
-    ]
+    ],
+    "files.associations": {
+        "*.vstemplate": "xml",
+        "SConstruct": "python",
+        "SConscript": "python",
+        "iosfwd": "cpp",
+        "*.glade": "xml"
+    }
 }

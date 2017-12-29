@@ -62,3 +62,8 @@ Import('env')
 
 # Build binary
 env.Program('build/'+program_name, env.src_files)
+
+# Copy UI scripts
+uis = ['basic']
+for x in uis:
+    Install('build/ui', 'src/ui/'+x+'.glade')
