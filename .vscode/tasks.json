@@ -109,6 +109,41 @@
                "\"export DISPLAY=127.0.0.1:0 && ./swegui\""
             ],
             "problemMatcher": []
-        }
+        },
+        {
+            "label": "Build Documentation",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "\"mkdir -p ../documentation/build && doxygen ../documentation/doxygen.cfg && (cd ../documentation/build/latex;make)\""
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/src"
+            },
+            "problemMatcher": {
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "message": 4
+                }
+            }
+        },
+        {
+            "label": "Clean Framework Documentation",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-r",
+                "build"
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/documentation"
+            },
+            "problemMatcher": []
+        },
     ]
 }
