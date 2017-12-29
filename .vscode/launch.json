@@ -1,0 +1,59 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "GDB Linux Native",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/swegui",
+            "args": [ ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}/build",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "GDB WSL local X server",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/build/swegui",
+            "args": [ ],
+            "stopAtEntry": false,
+            "cwd": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/build",
+            "externalConsole": true,
+            "windows": {
+                "MIMode": "gdb",
+                "setupCommands": [
+                    {
+                        "description": "Enable pretty-printing for gdb",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    },
+                    {
+                        "description": "Set X window display",
+                        "text": "set environment DISPLAY 127.0.0.1:0",
+                        "ignoreFailures": false
+                    }
+                ]
+            }, 
+            "pipeTransport": {
+                "pipeCwd": "",
+                "pipeProgram": "c:/windows/sysnative/bash.exe",
+                "pipeArgs": [ "-c" ],
+                "debuggerPath": "/usr/bin/gdb"
+            },
+            "sourceFileMap": {
+                "/mnt/c": "c:/"
+            }
+        }
+    ]
+}

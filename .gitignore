@@ -1,0 +1,15 @@
+build/build_swegui
+build/swegui
+
+documentation/build
+
+*.pyc
+.sconsign.dblite
+config.log
+.sconf_temp
+*~
+
+.settings
+.project
+.cproject
+.pydevproject
