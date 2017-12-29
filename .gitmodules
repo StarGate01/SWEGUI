@@ -1,0 +1,3 @@
+[submodule "submodules/swe"]
+	path = submodules/swe
+	url = https://gitlab.lrz.de/ChristophHonal/SWE.git
