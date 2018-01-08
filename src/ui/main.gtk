@@ -5,10 +5,12 @@
   <object class="GtkApplicationWindow" id="window_main">
     <property name="can_focus">False</property>
     <property name="margin_top">12</property>
-    <property name="title" translatable="yes">Main Window</property>
+    <property name="title" translatable="yes">SuperCrazyVisualDataAnalyser 2000</property>
     <property name="window_position">center</property>
-    <property name="default_width">800</property>
-    <property name="default_height">600</property>
+    <property name="default_width">1200</property>
+    <property name="default_height">1200</property>
+    <property name="icon_name">applications-graphics</property>
+    <property name="urgency_hint">True</property>
     <child>
       <object class="GtkBox" id="main_box">
         <property name="visible">True</property>
@@ -172,6 +174,77 @@
           </packing>
         </child>
         <child>
+          <object class="GtkToolbar" id="main_toolbar">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_bottom">30</property>
+            <property name="resize_mode">immediate</property>
+            <property name="toolbar_style">icons</property>
+            <child>
+              <object class="GtkToolButton" id="tbtn_new">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="is_important">True</property>
+                <property name="action_name">app.new</property>
+                <property name="label" translatable="yes">New</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-open</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="bbtn_quit">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="action_name">app.quit</property>
+                <property name="label" translatable="yes">Quit</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-quit</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="tbtn_test1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="action_name">app.test1</property>
+                <property name="label" translatable="yes">Test 1</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-home</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="tbtn_test2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="action_name">app.test2</property>
+                <property name="label" translatable="yes">Test 2</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-about</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkBox" id="box_horizontal">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -199,6 +272,7 @@
 DATA
 TO
 Display</property>
+                    <property name="ellipsize">end</property>
                     <property name="single_line_mode">True</property>
                   </object>
                   <packing>
@@ -229,7 +303,7 @@ Display</property>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>

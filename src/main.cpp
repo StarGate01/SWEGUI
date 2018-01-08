@@ -1,12 +1,14 @@
 #include <gtkmm.h>
 #include <iostream>
 
-Gtk::Dialog* pDialog = nullptr;
+Gtk::ApplicationWindow* pWindow = nullptr;
 
+/*
 static void on_button_clicked()
 {
     if(pDialog) pDialog->hide(); //hide() will cause main::run() to end.
 }
+*/
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +18,7 @@ int main(int argc, char *argv[])
     auto refBuilder = Gtk::Builder::create();
     try
     {
-        refBuilder->add_from_file("ui/basic.glade");
+        refBuilder->add_from_file("ui/main.gtk");
     }
     catch (const Glib::FileError &ex)
     {
@@ -35,21 +37,21 @@ int main(int argc, char *argv[])
     }
 
     //Get the GtkBuilder-instantiated Dialog:
-    refBuilder->get_widget("DialogBasic", pDialog);
-    if (pDialog)
+    refBuilder->get_widget("window_main", pWindow);
+    if (pWindow)
     {
-        //Get the GtkBuilder-instantiated Button, and connect a signal handler:
-        Gtk::Button *pButton = nullptr;
-        refBuilder->get_widget("quit_button", pButton);
-        if (pButton)
-        {
-            pButton->signal_clicked().connect(sigc::ptr_fun(on_button_clicked));
-        }
+        // //Get the GtkBuilder-instantiated Button, and connect a signal handler:
+        // Gtk::Button *pButton = nullptr;
+        // refBuilder->get_widget("quit_button", pButton);
+        // if (pButton)
+        // {
+        //     pButton->signal_clicked().connect(sigc::ptr_fun(on_button_clicked));
+        // }
 
-        app->run(*pDialog);
+        app->run(*pWindow);
     }
 
-    delete pDialog;
+    delete pWindow;
 
     return 0;
 }

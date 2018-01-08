@@ -64,6 +64,6 @@ Import('env')
 env.Program('build/'+program_name, env.src_files)
 
 # Copy UI scripts
-uis = ['basic']
+uis = ['basic', 'main']
 for x in uis:
-    Install('build/ui', 'src/ui/'+x+'.glade')
+    Install('build/ui', 'src/ui/'+x+'.gtk')
