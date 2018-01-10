@@ -7,8 +7,8 @@
     <property name="margin_top">12</property>
     <property name="title" translatable="yes">SuperCrazyVisualDataAnalyser 2000</property>
     <property name="window_position">center</property>
-    <property name="default_width">1200</property>
-    <property name="default_height">1200</property>
+    <property name="default_width">1000</property>
+    <property name="default_height">800</property>
     <property name="icon_name">applications-graphics</property>
     <property name="urgency_hint">True</property>
     <child>
@@ -178,7 +178,6 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="margin_bottom">30</property>
-            <property name="resize_mode">parent</property>
             <property name="toolbar_style">icons</property>
             <child>
               <object class="GtkToolButton" id="tbtn_new">
@@ -187,7 +186,7 @@
                 <property name="label" translatable="yes">New</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-open</property>
-                <signal name="clicked" handler="app.new" swapped="false"/>
+                <signal name="clicked" handler="app.new" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -200,8 +199,8 @@
                 <property name="can_focus">True</property>
                 <property name="label" translatable="yes">Quit</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-quit</property> 
-                <signal name="clicked" handler="app.quit" swapped="false"/>
+                <property name="stock_id">gtk-quit</property>
+                <signal name="clicked" handler="app.quit" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -215,7 +214,7 @@
                 <property name="label" translatable="yes">Test 1</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-home</property>
-                <signal name="clicked" handler="app.tes1" swapped="false"/>
+                <signal name="clicked" handler="app.tes1" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -229,7 +228,7 @@
                 <property name="label" translatable="yes">Test 2</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-about</property>
-                <signal name="clicked" handler="app.test2" swapped="false"/>
+                <signal name="clicked" handler="app.test2" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
