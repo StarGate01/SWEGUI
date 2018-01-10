@@ -2,6 +2,8 @@
 #include <iostream>
 #include <stdio.h>
 
+#include "gtkmm_swe_application.h"
+
 static void on_button_clicked_newfile()
 {
     std::cout << "Button: New file clicked" << std::endl; 
@@ -25,21 +27,25 @@ static void on_button_clicked_test2()
 
 int main(int argc, char *argv[])
 {
-    static auto app = Gtk::Application::create(argc, argv, "de.tum.in.www5.tssim.g03.swegui");
+    auto application = GuiApplication::create();
+    return application->run(argc, argv);
+
+    /*
+    auto app = Gtk::Application::create(argc, argv, "de.tum.in.www5.tssim.g03.swegui");
     // ---- Widgets ----
     //Main application & window
-    static Gtk::ApplicationWindow* pWindow = nullptr;
+    Gtk::ApplicationWindow* pWindow = nullptr;
     //Menubar
-     Gtk::MenuBar* menubar_main = nullptr;
-     Gtk::MenuItem* menuitementry_open = nullptr;
+    Gtk::MenuBar* menubar_main = nullptr;
+    Gtk::MenuItem* menuitementry_open = nullptr;
     //Toolbar
-     Gtk::Toolbar* toolbar_main = nullptr;
-     Gtk::ToolButton* tb_openfile = nullptr;
-    static Gtk::ToolButton* tb_quit = nullptr;
-    static Gtk::ToolButton* tb_test1 = nullptr;
-    static Gtk::ToolButton* tb_test2 = nullptr;
+    Gtk::Toolbar* toolbar_main = nullptr;
+    Gtk::ToolButton* tb_openfile = nullptr;
+    Gtk::ToolButton* tb_quit = nullptr;
+    Gtk::ToolButton* tb_test1 = nullptr;
+    Gtk::ToolButton* tb_test2 = nullptr;
     //Raw data field
-    static Gtk::Label* lbl_raw_data = nullptr;
+    Gtk::Label* lbl_raw_data = nullptr;
 
     //---- Load GtkBuilder ----
     auto refBuilder = Gtk::Builder::create();
@@ -105,11 +111,6 @@ int main(int argc, char *argv[])
                 return EXIT_FAILURE;
             }
 
-        //Enable buttons
-            //toolbar_main->set_sensitive(true);  
-            //menuitementry_open->set_sensitive(true);    
-            //tb_openfile->set_sensitive(true);    
-            
             //Event handlers for toolbar
             tb_openfile->signal_clicked().connect(sigc::ptr_fun(on_button_clicked_newfile));
             tb_quit->signal_clicked().connect(sigc::ptr_fun(on_button_clicked_quit));
@@ -142,4 +143,6 @@ int main(int argc, char *argv[])
     delete pWindow;
 
     return 0;
+
+    */
 }
