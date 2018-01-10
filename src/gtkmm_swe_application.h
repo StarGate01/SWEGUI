@@ -23,33 +23,8 @@ protected:
     void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
 
 private:
-    //GUI Elements
-    Gtk::Window* pWindow = nullptr;
-    //Menubar
-    Gtk::MenuBar* menubar_main = nullptr;
-    Gtk::MenuItem* menuitementry_open = nullptr;
-    //Toolbar
-    Gtk::Toolbar* toolbar_main = nullptr;
-    Gtk::ToolButton* tb_openfile = nullptr;
-    Gtk::ToolButton* tb_quit = nullptr;
-    Gtk::ToolButton* tb_test1 = nullptr;
-    Gtk::ToolButton* tb_test2 = nullptr;
-    //Raw data field
-    Gtk::Label* lbl_raw_data = nullptr;
-
     GuiApplicationWindow* create_appwindow();
     void on_hide_window(Gtk::Window* window);
-
-    //GUI helper functions
-    bool check_gui_initialized();
-    //--- event handler ---
-    void setup_gui_elements(Glib::RefPtr<Gtk::Builder> refBuilder);
-    void initialize_gui_elements();     //Called by setup_gui_elements
-    //Actual event handler
-    static void on_action_fileopen();
-    static void on_action_quit();
-    static void on_action_test1();
-    static void on_action_test2();
 };
 
 #endif
