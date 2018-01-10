@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<glade-catalog name="sfmlwidgets" library="sfmlwidgetsglade" depends="gtk+">
+ 
+  <init-function>sfml_widgets_glade_init</init-function>
+ 
+  <glade-widget-classes>
+    <glade-widget-class name="gtkmm__CustomObject_sfmlwidget" generic-name="sfmlwidget" icon-name="gtk-select-color" title="SFML Widget">
+    </glade-widget-class>
+  </glade-widget-classes>
+ 
+  <glade-widget-group name="sfmlwidgets" title="SFML Widgets" >
+    <glade-widget-class-ref name="gtkmm__CustomObject_sfmlwidget" />
+  </glade-widget-group>
+ 
+</glade-catalog>

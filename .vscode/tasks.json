@@ -51,8 +51,7 @@
             "command": "rm",
             "args": [
                 "-rf",
-                "build/build_swegui",
-                "build/swegui"
+                "build"
             ],
             "problemMatcher": []
         },
@@ -142,6 +141,16 @@
             ],
             "options": {
                 "cwd": "${workspaceRoot}/documentation"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Regenerate Glade Configuaration",
+            "type": "shell",
+            "command": "./gladelib.sh",
+            "args": [ ],
+            "options": {
+                "cwd": "${workspaceRoot}/.vscode"
             },
             "problemMatcher": []
         },

@@ -28,7 +28,7 @@ vars.AddVariables(
 env = Environment(ENV = {'PATH': os.environ['PATH']}, variables=vars, tools = ['default', 'cxxtest'])
 
 # All required libraries
-libs = ['gtkmm-3.0']
+libs = ['gtkmm-3.0', 'sfml-system', 'sfml-graphics']
 
 # Auto configuration
 conf = Configure(env)
@@ -52,18 +52,32 @@ elif env['compileMode'] == 'release':
 
 # Set names and paths
 program_name = 'swegui'
-build_dir = env['buildDir']+'/build_'+program_name
+build_dir_prog = env['buildDir']+'/build_'+program_name
+gladelib_name = 'sfmlwidgetsglade'
+build_dir_lib = env['buildDir']+'/build_'+gladelib_name
 
+# Build program
 # Get the source files
 env.src_files = []
 Export('env')
-SConscript('src/SConscript', variant_dir=build_dir, duplicate=0)
+SConscript('src/SConscript', variant_dir=build_dir_prog, duplicate=0)
 Import('env')
-
 # Build binary
 env.Program('build/'+program_name, env.src_files)
-
 # Copy UI scripts
 uis = ['basic', 'main']
 for x in uis:
-    Install('build/ui', 'src/ui/'+x+'.gtk')
+    Install('build', 'src/ui/'+x+'.glade')
+
+# Build glade library
+# Get the source files
+env.src_files = []
+Export('env')
+SConscript('src/sfml/SConscript', variant_dir=build_dir_lib, duplicate=0)
+Import('env')
+# Build binary
+env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME'] = 1
+env.Append(CCFLAGS=['-fPIC', '-shared'])
+env.SharedLibrary('build/'+gladelib_name, env.src_files)
+# Copy catalog
+Install('build', 'src/sfml/SFMLWidgets.xml')

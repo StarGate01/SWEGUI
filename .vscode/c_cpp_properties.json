@@ -6,6 +6,7 @@
             "includePath": [
                 "${workspaceRoot}",
                 "${workspaceRoot}/src",
+                "${workspaceRoot}/lib",
                 "/usr/include/c++/5",
                 "/usr/include/x86_64-linux-gnu/c++/5",
                 "/usr/include/c++/5/backward",
@@ -14,7 +15,8 @@
                 "/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed",
                 "/usr/include/x86_64-linux-gnu",
                 "/usr/include",
-                "/usr/include/gtkmm-3.0"
+                "/usr/include/gtkmm-3.0",
+                "/usr/include/gtkglextmm-1.2"
             ],
             "defines": [
                 "__linux__",
@@ -26,6 +28,7 @@
                 "path": [
                     "${workspaceRoot}",
                     "${workspaceRoot}/src",
+                    "${workspaceRoot}/lib",
                     "/usr/include/c++/5",
                     "/usr/include/x86_64-linux-gnu/c++/5",
                     "/usr/include/c++/5/backward",
@@ -34,7 +37,8 @@
                     "/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed",
                     "/usr/include/x86_64-linux-gnu",
                     "/usr/include",
-                    "/usr/include/gtkmm-3.0"
+                    "/usr/include/gtkmm-3.0",
+                    "/usr/include/gtkglextmm-1.2"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
@@ -46,6 +50,7 @@
             "includePath": [
                 "${workspaceRoot}",
                 "${workspaceRoot}/src",
+                "${workspaceRoot}/src/lib",
                 "C:/lxss_ro/rootfs/usr/include/c++/5",
                 "C:/lxss_ro/rootfs/usr/include/x86_64-linux-gnu/c++/5",
                 "C:/lxss_ro/rootfs/usr/include/c++/5/backward",
@@ -54,7 +59,8 @@
                 "C:/lxss_ro/rootfs/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed",
                 "C:/lxss_ro/rootfs/usr/include/x86_64-linux-gnu",
                 "C:/lxss_ro/rootfs/usr/include",
-                "C:/lxss_ro/rootfs/usr/include/gtkmm-3.0"
+                "C:/lxss_ro/rootfs/usr/include/gtkmm-3.0",
+                "C:/lxss_ro/rootfs/usr/include/gtkglextmm-1.2"
             ],
             "defines": [
                 "__linux__",
@@ -66,6 +72,7 @@
                 "path": [
                     "${workspaceRoot}",
                     "${workspaceRoot}/src",
+                    "${workspaceRoot}/src/lib",
                     "C:/lxss_ro/rootfs/usr/include/c++/5",
                     "C:/lxss_ro/rootfs/usr/include/x86_64-linux-gnu/c++/5",
                     "C:/lxss_ro/rootfs/usr/include/c++/5/backward",
@@ -74,7 +81,8 @@
                     "C:/lxss_ro/rootfs/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed",
                     "C:/lxss_ro/rootfs/usr/include/x86_64-linux-gnu",
                     "C:/lxss_ro/rootfs/usr/include",
-                    "C:/lxss_ro/rootfs/usr/include/gtkmm-3.0"
+                    "C:/lxss_ro/rootfs/usr/include/gtkmm-3.0",
+                    "C:/lxss_ro/rootfs/usr/include/gtkglextmm-1.2"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
