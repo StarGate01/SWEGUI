@@ -4,6 +4,7 @@
 #include <iostream>
 #include <gtkmm.h>
 #include "gtkmm_swe_guiapplicationwindow.h"
+#include "GuiEnums.hpp"
 
 //Implemented according to: https://developer.gnome.org/gtkmm-tutorial/stable/sec-buildapp-trivial-app.html.en
 
@@ -25,6 +26,9 @@ protected:
 private:
     GuiApplicationWindow* create_appwindow();
     void on_hide_window(Gtk::Window* window);
+
+    //Window signal handler
+    void on_window_action(Signal signal);
 };
 
 #endif

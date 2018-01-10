@@ -79,3 +79,31 @@ void GuiApplication::on_hide_window(Gtk::Window* window)
 {
     delete window;
 }
+
+//TODO: Implement event handler from GUI to application
+void GuiApplication::on_window_action(Signal signal)
+{
+    switch(signal)
+    {
+        case Signal::FILE_OPEN:
+            std::cout << "FILE_OPEN received from window" << std::endl;
+            break;
+        case Signal::QUIT:
+            std::cout << "QUIT received from window" << std::endl;
+            break;
+        case Signal::SIMULATION_PLAY:
+            std::cout << "SIMULATION_PLAY received from window" << std::endl;
+            break;
+        case Signal::SIMULATION_STOP:
+            std::cout << "SIMULATION_STOP received from window" << std::endl;
+            break;
+        case Signal::TOOL_PROBE:
+            std::cout << "TOOL_PROBE received from window" << std::endl;
+            break;
+        case Signal::TOOL_CROSSSECTION:
+            std::cout << "TOOL_CROSSSECTION received from window" << std::endl;
+            break;
+        default:
+            std::cerr << "GuiApplication: on_window_action: invalid signal received: " << signal << std::endl;
+    }
+}

@@ -14,7 +14,8 @@
                 "/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed",
                 "/usr/include/x86_64-linux-gnu",
                 "/usr/include",
-                "/usr/include/gtkmm-3.0"
+                "/usr/include/gtkmm-3.0",
+                "/usr/include/glibmm-2.4"
             ],
             "defines": [
                 "__linux__",
