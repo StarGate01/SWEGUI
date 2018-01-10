@@ -1,11 +1,13 @@
 #ifndef GTKMM_SWE_APPLICATION_H
 #define GTKMM_SWE_APPLICATION_H
 
+#include <iostream>
 #include <gtkmm.h>
+#include "gtkmm_swe_guiapplicationwindow.h"
 
 //Implemented according to: https://developer.gnome.org/gtkmm-tutorial/stable/sec-buildapp-trivial-app.html.en
 
-class GuiApplicationWindow;
+
 
 class GuiApplication : public Gtk::Application
 {
@@ -17,8 +19,8 @@ public:
 
 protected:
     //Override default signal handlers
-    //void on_activate() override;
-    //void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
+    void on_activate() override;
+    void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
 
 private:
     //GUI Elements
@@ -41,13 +43,13 @@ private:
     //GUI helper functions
     bool check_gui_initialized();
     //--- event handler ---
-    void setup_gui_elements();
+    void setup_gui_elements(Glib::RefPtr<Gtk::Builder> refBuilder);
     void initialize_gui_elements();     //Called by setup_gui_elements
     //Actual event handler
-    void on_action_fileopen();
-    void on_action_quit();
-    void on_action_test1();
-    void on_action_test2();
+    static void on_action_fileopen();
+    static void on_action_quit();
+    static void on_action_test1();
+    static void on_action_test2();
 };
 
 #endif

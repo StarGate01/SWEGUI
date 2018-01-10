@@ -4,27 +4,6 @@
 
 #include "gtkmm_swe_application.h"
 
-static void on_button_clicked_newfile()
-{
-    std::cout << "Button: New file clicked" << std::endl; 
-    
-}
-
-static void on_button_clicked_quit()
-{
-    std::cout << "Button: Quit clicked" << std::endl;
-}
-
-static void on_button_clicked_test1()
-{
-    std::cout << "Button: Test 1 clicked" << std::endl;
-}
-
-static void on_button_clicked_test2()
-{
-    std::cout << "Button: Test 2 clicked" << std::endl;
-}
-
 int main(int argc, char *argv[])
 {
     auto application = GuiApplication::create();

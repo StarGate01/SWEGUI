@@ -10,14 +10,14 @@ Glib::RefPtr<GuiApplication> GuiApplication::create()
     return Glib::RefPtr<GuiApplication>(new GuiApplication());
 }
 
-GuiApplication* GuiApplication::create_appwindow()
+GuiApplicationWindow* GuiApplication::create_appwindow()
 {
     auto appwindow = new GuiApplicationWindow();
 
     //Run the application as long as the window is open
     add_window(*appwindow);
 
-    //TODO: Adapt code!!
+    //TODO: Adapt code and throw exception instead of returning
     //---- Load GtkBuilder ----
     auto refBuilder = Gtk::Builder::create();
     try
@@ -27,17 +27,17 @@ GuiApplication* GuiApplication::create_appwindow()
     catch (const Glib::FileError &ex)
     {
         std::cerr << "FileError: " << ex.what() << std::endl;
-        return 1;
+        return nullptr;
     }
     catch (const Glib::MarkupError &ex)
     {
         std::cerr << "MarkupError: " << ex.what() << std::endl;
-        return 1;
+        return nullptr;
     }
     catch (const Gtk::BuilderError &ex)
     {
         std::cerr << "BuilderError: " << ex.what() << std::endl;
-        return 1;
+        return nullptr;
     }
 
     //Setup GUI widgets
@@ -79,7 +79,7 @@ void GuiApplication::on_hide_window(Gtk::Window* window)
     delete window;
 }
 
-void GuiApplication::check_gui_initialized()
+bool GuiApplication::check_gui_initialized()
 {
     //Check window
     if(!pWindow)
@@ -128,7 +128,7 @@ void GuiApplication::check_gui_initialized()
     return true;
 }
 
-void GuiApplication::setup_gui_elements(Glib::RefPtr<Builder> refbuilder)
+void GuiApplication::setup_gui_elements(Glib::RefPtr<Gtk::Builder> refBuilder)
 {
     //Get window
     refBuilder->get_widget("window_main", pWindow);
@@ -148,7 +148,7 @@ void GuiApplication::setup_gui_elements(Glib::RefPtr<Builder> refbuilder)
     refBuilder->get_widget("lbl_info", lbl_raw_data);
 
     //Check correct setup
-    if!(check_gui_initialized())
+    if(!check_gui_initialized())
     {
         perror("Failed to initialize gui");
         return;
@@ -161,13 +161,13 @@ void GuiApplication::setup_gui_elements(Glib::RefPtr<Builder> refbuilder)
     tb_test1->signal_clicked().connect(sigc::ptr_fun(GuiApplication::on_action_test1));
     tb_test2->signal_clicked().connect(sigc::ptr_fun(GuiApplication::on_action_test2));
     //Event handlers for menubar
-    menuitementry_open->signal_activate().connect(sigc::ptr_fun(on_button_clicked_newfile));
+    menuitementry_open->signal_activate().connect(sigc::ptr_fun(GuiApplication::on_action_fileopen));
 
     //Initialize gui elements
     initialize_gui_elements();
 }
 
-GuiApplication::initialize_gui_elements()
+void GuiApplication::initialize_gui_elements()
 {
     check_gui_initialized();
     //TESTING: Change label of textfield

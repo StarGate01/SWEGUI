@@ -4,7 +4,7 @@ GuiApplicationWindow::GuiApplicationWindow()
 {
 }
 
-void GuiApplicationWindow::open_file_view(const Glib::RefPtr<Gio::File& file)
+void GuiApplicationWindow::open_file_view(const Glib::RefPtr<Gio::File>& file)
 {
     
 }
