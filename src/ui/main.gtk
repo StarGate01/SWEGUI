@@ -176,19 +176,18 @@
         <child>
           <object class="GtkToolbar" id="main_toolbar">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can_focus">True</property>
             <property name="margin_bottom">30</property>
             <property name="resize_mode">immediate</property>
             <property name="toolbar_style">icons</property>
             <child>
               <object class="GtkToolButton" id="tbtn_new">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="is_important">True</property>
-                <property name="action_name">app.new</property>
+                <property name="can_focus">True</property>
                 <property name="label" translatable="yes">New</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-open</property>
+                <signal name="clicked" handler="app.open" swapped="yes"/>
               </object>
               <packing>
                 <property name="expand">False</property>
