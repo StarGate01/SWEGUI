@@ -4,7 +4,7 @@ import sys
 
 Import('env')
 
-sourceFiles = ['main.cpp', 'gtkmm_swe_application.cc', 'gtkmm_swe_guiapplicationwindow.cc']
+sourceFiles = ['main.cpp', 'GuiApplication.cpp', 'GuiApplicationWindow.cpp', 'sfml/SFMLWidget.cpp']
 
 for i in sourceFiles:
     env.src_files.append(env.Object(i))

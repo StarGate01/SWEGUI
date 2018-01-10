@@ -1,8 +1,8 @@
 #include <exception>
 #include <iostream>
 
-#include "gtkmm_swe_application.h"
-#include "gtkmm_swe_guiapplicationwindow.h"
+#include "GuiApplication.hpp"
+#include "GuiApplicationWindow.hpp"
 
 GuiApplication::GuiApplication() : Gtk::Application("de.tum.in.www5.tssim.g03.swegui", Gio::APPLICATION_HANDLES_OPEN)
 {

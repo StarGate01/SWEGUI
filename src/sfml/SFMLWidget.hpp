@@ -15,8 +15,6 @@ class SFMLWidget : public Gtk::DrawingArea
     SFMLWidget(GtkDrawingArea *gobj);
     SFMLWidget();
 
-    void initialize();
-
     static Glib::ObjectBase *wrap_new(GObject *o);
 
   public:

@@ -1,6 +1,4 @@
-build/build_swegui
-build/swegui
-build/ui
+build
 
 documentation/build
 

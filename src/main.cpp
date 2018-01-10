@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdio.h>
 
-#include "gtkmm_swe_application.h"
+#include "GuiApplication.hpp"
 
 int main(int argc, char *argv[])
 {

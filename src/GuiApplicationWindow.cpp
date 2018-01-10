@@ -1,11 +1,13 @@
 #include <stdexcept>
 #include <gtkmm.h>
-#include "gtkmm_swe_guiapplicationwindow.h"
+#include "GuiApplicationWindow.hpp"
+#include "sfml/SFMLWidget.hpp"
 
 
 GuiApplicationWindow::GuiApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
     : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder)
 {
+    register_custom_gui_elements();
     setup_gui_elements();
 }
 
@@ -30,6 +32,10 @@ void GuiApplicationWindow::open_file_view(const Glib::RefPtr<Gio::File>& file)
 }
 
 
+void GuiApplicationWindow::register_custom_gui_elements()
+{
+    SFMLWidget::register_type();
+}
 
 void GuiApplicationWindow::setup_gui_elements()
 {
