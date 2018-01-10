@@ -3,6 +3,8 @@
 
 #include <gtkmm.h>
 
+#define PATH_TO_MAIN_GUI "ui/main.gtk"
+
 class GuiApplicationWindow : public Gtk::ApplicationWindow
 {
 public:

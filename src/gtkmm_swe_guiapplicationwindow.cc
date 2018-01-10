@@ -11,7 +11,7 @@ GuiApplicationWindow::GuiApplicationWindow(BaseObjectType* cobject, const Glib::
 GuiApplicationWindow* GuiApplicationWindow::create()
 {
     //Load builder and instantiate widget
-    auto refBuilder = Gtk::Builder::create_from_file("ui/main.gtk");
+    auto refBuilder = Gtk::Builder::create_from_file(PATH_TO_MAIN_GUI);
 
     GuiApplicationWindow* window = nullptr;
     refBuilder->get_widget_derived("window_main", window);
