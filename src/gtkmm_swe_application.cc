@@ -1,3 +1,6 @@
+#include <exception>
+#include <iostream>
+
 #include "gtkmm_swe_application.h"
 #include "gtkmm_swe_guiapplicationwindow.h"
 
@@ -12,36 +15,10 @@ Glib::RefPtr<GuiApplication> GuiApplication::create()
 
 GuiApplicationWindow* GuiApplication::create_appwindow()
 {
-    auto appwindow = new GuiApplicationWindow();
+    auto appwindow = GuiApplicationWindow::create();
 
     //Run the application as long as the window is open
     add_window(*appwindow);
-
-    //TODO: Adapt code and throw exception instead of returning
-    //---- Load GtkBuilder ----
-    auto refBuilder = Gtk::Builder::create();
-    try
-    {
-        refBuilder->add_from_file("ui/main.gtk");
-    }
-    catch (const Glib::FileError &ex)
-    {
-        std::cerr << "FileError: " << ex.what() << std::endl;
-        return nullptr;
-    }
-    catch (const Glib::MarkupError &ex)
-    {
-        std::cerr << "MarkupError: " << ex.what() << std::endl;
-        return nullptr;
-    }
-    catch (const Gtk::BuilderError &ex)
-    {
-        std::cerr << "BuilderError: " << ex.what() << std::endl;
-        return nullptr;
-    }
-
-    //Setup GUI widgets
-    setup_gui_elements(refBuilder);
 
     //Delete the window when its hidden
     appwindow->signal_hide().connect(sigc::bind<Gtk::Window*>(sigc::mem_fun(*this, &GuiApplication::on_hide_window), appwindow));
@@ -51,9 +28,21 @@ GuiApplicationWindow* GuiApplication::create_appwindow()
 
 void GuiApplication::on_activate()
 {
-    //Show the window
-    auto appwindow = create_appwindow();
-    appwindow->present();
+    try
+    {
+        //Show the window
+        auto appwindow = create_appwindow();
+        appwindow->present();    
+    }
+    catch(const Glib::Error& ex)
+    {
+        std::cerr << "GuiApplication::on_activate(): " << ex.what() << std::endl;
+    }
+    catch(const std::exception& ex)
+    {
+        std::cerr << "GuiApplication::on_activate(): " << ex.what() << std::endl;
+    }
+    
 }
 
 void GuiApplication::on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint)
@@ -64,14 +53,26 @@ void GuiApplication::on_open(const Gio::Application::type_vec_files& files, cons
     if(windows.size() > 0)
         appwindow = dynamic_cast<GuiApplicationWindow*>(windows[0]);
 
-    if(!appwindow)
+
+    try
+    {
+        if(!appwindow)
         appwindow = create_appwindow();
     
-    //For each file, open a window
-    for(const auto& file : files)
-        appwindow->open_file_view(file);
+        //For each file, open a window
+        for(const auto& file : files)
+            appwindow->open_file_view(file);
 
-    appwindow->present();
+        appwindow->present();
+    }
+    catch(const Glib::Error& ex)
+    {
+        std::cerr << "GuiApplication::on_open(): " + ex.what() << std::endl;
+    }
+    catch(const std::exception& ex)
+    {
+        std::cerr << "GuiApplication::on_open(): " << ex.what() << std::endl;
+    }
 }
 
 void GuiApplication::on_hide_window(Gtk::Window* window)
@@ -79,6 +80,9 @@ void GuiApplication::on_hide_window(Gtk::Window* window)
     delete window;
 }
 
+
+
+//---------------- custom functions -------------
 bool GuiApplication::check_gui_initialized()
 {
     //Check window
