@@ -25,25 +25,22 @@ static void on_button_clicked_test2()
 int main(int argc, char *argv[])
 {
     static auto app = Gtk::Application::create(argc, argv, "de.tum.in.www5.tssim.g03.swegui");
-
+    // ---- Widgets ----
     //Main application & window
     static Gtk::ApplicationWindow* pWindow = nullptr;
-
     //Menubar
      Gtk::MenuBar* menubar_main = nullptr;
      Gtk::MenuItem* menuitementry_open = nullptr;
-
     //Toolbar
      Gtk::Toolbar* toolbar_main = nullptr;
      Gtk::ToolButton* tb_openfile = nullptr;
     static Gtk::ToolButton* tb_quit = nullptr;
     static Gtk::ToolButton* tb_test1 = nullptr;
     static Gtk::ToolButton* tb_test2 = nullptr;
-
     //Raw data field
     static Gtk::Label* lbl_raw_data = nullptr;
 
-    //Load the GtkBuilder file and instantiate its widgets:
+    //---- Load GtkBuilder ----
     auto refBuilder = Gtk::Builder::create();
     try
     {
@@ -65,6 +62,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    //---- Instantiate widgets ----
     //Get the GtkBuilder-instantiated Dialog:
     refBuilder->get_widget("window_main", pWindow);
     if (pWindow)
@@ -74,7 +72,7 @@ int main(int argc, char *argv[])
         if(menubar_main)
         {
             refBuilder->get_widget("imagemenuitem1", menuitementry_open);
-
+ 
             if(!(menuitementry_open))
             {
                 perror("Entries of menubar not found");
@@ -83,6 +81,11 @@ int main(int argc, char *argv[])
 
             //Event handlers for menubar
             menuitementry_open->signal_activate().connect(sigc::ptr_fun(on_button_clicked_newfile));
+        }
+        else
+        {
+            perror("menubar_main not found");
+            return EXIT_FAILURE;
         }
 
         //Get toolbar
