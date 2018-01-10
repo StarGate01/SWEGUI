@@ -5,6 +5,7 @@
 static void on_button_clicked_newfile()
 {
     std::cout << "Button: New file clicked" << std::endl; 
+    
 }
 
 static void on_button_clicked_quit()
@@ -104,14 +105,18 @@ int main(int argc, char *argv[])
                 return EXIT_FAILURE;
             }
 
+        //Enable buttons
+            toolbar_main->set_sensitive(true);  
+            menuitementry_open->set_sensitive(true);    
+            tb_openfile->set_sensitive(true);    
+            
             //Event handlers for toolbar
             tb_openfile->signal_clicked().connect(sigc::ptr_fun(on_button_clicked_newfile));
             tb_quit->signal_clicked().connect(sigc::ptr_fun(on_button_clicked_quit));
             tb_test1->signal_clicked().connect(sigc::ptr_fun(on_button_clicked_test1));
             tb_test2->signal_clicked().connect(sigc::ptr_fun(on_button_clicked_test2));
 
-            //Enable buttons
-            tb_openfile->set_sensitive(true);    
+            
         }
         else
         {
