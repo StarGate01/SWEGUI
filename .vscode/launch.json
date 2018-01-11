@@ -22,8 +22,9 @@
             "name": "Attach GDB WSL",
             "type": "cppdbg",
             "request": "attach",
-            "program": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/build/swegui",
-            "processId": "${command:pickRemoteProcess}",
+            "processId": "3979",
+            //"processId": "${command:pickRemoteProcess}",
+            "program": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/build/packet/swegui",
             "windows": {
                 "MIMode": "gdb",
                 "setupCommands": [

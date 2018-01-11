@@ -1,8 +1,8 @@
 #include <exception>
 #include <iostream>
 
-#include "gtkmm_swe_application.h"
-#include "gtkmm_swe_guiapplicationwindow.h"
+#include "GuiApplication.hpp"
+#include "GuiApplicationWindow.hpp"
 
 GuiApplication::GuiApplication() : Gtk::Application("de.tum.in.www5.tssim.g03.swegui", Gio::APPLICATION_HANDLES_OPEN)
 {
@@ -15,6 +15,7 @@ Glib::RefPtr<GuiApplication> GuiApplication::create()
 
 GuiApplicationWindow* GuiApplication::create_appwindow()
 {
+    GuiApplicationWindow::register_custom_gui_elements();
     auto appwindow = GuiApplicationWindow::create();
 
     //Run the application as long as the window is open

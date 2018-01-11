@@ -12,6 +12,7 @@ vars.AddVariables(
 env = Environment(variables=vars)
 if 'buildVariablesFile' in env:
     vars = Variables(env['buildVariablesFile'])
+
 # SWE specific variables
 vars.AddVariables(
     PathVariable('buildDir', 'Where to build the code', 'build', PathVariable.PathIsDirCreate),
@@ -19,6 +20,7 @@ vars.AddVariables(
         allowed_values=('debug', 'release')
     )
 )
+
 # External variables
 vars.AddVariables(
     PathVariable('netCDFDir', 'location of netCDF', None)
@@ -28,7 +30,7 @@ vars.AddVariables(
 env = Environment(ENV = {'PATH': os.environ['PATH']}, variables=vars, tools = ['default', 'cxxtest'])
 
 # All required libraries
-libs = ['gtkmm-3.0']
+libs = ['gtkmm-3.0', 'sfml-system', 'sfml-graphics']
 
 # Auto configuration
 conf = Configure(env)
@@ -50,20 +52,14 @@ elif env['compileMode'] == 'release':
     env.Append(CPPDEFINES=['NDEBUG'])
     env.Append(CCFLAGS=['-O3','-mtune=native'])
 
-# Set names and paths
-program_name = 'swegui'
-build_dir = env['buildDir']+'/build_'+program_name
+# Set names
+env.program_name = 'swegui'
+env.library_name = 'sfmlwidgetsglade'
 
-# Get the source files
+# Build binaries
 env.src_files = []
-Export('env')
-SConscript('src/SConscript', variant_dir=build_dir, duplicate=0)
-Import('env')
-
-# Build binary
-env.Program('build/'+program_name, env.src_files)
-
-# Copy UI scripts
-uis = ['basic', 'main']
-for x in uis:
-    Install('build/ui', 'src/ui/'+x+'.gtk')
+env_program = env.Clone()
+env_library = env.Clone()
+Export('env_program', 'env_library')
+SConscript('src/SConscript', variant_dir=env['buildDir']+'/build_'+env.program_name, duplicate=0)
+SConscript('src/sfml/SConscript', variant_dir=env['buildDir']+'/build_'+env.library_name, duplicate=0)

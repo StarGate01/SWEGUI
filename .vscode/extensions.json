@@ -3,6 +3,7 @@
 		"CoenraadS.bracket-pair-colorizer",
 		"ms-vscode.cpptools",
 		"patrys.vscode-code-outline",
-		"robertohuertasm.vscode-icons"
+		"robertohuertasm.vscode-icons",
+		"slevesque.shader"
 	]
 }

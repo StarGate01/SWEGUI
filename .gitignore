@@ -1,6 +1,4 @@
-build/build_swegui
-build/swegui
-build/ui
+build
 
 documentation/build
 
@@ -14,3 +12,6 @@ config.log
 .project
 .cproject
 .pydevproject
+
+src/bku
+gladelib.rc
