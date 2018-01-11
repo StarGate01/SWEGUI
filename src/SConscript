@@ -25,5 +25,5 @@ env_program.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h'])
 Install('#'+env_program['buildDir']+'/packet', env_program.program_name)
 
 # Copy UI scripts
-uis = ['basic', 'main']
-for x in uis: Install('#'+env_program['buildDir']+'/packet/ui', 'ui/'+x+'.glade')
+uis = ['basic.glade', 'main.glade', 'fragment.glsl']
+for x in uis: Install('#'+env_program['buildDir']+'/packet/ui', 'ui/'+x)

@@ -7,6 +7,7 @@
         "bibtex"
     ],
     "files.associations": {
+        "*.glsl": "glsl",
         "*.vstemplate": "xml",
         "SConstruct": "python",
         "SConscript": "python",

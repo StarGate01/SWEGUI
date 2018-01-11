@@ -4,6 +4,8 @@
 #include "sfml/SFMLWidget.hpp"
 #include <glibmm.h>
 
+#define PATH_TO_FRAG_SHADER "ui/fragment.glsl"
+
 class MovingCircle
 {
 
@@ -16,14 +18,13 @@ class MovingCircle
     SFMLWidget &widget;
 
     sf::CircleShape circle;
+    sf::RectangleShape background;
+    sf::Shader shader;
     
-    float radius;
     float vx, vy;
 
     void animate();
-
     void draw();
-
     void resize_view();
 
 };
