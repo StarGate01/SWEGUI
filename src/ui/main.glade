@@ -247,7 +247,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="gtkmm__CustomObject_sfmlwidget" id="draw_opengl">
+              <object class="gtkmm__CustomObject_sfmlwidget" id="sfml_area">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
               </object>

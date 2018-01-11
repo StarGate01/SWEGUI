@@ -2,6 +2,7 @@
 #include <gtkmm.h>
 #include "GuiApplicationWindow.hpp"
 #include "sfml/SFMLWidget.hpp"
+#include "MovingCircle.hpp"
 
 
 GuiApplicationWindow::GuiApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
@@ -54,6 +55,10 @@ void GuiApplicationWindow::setup_gui_elements()
 
     //Get raw data label
     m_refBuilder->get_widget("lbl_info", lbl_raw_data);
+
+    //Get SFML control, init demo
+    m_refBuilder->get_widget("sfml_area", sfml_area);
+    moving_circle = new MovingCircle(*sfml_area);
 
     //Check correct setup
     if(!check_gui_initialized())
@@ -127,6 +132,13 @@ bool GuiApplicationWindow::check_gui_initialized()
     if(!lbl_raw_data)
     {
         perror("lbl_raw_data not initialized");
+        return false;
+    }
+
+    //Check sfml control
+    if(!sfml_area)
+    {
+        perror("sfml_area not initilized");
         return false;
     }
 

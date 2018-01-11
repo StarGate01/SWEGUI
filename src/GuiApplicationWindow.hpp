@@ -3,6 +3,8 @@
 
 #include <gtkmm.h>
 #include <iostream>
+#include "sfml/SFMLWidget.hpp"
+#include "MovingCircle.hpp"
 
 #define PATH_TO_MAIN_GUI "ui/main.glade"
 
@@ -12,7 +14,7 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
     public:
 
         GuiApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
-        
+
         static GuiApplicationWindow* create();
 
         void open_file_view(const Glib::RefPtr<Gio::File>& file);
@@ -30,6 +32,10 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         Gtk::ToolButton* tb_test2 = nullptr;
         //Raw data field
         Gtk::Label* lbl_raw_data = nullptr;
+        //SFML control
+        SFMLWidget* sfml_area = nullptr;
+        MovingCircle* moving_circle = nullptr;
+
 
         //GUI helper functions
         bool check_gui_initialized();

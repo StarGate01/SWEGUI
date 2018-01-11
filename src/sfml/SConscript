@@ -5,7 +5,7 @@ import sys
 Import('env_library')
 
 # List sources
-sourceFiles = ['SFMLWidget.cpp', 'SFMLWidgetGlade.cpp']
+sourceFiles = ['SFMLWidget.cpp', 'SFMLWidgetEx.cpp', 'SFMLWidgetGlade.cpp']
 for i in sourceFiles: env_library.src_files.append(env_library.Object(i))
 
 # Build binary
