@@ -2,11 +2,19 @@
 
 import sys
 
-Import('env')
+Import('env_library')
 
+# List sources
 sourceFiles = ['SFMLWidget.cpp', 'SFMLWidgetGlade.cpp']
+for i in sourceFiles: env_library.src_files.append(env_library.Object(i))
 
-for i in sourceFiles:
-    env.src_files.append(env.Object(i))
+# Build binary
+env_library['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME'] = 1
+env_library.Append(CCFLAGS=['-fPIC'])
+env_library.SharedLibrary(env_library.library_name, env_library.src_files)
 
-Export('env')
+# Copy binary
+Install('#'+env_library['buildDir']+'/packet/lib', 'lib'+env_library.library_name+'.so')
+
+# Copy catalog
+Install('#'+env_library['buildDir']+'/packet/lib', 'SFMLWidgets.xml')

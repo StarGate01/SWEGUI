@@ -7,7 +7,6 @@
 GuiApplicationWindow::GuiApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
     : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder)
 {
-    register_custom_gui_elements();
     setup_gui_elements();
 }
 

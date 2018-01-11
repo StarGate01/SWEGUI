@@ -15,6 +15,7 @@ Glib::RefPtr<GuiApplication> GuiApplication::create()
 
 GuiApplicationWindow* GuiApplication::create_appwindow()
 {
+    GuiApplicationWindow::register_custom_gui_elements();
     auto appwindow = GuiApplicationWindow::create();
 
     //Run the application as long as the window is open

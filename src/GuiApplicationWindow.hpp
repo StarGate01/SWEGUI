@@ -4,7 +4,7 @@
 #include <gtkmm.h>
 #include <iostream>
 
-#define PATH_TO_MAIN_GUI "main.glade"
+#define PATH_TO_MAIN_GUI "ui/main.glade"
 
 class GuiApplicationWindow : public Gtk::ApplicationWindow
 {
@@ -36,7 +36,7 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         //--- event handler ---
         void setup_gui_elements();
         void initialize_gui_elements();     //Called by setup_gui_elements
-        void register_custom_gui_elements();
+        static void register_custom_gui_elements();
         //Actual event handler
         static void on_action_fileopen();
         static void on_action_quit();

@@ -12,6 +12,7 @@ vars.AddVariables(
 env = Environment(variables=vars)
 if 'buildVariablesFile' in env:
     vars = Variables(env['buildVariablesFile'])
+
 # SWE specific variables
 vars.AddVariables(
     PathVariable('buildDir', 'Where to build the code', 'build', PathVariable.PathIsDirCreate),
@@ -19,6 +20,7 @@ vars.AddVariables(
         allowed_values=('debug', 'release')
     )
 )
+
 # External variables
 vars.AddVariables(
     PathVariable('netCDFDir', 'location of netCDF', None)
@@ -50,34 +52,14 @@ elif env['compileMode'] == 'release':
     env.Append(CPPDEFINES=['NDEBUG'])
     env.Append(CCFLAGS=['-O3','-mtune=native'])
 
-# Set names and paths
-program_name = 'swegui'
-build_dir_prog = env['buildDir']+'/build_'+program_name
-gladelib_name = 'sfmlwidgetsglade'
-build_dir_lib = env['buildDir']+'/build_'+gladelib_name
+# Set names
+env.program_name = 'swegui'
+env.library_name = 'sfmlwidgetsglade'
 
-# Build program
-# Get the source files
+# Build binaries
 env.src_files = []
-Export('env')
-SConscript('src/SConscript', variant_dir=build_dir_prog, duplicate=0)
-Import('env')
-# Build binary
-env.Program('build/'+program_name, env.src_files)
-# Copy UI scripts
-uis = ['basic', 'main']
-for x in uis:
-    Install('build', 'src/ui/'+x+'.glade')
-
-# Build glade library
-# Get the source files
-env.src_files = []
-Export('env')
-SConscript('src/sfml/SConscript', variant_dir=build_dir_lib, duplicate=0)
-Import('env')
-# Build binary
-env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME'] = 1
-env.Append(CCFLAGS=['-fPIC', '-shared'])
-env.SharedLibrary('build/'+gladelib_name, env.src_files)
-# Copy catalog
-Install('build', 'src/sfml/SFMLWidgets.xml')
+env_program = env.Clone()
+env_library = env.Clone()
+Export('env_program', 'env_library')
+SConscript('src/SConscript', variant_dir=env['buildDir']+'/build_'+env.program_name, duplicate=0)
+SConscript('src/sfml/SConscript', variant_dir=env['buildDir']+'/build_'+env.library_name, duplicate=0)
