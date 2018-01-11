@@ -4,7 +4,7 @@
 #include <gtkmm.h>
 #include <iostream>
 #include "sfml/SFMLWidget.hpp"
-#include "DataRenderer.hpp"
+#include "renderer/DataRenderer.hpp"
 
 #define PATH_TO_MAIN_GUI "ui/main.glade"
 
@@ -34,7 +34,7 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         Gtk::Label* lbl_raw_data = nullptr;
         //SFML control
         SFMLWidget* sfml_area = nullptr;
-        DataRenderer* moving_circle = nullptr;
+        DataRenderer* data_renderer = nullptr;
 
 
         //GUI helper functions

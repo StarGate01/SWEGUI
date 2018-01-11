@@ -1,7 +1,7 @@
 #ifndef DATARENDERER_H_INCLUDED
 #define DATARENDERER_H_INCLUDED
 
-#include "sfml/SFMLWidget.hpp"
+#include "../sfml/SFMLWidget.hpp"
 #include <glibmm.h>
 
 #define PATH_TO_FRAG_SHADER "ui/fragment.glsl"
