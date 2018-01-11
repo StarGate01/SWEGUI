@@ -4,6 +4,7 @@
 #include <iostream>
 #include <gtkmm.h>
 #include "GuiApplicationWindow.hpp"
+#include "Const.hpp"
 
 //Implemented according to: https://developer.gnome.org/gtkmm-tutorial/stable/sec-buildapp-trivial-app.html.en
 
@@ -11,7 +12,6 @@
 
 class GuiApplication : public Gtk::Application
 {
-
     protected:
 
         GuiApplication();
@@ -30,7 +30,7 @@ class GuiApplication : public Gtk::Application
 
         GuiApplicationWindow* create_appwindow();
         void on_hide_window(Gtk::Window* window);
-
+        void on_window_action(Signal signal);
 };
 
 #endif

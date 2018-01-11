@@ -1,0 +1,8 @@
+enum Signal{
+    FILE_OPEN,
+    QUIT,
+    SIMULATION_PLAY,
+    SIMULATION_STOP,
+    TOOL_PROBE,
+    TOOL_CROSSSECTION
+};
