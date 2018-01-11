@@ -1,17 +1,17 @@
-#ifndef MOVINGCIRCLE_H_INCLUDED
-#define MOVINGCIRCLE_H_INCLUDED
+#ifndef DATARENDERER_H_INCLUDED
+#define DATARENDERER_H_INCLUDED
 
 #include "sfml/SFMLWidget.hpp"
 #include <glibmm.h>
 
 #define PATH_TO_FRAG_SHADER "ui/fragment.glsl"
 
-class MovingCircle
+class DataRenderer
 {
 
   public:
 
-    MovingCircle(SFMLWidget &widget);
+    DataRenderer(SFMLWidget &widget);
 
   private:
 

@@ -14,8 +14,10 @@
                 "/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed",
                 "/usr/include/x86_64-linux-gnu",
                 "/usr/include",
+                "/usr/include/gtk-3.0",
                 "/usr/include/gtkmm-3.0",
-                "/usr/include/glibmm-2.4"
+                "/usr/include/glibmm-2.4",
+                "/usr/include/sigc++-2.0"
             ],
             "defines": [
                 "__linux__",
@@ -35,7 +37,10 @@
                     "/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed",
                     "/usr/include/x86_64-linux-gnu",
                     "/usr/include",
-                    "/usr/include/gtkmm-3.0"
+                    "/usr/include/gtk-3.0",
+                    "/usr/include/gtkmm-3.0",
+                    "/usr/include/glibmm-2.4",
+                    "/usr/include/sigc++-2.0"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
@@ -55,7 +60,10 @@
                 "C:/lxss_ro/rootfs/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed",
                 "C:/lxss_ro/rootfs/usr/include/x86_64-linux-gnu",
                 "C:/lxss_ro/rootfs/usr/include",
-                "C:/lxss_ro/rootfs/usr/include/gtkmm-3.0"
+                "C:/lxss_ro/rootfs/usr/include/gtk-3.0",
+                "C:/lxss_ro/rootfs/usr/include/gtkmm-3.0",
+                "C:/lxss_ro/rootfs/usr/include/glibmm-2.4",
+                "C:/lxss_ro/rootfs/usr/include/sigc++-2.0"
             ],
             "defines": [
                 "__linux__",
@@ -75,7 +83,10 @@
                     "C:/lxss_ro/rootfs/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed",
                     "C:/lxss_ro/rootfs/usr/include/x86_64-linux-gnu",
                     "C:/lxss_ro/rootfs/usr/include",
-                    "C:/lxss_ro/rootfs/usr/include/gtkmm-3.0"
+                    "C:/lxss_ro/rootfs/usr/include/gtk-3.0",
+                    "C:/lxss_ro/rootfs/usr/include/gtkmm-3.0",
+                    "C:/lxss_ro/rootfs/usr/include/glibmm-2.4",
+                    "C:/lxss_ro/rootfs/usr/include/sigc++-2.0"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""

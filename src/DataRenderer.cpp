@@ -1,8 +1,8 @@
-#include "MovingCircle.hpp"
+#include "DataRenderer.hpp"
 
 #define TIMESTEP 20
 
-MovingCircle::MovingCircle(SFMLWidget &widget) : widget(widget)
+DataRenderer::DataRenderer(SFMLWidget &widget) : widget(widget)
 {
     if (!sf::Shader::isAvailable()) perror("Shaders are not available on this GPU");
     if (!shader.loadFromFile(PATH_TO_FRAG_SHADER, sf::Shader::Fragment)) perror("Cannot load shader");
@@ -17,12 +17,12 @@ MovingCircle::MovingCircle(SFMLWidget &widget) : widget(widget)
     vx = 0.15f;
     vy = 0.25f;
 
-    Glib::signal_timeout().connect(sigc::bind_return(sigc::mem_fun(this, &MovingCircle::animate), true), TIMESTEP);
-    widget.signal_draw().connect(sigc::bind_return(sigc::hide(sigc::mem_fun(this, &MovingCircle::draw)), true));
-    widget.signal_size_allocate().connect(sigc::hide(sigc::mem_fun(this, &MovingCircle::resize_view)));
+    Glib::signal_timeout().connect(sigc::bind_return(sigc::mem_fun(this, &DataRenderer::animate), true), TIMESTEP);
+    widget.signal_draw().connect(sigc::bind_return(sigc::hide(sigc::mem_fun(this, &DataRenderer::draw)), true));
+    widget.signal_size_allocate().connect(sigc::hide(sigc::mem_fun(this, &DataRenderer::resize_view)));
 }
 
-void MovingCircle::animate()
+void DataRenderer::animate()
 {
     sf::Vector2f position = circle.getPosition();
     position.x += vx * TIMESTEP;
@@ -39,7 +39,7 @@ void MovingCircle::animate()
     widget.invalidate();
 }
 
-void MovingCircle::draw()
+void DataRenderer::draw()
 {
     widget.renderWindow.clear(sf::Color::Blue);
     widget.renderWindow.draw(background, &shader);
@@ -47,7 +47,7 @@ void MovingCircle::draw()
     widget.display();
 }
 
-void MovingCircle::resize_view()
+void DataRenderer::resize_view()
 {
     background.setSize(sf::Vector2f(widget.renderWindow.getSize().x, widget.renderWindow.getSize().y));
     shader.setParameter("screensize", widget.renderWindow.getSize().x, widget.renderWindow.getSize().y);
