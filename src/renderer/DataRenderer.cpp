@@ -1,8 +1,10 @@
 #include "DataRenderer.hpp"
 
+using namespace renderer;
+
 #define TIMESTEP 20
 
-DataRenderer::DataRenderer(SFMLWidget &widget) : widget(widget)
+DataRenderer::DataRenderer(sfml::SFMLWidget &widget) : widget(widget)
 {
     if (!sf::Shader::isAvailable()) perror("Shaders are not available on this GPU");
     if (!shader.loadFromFile(PATH_TO_FRAG_SHADER, sf::Shader::Fragment)) perror("Cannot load shader");

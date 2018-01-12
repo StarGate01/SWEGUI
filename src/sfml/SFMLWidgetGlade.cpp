@@ -2,6 +2,8 @@
 #include "SFMLWidget.hpp"
 #include <gtkmm/main.h>
 
+using namespace sfml;
+
 void sfml_widgets_register()
 {
     SFMLWidget::register_type();

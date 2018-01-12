@@ -33,8 +33,8 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         //Raw data field
         Gtk::Label* lbl_raw_data = nullptr;
         //SFML control
-        SFMLWidget* sfml_area = nullptr;
-        DataRenderer* data_renderer = nullptr;
+        sfml::SFMLWidget* sfml_area = nullptr;
+        renderer::DataRenderer* data_renderer = nullptr;
 
 
         //GUI helper functions

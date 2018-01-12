@@ -6,7 +6,8 @@ import os
 Import('env_program')
 
 # List sources
-sourceFiles = ['main.cpp', 'GuiApplication.cpp', 'GuiApplicationWindow.cpp', 'renderer/DataRenderer.cpp']
+sourceFiles = ['main.cpp', 'GuiApplication.cpp', 'GuiApplicationWindow.cpp']
+sourceFiles += ['renderer/DataRenderer.cpp', 'renderer/NetCdfImageStream.cpp', 'reader/NetCdfReader.cpp']
 for i in sourceFiles: env_program.src_files.append(env_program.Object(i))
 
 # Setup
@@ -14,6 +15,10 @@ env_program.Append(LIBS=[env_program.library_name], LIBPATH=['../build_'+env_pro
 env_program.Append(LINKFLAGS=Split('-z origin') )
 env_program.Append(RPATH=env_program.Literal('\\$$ORIGIN/lib'))
 env_program.Append(CCFLAGS=['-fPIC'])
+
+# Add search path for swe
+Repository('#submodules/swe')
+env_program.Append(CPPPATH=['#submodules/swe/src'])
 
 # Build binary
 env_program.Program(env_program.program_name, env_program.src_files)

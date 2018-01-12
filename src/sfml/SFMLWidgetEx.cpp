@@ -1,5 +1,7 @@
 #include "SFMLWidget.hpp"
 
+using namespace sfml;
+
 #define DEFAULT_WIDTH 640
 #define DEFAULT_HEIGHT 480
 

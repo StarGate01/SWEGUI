@@ -6,6 +6,8 @@
             "includePath": [
                 "${workspaceRoot}",
                 "${workspaceRoot}/src",
+                "${workspaceRoot}/submodules/swe/src",
+                "${workspaceRoot}/submodules/swe/src/reader",
                 "/usr/include/c++/5",
                 "/usr/include/x86_64-linux-gnu/c++/5",
                 "/usr/include/c++/5/backward",
@@ -29,6 +31,8 @@
                 "path": [
                     "${workspaceRoot}",
                     "${workspaceRoot}/src",
+                    "${workspaceRoot}/submodules/swe/src",
+                    "${workspaceRoot}/submodules/swe/src/reader",
                     "/usr/include/c++/5",
                     "/usr/include/x86_64-linux-gnu/c++/5",
                     "/usr/include/c++/5/backward",
@@ -52,6 +56,8 @@
             "includePath": [
                 "${workspaceRoot}",
                 "${workspaceRoot}/src",
+                "${workspaceRoot}/submodules/swe/src",
+                "${workspaceRoot}/submodules/swe/src/reader",
                 "C:/lxss_ro/rootfs/usr/include/c++/5",
                 "C:/lxss_ro/rootfs/usr/include/x86_64-linux-gnu/c++/5",
                 "C:/lxss_ro/rootfs/usr/include/c++/5/backward",
@@ -75,6 +81,8 @@
                 "path": [
                     "${workspaceRoot}",
                     "${workspaceRoot}/src",
+                    "${workspaceRoot}/submodules/swe/src",
+                    "${workspaceRoot}/submodules/swe/src/reader",
                     "C:/lxss_ro/rootfs/usr/include/c++/5",
                     "C:/lxss_ro/rootfs/usr/include/x86_64-linux-gnu/c++/5",
                     "C:/lxss_ro/rootfs/usr/include/c++/5/backward",

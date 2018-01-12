@@ -30,13 +30,11 @@ vars.AddVariables(
 env = Environment(ENV = {'PATH': os.environ['PATH']}, variables=vars, tools = ['default', 'cxxtest'])
 
 # All required libraries
-libs = ['gtkmm-3.0', 'sfml-system', 'sfml-graphics']
+libs = ['gtkmm-3.0', 'sfml-system', 'sfml-graphics', 'netcdf']
 
 # Auto configuration
 conf = Configure(env)
-for x in libs:
-	if not conf.CheckLib(x):
-		print 'Missing library ' + x
+for x in libs: if not conf.CheckLib(x): print 'Missing library ' + x
 env = conf.Finish()
 
 # Add libs and their configs

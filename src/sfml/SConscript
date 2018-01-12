@@ -1,4 +1,4 @@
-# This file tells scons what files make up SWEGUI
+# This file tells scons what files make up the GLADE/GTK+ SFML widget shared library
 
 import sys
 

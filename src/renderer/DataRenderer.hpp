@@ -6,27 +6,32 @@
 
 #define PATH_TO_FRAG_SHADER "ui/fragment.glsl"
 
-class DataRenderer
+namespace renderer
 {
 
-  public:
+  class DataRenderer
+  {
 
-    DataRenderer(SFMLWidget &widget);
+    public:
 
-  private:
+      DataRenderer(sfml::SFMLWidget &widget);
 
-    SFMLWidget &widget;
+    private:
 
-    sf::CircleShape circle;
-    sf::RectangleShape background;
-    sf::Shader shader;
-    
-    float vx, vy;
+      sfml::SFMLWidget &widget;
 
-    void animate();
-    void draw();
-    void resize_view();
+      sf::CircleShape circle;
+      sf::RectangleShape background;
+      sf::Shader shader;
+      
+      float vx, vy;
 
-};
+      void animate();
+      void draw();
+      void resize_view();
+
+  };
+
+}
 
 #endif

@@ -34,7 +34,7 @@ void GuiApplicationWindow::open_file_view(const Glib::RefPtr<Gio::File>& file)
 
 void GuiApplicationWindow::register_custom_gui_elements()
 {
-    SFMLWidget::register_type();
+    sfml::SFMLWidget::register_type();
 }
 
 void GuiApplicationWindow::setup_gui_elements()
@@ -58,7 +58,7 @@ void GuiApplicationWindow::setup_gui_elements()
 
     //Get SFML control, init demo
     m_refBuilder->get_widget("sfml_area", sfml_area);
-    data_renderer = new DataRenderer(*sfml_area);
+    data_renderer = new renderer::DataRenderer(*sfml_area);
 
     //Check correct setup
     if(!check_gui_initialized())

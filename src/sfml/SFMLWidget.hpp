@@ -6,41 +6,46 @@
 #include <gtk/gtkdrawingarea.h>
 #include <SFML/Graphics.hpp>
 
-class SFMLWidget : public Gtk::DrawingArea
+namespace sfml
 {
 
-  private:
+  class SFMLWidget : public Gtk::DrawingArea
+  {
 
-    static GType gtype;
+    private:
 
-    SFMLWidget(GtkDrawingArea *gobj);
-    SFMLWidget();
-    void initialize(sf::VideoMode mode, int size_request = -1);
+      static GType gtype;
 
-    static Glib::ObjectBase *wrap_new(GObject *o);
+      SFMLWidget(GtkDrawingArea *gobj);
+      SFMLWidget();
+      void initialize(sf::VideoMode mode, int size_request = -1);
 
-  protected:
+      static Glib::ObjectBase *wrap_new(GObject *o);
 
-    sf::VideoMode m_vMode;
+    protected:
 
-    virtual void on_size_allocate(Gtk::Allocation &allocation);
-    virtual void on_realize();
-    virtual void on_unrealize();
+      sf::VideoMode m_vMode;
 
-    Glib::RefPtr<Gdk::Window> m_refGdkWindow;
+      virtual void on_size_allocate(Gtk::Allocation &allocation);
+      virtual void on_realize();
+      virtual void on_unrealize();
 
-  public:
+      Glib::RefPtr<Gdk::Window> m_refGdkWindow;
 
-    sf::RenderWindow renderWindow;
+    public:
 
-    SFMLWidget(sf::VideoMode mode, int size_request = -1);
-    virtual ~SFMLWidget();
+      sf::RenderWindow renderWindow;
 
-    void invalidate();
-    void display();
+      SFMLWidget(sf::VideoMode mode, int size_request = -1);
+      virtual ~SFMLWidget();
 
-    static void register_type();
-    
-};
+      void invalidate();
+      void display();
+
+      static void register_type();
+      
+  };
+
+}
 
 #endif
