@@ -43,11 +43,11 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         void setup_gui_elements();
         void initialize_gui_elements();     //Called by setup_gui_elements
         static void register_custom_gui_elements();
-        //Actual event handler
-        static void on_action_fileopen();
-        static void on_action_quit();
-        static void on_action_test1();
-        static void on_action_test2();
+        //Actual event handlers
+        void on_action_fileopen();
+        void on_action_quit();
+        void on_action_test1();
+        void on_action_test2();
 
     protected:
 

@@ -69,12 +69,12 @@ void GuiApplicationWindow::setup_gui_elements()
 
     //--- Event handler ---
     //Event handlers for toolbar
-    tb_openfile->signal_clicked().connect(sigc::ptr_fun(GuiApplicationWindow::on_action_fileopen));
-    tb_quit->signal_clicked().connect(sigc::ptr_fun(GuiApplicationWindow::on_action_quit));
-    tb_test1->signal_clicked().connect(sigc::ptr_fun(GuiApplicationWindow::on_action_test1));
-    tb_test2->signal_clicked().connect(sigc::ptr_fun(GuiApplicationWindow::on_action_test2));
+    tb_openfile->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_fileopen));
+    tb_quit->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_quit));
+    tb_test1->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_test1));
+    tb_test2->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_test2));
     //Event handlers for menubar
-    menuitementry_open->signal_activate().connect(sigc::ptr_fun(GuiApplicationWindow::on_action_fileopen));
+    menuitementry_open->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_fileopen));
 
     //Initialize gui elements
     initialize_gui_elements();
@@ -159,6 +159,7 @@ void GuiApplicationWindow::on_action_quit()
 void GuiApplicationWindow::on_action_test1()
 {
     std::cout << "Action: test1 clicked" << std::endl;
+    data_renderer->open("/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWE/build/data/swe_prod_00.nc");
 }
 
 void GuiApplicationWindow::on_action_test2()

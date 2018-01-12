@@ -22,7 +22,7 @@
             "name": "Attach GDB WSL",
             "type": "cppdbg",
             "request": "attach",
-            "processId": "3979",
+            "processId": "14307",
             //"processId": "${command:pickRemoteProcess}",
             "program": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/build/packet/swegui",
             "windows": {
@@ -44,6 +44,38 @@
             "sourceFileMap": {
                 "/mnt/c": "c:/"
             }
-        }
+        },
+        {
+            "name": "Launch GDB WSL",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/build/packet/swegui",
+            "args": [ 
+                "--display=127.0.0.1:0"
+            ],
+            "stopAtEntry": false,
+            "cwd": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/build/packet",
+            "environment": [],
+            "externalConsole": true,
+            "windows": {
+                "MIMode": "gdb",
+                "setupCommands": [
+                    {
+                        "description": "Enable pretty-printing for gdb",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    }
+                ]
+            }, 
+            "pipeTransport": {
+                "pipeCwd": "",
+                "pipeProgram": "c:/windows/sysnative/bash.exe",
+                "pipeArgs": ["-c"],
+                "debuggerPath": "/usr/bin/gdb"
+            },
+            "sourceFileMap": {
+                "/mnt/c": "c:/"
+            }
+        },
     ]
 }

@@ -13,7 +13,8 @@ bool NetCdfImageStream::open(std::string filename)
 {
     if(reader != nullptr) delete reader;
     reader = new io::NetCdfReader(filename, true, false);
-    return reader->success;
+    if(reader->success) return generate_meta();
+    return false;
 }
 
 bool NetCdfImageStream::select(Variable var, uint32_t index)
@@ -31,7 +32,7 @@ bool NetCdfImageStream::select(Variable var, uint32_t index)
         if(!res) return false;
     }
     stream_pos = 0;
-    return generate_meta();
+    return true;
 }
 
 bool NetCdfImageStream::generate_meta()

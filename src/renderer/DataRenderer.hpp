@@ -2,6 +2,7 @@
 #define DATARENDERER_H
 
 #include "../sfml/SFMLWidget.hpp"
+#include "NetCdfImageStream.hpp"
 #include <glibmm.h>
 
 #define PATH_TO_FRAG_SHADER "ui/fragment.glsl"
@@ -16,17 +17,18 @@ namespace renderer
 
       DataRenderer(sfml::SFMLWidget &widget);
 
+      bool open(std::string filename);
+
     private:
 
       sfml::SFMLWidget &widget;
 
-      sf::CircleShape circle;
+      NetCdfImageStream netcdf_stream;
+
       sf::RectangleShape background;
       sf::Shader shader;
-      
-      float vx, vy;
 
-      void animate();
+      //void animate();
       void draw();
       void resize_view();
 

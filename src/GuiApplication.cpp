@@ -4,7 +4,8 @@
 #include "GuiApplication.hpp"
 #include "GuiApplicationWindow.hpp"
 
-GuiApplication::GuiApplication() : Gtk::Application("de.tum.in.www5.tssim.g03.swegui", Gio::APPLICATION_HANDLES_OPEN)
+GuiApplication::GuiApplication() 
+    : Gtk::Application("de.tum.in.www5.tssim.g03.swegui", Gio::APPLICATION_HANDLES_OPEN)
 {
 }
 
