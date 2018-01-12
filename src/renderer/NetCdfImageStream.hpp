@@ -2,6 +2,7 @@
 #define NETCDFIMAGESTREAM_H_INCLUDED
 
 #include <SFML/System.hpp>
+#include "BMP.hpp"
 #include "reader/NetCdfReader.hh"
 
 namespace renderer
@@ -20,7 +21,13 @@ namespace renderer
                 B = 3
             };
 
-            float min, max;
+            struct Meta
+            {
+                int width, height;
+                float min, max;
+            };
+
+            Meta* meta_info;
 
             NetCdfImageStream() {}
             ~NetCdfImageStream();
@@ -34,11 +41,14 @@ namespace renderer
 
         private:
         
+            sf::Int64 stream_pos;
             io::NetCdfReader* reader = nullptr;
             float* current_data = nullptr;
-            char header[];
-            void generate_header();
-            void find_minmax(float* minmax);
+            char header[BMP_HEADER_SIZE] = { 0 };
+            sf::Int64 stream_size;
+            bool generate_meta();
+            bool find_minmax();
+            void copy_le(int32_t value, char* target);
 
     };
 

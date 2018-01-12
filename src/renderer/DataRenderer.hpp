@@ -1,5 +1,5 @@
-#ifndef DATARENDERER_H_INCLUDED
-#define DATARENDERER_H_INCLUDED
+#ifndef DATARENDERER_H
+#define DATARENDERER_H
 
 #include "../sfml/SFMLWidget.hpp"
 #include <glibmm.h>
