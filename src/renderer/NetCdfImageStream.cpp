@@ -80,6 +80,7 @@ bool NetCdfImageStream::find_minmax()
     return true;
 }
 
+//format (color scale 0.0 - 1.0): blue * 100 + green * 100000 + red * 1000000, mapped between min and max
 sf::Int64 NetCdfImageStream::read(void* data, sf::Int64 size)
 {
     if(size < 0 || reader == nullptr || !reader->success || current_data == nullptr) return -1;
@@ -90,14 +91,17 @@ sf::Int64 NetCdfImageStream::read(void* data, sf::Int64 size)
         stream_pos++;
         ri++;
     }
-    float divs[] = { 100.f, 10000.f, 1000000.f };
     while(stream_pos < stream_size && ri < (uint64_t)size)
     {
         uint64_t data_pos = stream_pos - BMP_HEADER_SIZE;
         float fdata = (current_data[data_pos / 3] - meta_info->min) / (meta_info->max - meta_info->min);
         float intp = 0.f;
-        modf(fdata * divs[data_pos % 3], &intp);
-        ((uint8_t*)data)[ri] = (intp / 100.f) * 255.f;
+        for(int i=0; i<=(int)(data_pos % 3); i++)
+        {
+            fdata *= 100.f;
+            fdata = modf(fdata, &intp);
+        }
+        ((uint8_t*)data)[ri] = intp * 2.55f;
         stream_pos++;
         ri++;
     }
