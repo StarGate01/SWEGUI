@@ -174,10 +174,49 @@ void GuiApplicationWindow::on_action_test2()
 
 void GuiApplicationWindow::on_action_dataprobe()
 {
-    std::cout << "Action: dataprobe clicked" << std::endl;
+    std::cout << "Adding random probe to list" << std::endl;
+    ToolDataprobe probe("probe_" + to_string(tool_dataprobes.size()));
+    probe.setPosition(((float)rand()/RAND_MAX), ((float)rand()/RAND_MAX));
+    addDataprobe(probe);
+
+    std::cout << " --- Dataprobe list ---" << std::endl;    
+    for(ToolDataprobe& p : tool_dataprobes)
+    {
+        std::cout << p.getName() << " (x:" << p.getPosition().x << " y:" << p.getPosition().y << ")" << std::endl;
+    }
+    std::cout << "-------------------------------" << std::endl;
 }
 
 void GuiApplicationWindow::on_action_crosssection()
 {
     std::cout << "Action: crosssection clicked" << std::endl;
+}
+
+void GuiApplicationWindow::addDataprobe(ToolDataprobe probe)
+{
+    //Check if name already exists
+    if(getDataprobe(probe.getName()) != nullptr)
+            throw std::runtime_error("Probe with this name already exists");
+    
+    tool_dataprobes.push_back(probe);
+}
+
+ToolDataprobe* GuiApplicationWindow::getDataprobe(std::string name)
+{
+    for(ToolDataprobe& p : tool_dataprobes)
+        if(p.getName().compare(name) == 0)
+            return &p;
+    return nullptr;
+}
+
+ToolDataprobe* GuiApplicationWindow::getDataprobe(float x, float y)
+{
+    Coordinate c;
+    for(ToolDataprobe& p : tool_dataprobes)
+    {
+        c = p.getPosition();
+        if(c.x == x && c.y == y)
+            return &p;
+    }
+    return nullptr;
 }

@@ -4,6 +4,8 @@
 #include <gtkmm.h>
 #include <iostream>
 #include <list>
+#include <stdexcept>
+#include <stdlib.h>         //Temporary include for rand
 #include "ToolDataprobe.hpp"
 #include "sfml/SFMLWidget.hpp"
 #include "renderer/DataRenderer.hpp"
@@ -62,6 +64,11 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
 
         //List of dataprobes
         std::list<ToolDataprobe> tool_dataprobes;
+        void addDataprobe(ToolDataprobe probe);
+        ToolDataprobe* getDataprobe(std::string name);
+        ToolDataprobe* getDataprobe(float x, float y);
+        void removeDataprobe(ToolDataprobe probe);      //TODO: Implement
+        void removeDataprobe(std::string name);         //TODO: Implement
 };
 
 #endif

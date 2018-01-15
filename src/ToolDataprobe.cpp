@@ -33,3 +33,11 @@ void ToolDataprobe::setPosition(float x, float y)
     Coordinate coordinate = {x, y};
     setPosition(coordinate);
 }
+
+bool ToolDataprobe::equals(ToolDataprobe other)
+{
+    Coordinate c = other.getPosition();
+    if(c.x != position.x || c.y != position.y)
+        return false;
+    return this->getName().compare(other.getName()) == 0;
+}
