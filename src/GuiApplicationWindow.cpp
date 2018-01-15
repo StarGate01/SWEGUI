@@ -59,6 +59,9 @@ void GuiApplicationWindow::setup_gui_elements()
     //Get raw data label
     m_refBuilder->get_widget("lbl_info", lbl_raw_data);
 
+    //Context menu of probe list
+    m_refBuilder->get_widget("context_menu_probelist", contextmenu_probelist);
+
     //Get SFML control, init demo
     m_refBuilder->get_widget("sfml_area", sfml_area);
     data_renderer = new renderer::DataRenderer(*sfml_area);
@@ -80,11 +83,12 @@ void GuiApplicationWindow::setup_gui_elements()
     menuitementry_file_open->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_fileopen));
     menuitementry_tools_dataprobe->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_dataprobe));
     menuitementry_tools_crosssection->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_crosssection)); 
-
+    //Event handlers for context menu
+    probelist->signal_row_activated().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_button_press));
     //Initialize gui elements
     initialize_gui_elements();
 }
-
+    
 void GuiApplicationWindow::initialize_gui_elements()
 {
     check_gui_initialized();
@@ -106,7 +110,7 @@ bool GuiApplicationWindow::check_gui_initialized()
     //Check menubar
     if(menubar_main)
     {
-        if(!(menuitementry_file_open && menuitementry_tools_dataprobe))
+        if(!(menuitementry_file_open && menuitementry_tools_dataprobe && menuitementry_tools_crosssection))
         {
             perror("Menubar buttons not initialized");
             return false;
@@ -137,6 +141,12 @@ bool GuiApplicationWindow::check_gui_initialized()
     if(!lbl_raw_data)
     {
         perror("lbl_raw_data not initialized");
+        return false;
+    }
+
+    if(!contextmenu_probelist)
+    {
+        perror("Context menu not initialized");
         return false;
     }
 
@@ -199,6 +209,11 @@ void GuiApplicationWindow::addDataprobe(ToolDataprobe probe)
             throw std::runtime_error("Probe with this name already exists");
     
     tool_dataprobes.push_back(probe);
+}
+
+void GuiApplicationWindow::on_action_probelist_button_press(Gtk::TreeModel::Path path, Gtk::TreeViewColumn* column)
+{
+    std::cout << "List: Self destruction enabled... standby for blast" << std::endl;
 }
 
 ToolDataprobe* GuiApplicationWindow::getDataprobe(std::string name)
