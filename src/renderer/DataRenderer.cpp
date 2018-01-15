@@ -22,7 +22,7 @@ int DataRenderer::open(std::string filename)
 {
     bool ret = netcdf_stream.open(filename);
     if(!ret) return 1;
-    netcdf_stream.select(Variable::B, 0);
+    ret = netcdf_stream.select(Variable::B, 0);
     if(!ret) return 2;
 
     bath_image.loadFromStream(netcdf_stream);
