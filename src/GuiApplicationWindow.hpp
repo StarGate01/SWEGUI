@@ -27,7 +27,10 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         Gtk::Window* pWindow = nullptr;
         //Menubar
         Gtk::MenuBar* menubar_main = nullptr;
-        Gtk::MenuItem* menuitementry_open = nullptr;
+        Gtk::MenuItem* menuitementry_file_open = nullptr;
+        Gtk::MenuItem* menuitementry_tools_dataprobe = nullptr;
+        Gtk::MenuItem* menuitementry_tools_crosssection = nullptr;
+        
         //Toolbar
         Gtk::Toolbar* toolbar_main = nullptr;
         Gtk::ToolButton* tb_openfile = nullptr;
@@ -51,6 +54,8 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         void on_action_quit();
         void on_action_test1();
         void on_action_test2();
+        void on_action_dataprobe();
+        void on_action_crosssection();
 
     protected:
         Glib::RefPtr<Gtk::Builder> m_refBuilder;
