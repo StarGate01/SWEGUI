@@ -14,4 +14,4 @@ config.log
 .pydevproject
 
 src/bku
-gladelib.rc
+gladeconf.rc

@@ -1,2 +1,0 @@
-export GLADE_CATALOG_SEARCH_PATH=$GLADE_CATALOG_SEARCH_PATH:/home/foxtrot/Documents/TUM/Informatik/Tsunami-Simulation/SWEGUI/.vscode/../build/packet/lib
-export GLADE_MODULE_SEARCH_PATH=$GLADE_MODULE_SEARCH_PATH:/home/foxtrot/Documents/TUM/Informatik/Tsunami-Simulation/SWEGUI/.vscode/../build/packet/lib
