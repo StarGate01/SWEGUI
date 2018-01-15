@@ -3,6 +3,7 @@
 
 #include <gtkmm.h>
 #include <iostream>
+#include <list>
 #include "ToolDataprobe.hpp"
 #include "sfml/SFMLWidget.hpp"
 #include "renderer/DataRenderer.hpp"
@@ -55,7 +56,7 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
         //List of dataprobes
-        List<ToolDataprobe> tool_dataprobes;
+        std::list<ToolDataprobe> tool_dataprobes;
 };
 
 #endif
