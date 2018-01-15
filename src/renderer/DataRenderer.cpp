@@ -22,16 +22,16 @@ int DataRenderer::open(std::string filename)
 {
     bool ret = netcdf_stream.open(filename);
     if(!ret) return 1;
-    ret = netcdf_stream.select(Variable::B, 0);
+    ret = netcdf_stream.select(NetCdfImageStream::Variable::B, 0);
     if(!ret) return 2;
 
-    bath_image.loadFromStream(netcdf_stream);
-    unsigned int max_tex = sf::Texture::getMaximumSize();
+    bath_img.loadFromStream(netcdf_stream);
+    int max_tex = sf::Texture::getMaximumSize();
     sf::Rect<int> area(0, 0, 
         max(netcdf_stream.meta_info->width, max_tex),
-        max(netcdf_stream.meta_info->height, max_tex))
+        max(netcdf_stream.meta_info->height, max_tex));
 
-    bath_tex.loadFromImage(bath_image, area);
+    bath_tex.loadFromImage(bath_img, area);
     return 0;
 }
 

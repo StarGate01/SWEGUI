@@ -96,12 +96,13 @@
         {
             "label": "Run Application on local X server",
             "type": "shell",
-            "command": "./swegui",
+            "command": "bash",
             "options": {
                 "cwd": "${workspaceRoot}/build/packet"
             },
             "args": [
-                "--display=127.0.0.1:0"
+                "-c",
+                "\"export DISPLAY=127.0.0.1:0 && ./swegui\""
             ],
             "problemMatcher": []
         },

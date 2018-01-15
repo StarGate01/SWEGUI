@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-    putenv("DISPLAY=127.0.0.1:0");
+    //putenv("DISPLAY=127.0.0.1:0");
     auto application = GuiApplication::create();
     return application->run(argc, argv);
 }
