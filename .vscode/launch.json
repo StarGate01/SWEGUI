@@ -42,11 +42,13 @@
                 "debuggerPath": "/usr/bin/gdb"
             },
             "sourceFileMap": {
+                "/usr": "c:/lxss_ro/rootfs/usr",
                 "/mnt/c": "c:/"
             }
         },
         {
             "name": "Launch GDB WSL",
+            //"logging" : { "trace": true, "traceResponse": true, "engineLogging": true },
             "type": "cppdbg",
             "request": "launch",
             "program": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/build/packet/swegui",
@@ -74,6 +76,7 @@
                 "debuggerPath": "/usr/bin/gdb"
             },
             "sourceFileMap": {
+                "/usr": "c:/lxss_ro/rootfs/usr",
                 "/mnt/c": "c:/"
             }
         },

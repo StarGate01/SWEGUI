@@ -86,14 +86,11 @@
         {
             "label": "Run Application",
             "type": "shell",
-            "command": "bash",
+            "command": "./swegui",
             "options": {
                 "cwd": "${workspaceRoot}/build/packet"
             },
-            "args": [
-               "-c",
-               "\"./swegui\""
-            ],
+            "args": [],
             "problemMatcher": []
         },
         {
@@ -104,8 +101,8 @@
                 "cwd": "${workspaceRoot}/build/packet"
             },
             "args": [
-               "-c",
-               "\"export DISPLAY=127.0.0.1:0 && ./swegui\""
+                "-c",
+                "\"export DISPLAY=127.0.0.1:0 && ./swegui\""
             ],
             "problemMatcher": []
         },

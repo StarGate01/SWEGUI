@@ -17,13 +17,15 @@ namespace renderer
 
       DataRenderer(sfml::SFMLWidget &widget);
 
-      bool open(std::string filename);
+      int open(std::string filename);
 
     private:
 
       sfml::SFMLWidget &widget;
 
       NetCdfImageStream netcdf_stream;
+      sf::Image bath_img;
+      sf::Texture bath_tex;
 
       sf::RectangleShape background;
       sf::Shader shader;
