@@ -41,6 +41,10 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         Gtk::ToolButton* tb_test2 = nullptr;
         //Raw data field
         Gtk::Label* lbl_raw_data = nullptr;
+        //Probelist
+        Gtk::TreeView* probelist = nullptr;
+        //Context menu
+        Gtk::Menu* contextmenu_probelist = nullptr;
         //SFML control
         sfml::SFMLWidget* sfml_area = nullptr;
         renderer::DataRenderer* data_renderer = nullptr;
@@ -58,6 +62,7 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         void on_action_test2();
         void on_action_dataprobe();
         void on_action_crosssection();
+        void on_action_probelist_button_press();
 
     protected:
         Glib::RefPtr<Gtk::Builder> m_refBuilder;
