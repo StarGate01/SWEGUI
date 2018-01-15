@@ -86,26 +86,22 @@
         {
             "label": "Run Application",
             "type": "shell",
-            "command": "bash",
+            "command": "./swegui",
             "options": {
                 "cwd": "${workspaceRoot}/build/packet"
             },
-            "args": [
-               "-c",
-               "\"./swegui\""
-            ],
+            "args": [],
             "problemMatcher": []
         },
         {
             "label": "Run Application on local X server",
             "type": "shell",
-            "command": "bash",
+            "command": "./swegui",
             "options": {
                 "cwd": "${workspaceRoot}/build/packet"
             },
             "args": [
-               "-c",
-               "\"export DISPLAY=127.0.0.1:0 && ./swegui\""
+                "--display=127.0.0.1:0"
             ],
             "problemMatcher": []
         },
