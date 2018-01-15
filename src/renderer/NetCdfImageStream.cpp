@@ -25,6 +25,7 @@ bool NetCdfImageStream::select(Variable var, uint32_t index)
         case Hu: current_data = reader->huData; break;
         case Hv: current_data = reader->hvData; break;
         case B: current_data = reader->bData; break;
+        default: return false;
     }
     if(var != B)
     {
@@ -51,7 +52,7 @@ bool NetCdfImageStream::generate_meta()
     //Info header
     header[BMP_OFFSET_BI_SIZE] = BMP_INFOHEADER_SIZE;
     copy_le(meta_info->width, header + BMP_OFFSET_BI_WIDTH);
-    copy_le(meta_info->height, header + BMP_OFFSET_BI_HEIGHT); //top-dowm
+    copy_le(meta_info->height, header + BMP_OFFSET_BI_HEIGHT);
     header[BMP_OFFSET_BI_PLANES] = BMP_PLANES;
     header[BMP_OFFSET_BI_BITCOUNT] = BMP_BITCOUNT;
     copy_le((stream_size) - BMP_HEADER_SIZE, header + BMP_OFFSET_BI_SIZEIMAGE);
@@ -92,10 +93,11 @@ sf::Int64 NetCdfImageStream::read(void* data, sf::Int64 size)
         stream_pos++;
         ri++;
     }
+    float diff = meta_info->max - meta_info->min;
     while(stream_pos < stream_size && ri < (uint64_t)size)
     {
         uint64_t data_pos = stream_pos - BMP_HEADER_SIZE;
-        float fdata = (current_data[data_pos / 3] - meta_info->min) / (meta_info->max - meta_info->min);
+        float fdata = (current_data[data_pos / 3] - meta_info->min) / diff;
         float intp = 0.f;
         for(int i=0; i<=(int)(data_pos % 3); i++)
         {

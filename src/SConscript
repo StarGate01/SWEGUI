@@ -7,7 +7,7 @@ Import('env_program')
 
 # List sources
 sourceFiles = ['main.cpp', 'GuiApplication.cpp', 'GuiApplicationWindow.cpp', 'ToolDataprobe.cpp']
-sourceFiles += ['renderer/DataRenderer.cpp', 'renderer/NetCdfImageStream.cpp', 'reader/NetCdfReader.cpp']
+sourceFiles += ['renderer/DataRenderer.cpp', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp']
 for i in sourceFiles: env_program.src_files.append(env_program.Object(i))
 
 # Setup
@@ -24,7 +24,7 @@ env_program.Append(CPPPATH=['#submodules/swe/src'])
 env_program.Program(env_program.program_name, env_program.src_files)
 
 # Define tests
-env_program.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h', 'renderer/NetCdfImageStream.cpp', 'reader/NetCdfReader.cpp'])
+env_program.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp'])
 
 # Copy binary
 Install('#'+env_program['buildDir']+'/packet', env_program.program_name)
