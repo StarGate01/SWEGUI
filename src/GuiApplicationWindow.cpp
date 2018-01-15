@@ -44,7 +44,10 @@ void GuiApplicationWindow::setup_gui_elements()
 
     //Get menu bar
     m_refBuilder->get_widget("main_menubar", menubar_main);
-    m_refBuilder->get_widget("imagemenuitem1", menuitementry_open);
+    m_refBuilder->get_widget("imagemenuitem1", menuitementry_file_open);
+    m_refBuilder->get_widget("tools_dataprobe", menuitementry_tools_dataprobe);
+    m_refBuilder->get_widget("tools_crosssection", menuitementry_tools_crosssection);
+
 
     //Get toolbar
     m_refBuilder->get_widget("main_toolbar", toolbar_main);
@@ -74,7 +77,9 @@ void GuiApplicationWindow::setup_gui_elements()
     tb_test1->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_test1));
     tb_test2->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_test2));
     //Event handlers for menubar
-    menuitementry_open->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_fileopen));
+    menuitementry_file_open->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_fileopen));
+    menuitementry_tools_dataprobe->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_dataprobe));
+    menuitementry_tools_crosssection->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_crosssection)); 
 
     //Initialize gui elements
     initialize_gui_elements();
@@ -101,7 +106,7 @@ bool GuiApplicationWindow::check_gui_initialized()
     //Check menubar
     if(menubar_main)
     {
-        if(!menuitementry_open)
+        if(!(menuitementry_file_open && menuitementry_tools_dataprobe))
         {
             perror("Menubar buttons not initialized");
             return false;
@@ -165,4 +170,53 @@ void GuiApplicationWindow::on_action_test1()
 void GuiApplicationWindow::on_action_test2()
 {
     std::cout << "Action: test2 clicked" << std::endl;
+}
+
+void GuiApplicationWindow::on_action_dataprobe()
+{
+    std::cout << "Adding random probe to list" << std::endl;
+    ToolDataprobe probe("probe_" + to_string(tool_dataprobes.size()));
+    probe.setPosition(((float)rand()/RAND_MAX), ((float)rand()/RAND_MAX));
+    addDataprobe(probe);
+
+    std::cout << " --- Dataprobe list ---" << std::endl;    
+    for(ToolDataprobe& p : tool_dataprobes)
+    {
+        std::cout << p.getName() << " (x:" << p.getPosition().x << " y:" << p.getPosition().y << ")" << std::endl;
+    }
+    std::cout << "-------------------------------" << std::endl;
+}
+
+void GuiApplicationWindow::on_action_crosssection()
+{
+    std::cout << "Action: crosssection clicked" << std::endl;
+}
+
+void GuiApplicationWindow::addDataprobe(ToolDataprobe probe)
+{
+    //Check if name already exists
+    if(getDataprobe(probe.getName()) != nullptr)
+            throw std::runtime_error("Probe with this name already exists");
+    
+    tool_dataprobes.push_back(probe);
+}
+
+ToolDataprobe* GuiApplicationWindow::getDataprobe(std::string name)
+{
+    for(ToolDataprobe& p : tool_dataprobes)
+        if(p.getName().compare(name) == 0)
+            return &p;
+    return nullptr;
+}
+
+ToolDataprobe* GuiApplicationWindow::getDataprobe(float x, float y)
+{
+    Coordinate c;
+    for(ToolDataprobe& p : tool_dataprobes)
+    {
+        c = p.getPosition();
+        if(c.x == x && c.y == y)
+            return &p;
+    }
+    return nullptr;
 }

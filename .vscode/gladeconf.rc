@@ -1,2 +1,2 @@
-export GLADE_CATALOG_SEARCH_PATH=$GLADE_CATALOG_SEARCH_PATH:/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/.vscode/../build/packet/lib
-export GLADE_MODULE_SEARCH_PATH=$GLADE_MODULE_SEARCH_PATH:/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/.vscode/../build/packet/lib
+export GLADE_CATALOG_SEARCH_PATH=$GLADE_CATALOG_SEARCH_PATH:/home/foxtrot/Documents/TUM/Informatik/Tsunami-Simulation/SWEGUI/.vscode/../build/packet/lib
+export GLADE_MODULE_SEARCH_PATH=$GLADE_MODULE_SEARCH_PATH:/home/foxtrot/Documents/TUM/Informatik/Tsunami-Simulation/SWEGUI/.vscode/../build/packet/lib

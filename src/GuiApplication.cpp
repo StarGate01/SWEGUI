@@ -82,7 +82,7 @@ void GuiApplication::on_hide_window(Gtk::Window* window)
     delete window;
 }
 
-//TODO: Implement event handler from GUI to application
+//TODO: Not necessary anymore??
 void GuiApplication::on_window_action(Signal signal)
 {
     switch(signal)
