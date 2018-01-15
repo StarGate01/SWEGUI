@@ -24,7 +24,7 @@ env_program.Append(CPPPATH=['#submodules/swe/src'])
 env_program.Program(env_program.program_name, env_program.src_files)
 
 # Define tests
-env_program.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h'])
+env_program.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h', 'renderer/NetCdfImageStream.cpp', 'reader/NetCdfReader.cpp'])
 
 # Copy binary
 Install('#'+env_program['buildDir']+'/packet', env_program.program_name)

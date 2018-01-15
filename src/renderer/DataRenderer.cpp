@@ -8,7 +8,10 @@ DataRenderer::DataRenderer(sfml::SFMLWidget &widget) : widget(widget)
 {
     if (!sf::Shader::isAvailable()) perror("Shaders are not available on this GPU");
     if (!shader.loadFromFile(PATH_TO_FRAG_SHADER, sf::Shader::Fragment)) perror("Cannot load shader");
+
     shader.setParameter("bath_tex", bath_tex);
+    bath_tex.setSmooth(true);
+    bath_tex.setRepeated(false);
 
     background.setSize(sf::Vector2f(widget.renderWindow.getSize().x, widget.renderWindow.getSize().y));
     shader.setParameter("screensize", widget.renderWindow.getSize().x, widget.renderWindow.getSize().y);
@@ -25,13 +28,18 @@ int DataRenderer::open(std::string filename)
     ret = netcdf_stream.select(NetCdfImageStream::Variable::B, 0);
     if(!ret) return 2;
 
-    bath_img.loadFromStream(netcdf_stream);
-    int max_tex = sf::Texture::getMaximumSize();
-    sf::Rect<int> area(0, 0, 
-        max(netcdf_stream.meta_info->width, max_tex),
-        max(netcdf_stream.meta_info->height, max_tex));
+    ret = bath_img.loadFromStream(netcdf_stream);
+    if(!ret) return 3;
+    // int max_tex = sf::Texture::getMaximumSize();
+    // sf::Rect<int> area(0, 0, 
+    //     max(netcdf_stream.meta_info->width, max_tex),
+    //     max(netcdf_stream.meta_info->height, max_tex));
 
-    bath_tex.loadFromImage(bath_img, area);
+    ret = bath_tex.loadFromImage(bath_img); //, area);
+    if(!ret) return 4;
+
+    widget.invalidate();
+
     return 0;
 }
 
@@ -43,7 +51,7 @@ int DataRenderer::open(std::string filename)
 void DataRenderer::draw()
 {
     widget.renderWindow.clear(sf::Color::Blue);
-    widget.renderWindow.draw(background, &shader);
+    widget.renderWindow.draw(background); //, &shader);
     widget.display();
 }
 

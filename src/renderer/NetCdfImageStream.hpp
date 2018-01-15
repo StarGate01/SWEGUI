@@ -27,7 +27,7 @@ namespace renderer
                 float min, max;
             };
 
-            Meta* meta_info;
+            Meta* meta_info = nullptr;
 
             NetCdfImageStream() {}
             ~NetCdfImageStream();

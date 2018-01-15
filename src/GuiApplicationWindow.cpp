@@ -164,7 +164,7 @@ void GuiApplicationWindow::on_action_quit()
 void GuiApplicationWindow::on_action_test1()
 {
     std::cout << "Action: test1 clicked" << std::endl;
-    //data_renderer->open("/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWE/build/data/swe_prod_00.nc");
+    data_renderer->open("/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWE/build/data/swe_prod_00.nc");
 }
 
 void GuiApplicationWindow::on_action_test2()

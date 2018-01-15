@@ -51,7 +51,7 @@ bool NetCdfImageStream::generate_meta()
     //Info header
     header[BMP_OFFSET_BI_SIZE] = BMP_INFOHEADER_SIZE;
     copy_le(meta_info->width, header + BMP_OFFSET_BI_WIDTH);
-    copy_le(-meta_info->height, header + BMP_OFFSET_BI_HEIGHT); //top-dowm
+    copy_le(meta_info->height, header + BMP_OFFSET_BI_HEIGHT); //top-dowm
     header[BMP_OFFSET_BI_PLANES] = BMP_PLANES;
     header[BMP_OFFSET_BI_BITCOUNT] = BMP_BITCOUNT;
     copy_le((stream_size) - BMP_HEADER_SIZE, header + BMP_OFFSET_BI_SIZEIMAGE);
@@ -75,7 +75,7 @@ bool NetCdfImageStream::find_minmax()
     for(int i=1; i<meta_info->width * meta_info->height; i++)
     {
         float fdata = current_data[i];
-        if(fdata > meta_info->min) meta_info->min = fdata;
+        if(fdata < meta_info->min) meta_info->min = fdata;
         if(fdata > meta_info->max) meta_info->max = fdata;
     }
     return true;
@@ -103,6 +103,7 @@ sf::Int64 NetCdfImageStream::read(void* data, sf::Int64 size)
             fdata = modf(fdata, &intp);
         }
         ((uint8_t*)data)[ri] = intp * 2.55f;
+        //((uint8_t*)data)[ri] = fdata * 255.0f;
         stream_pos++;
         ri++;
     }
