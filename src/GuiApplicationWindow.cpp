@@ -84,7 +84,9 @@ void GuiApplicationWindow::setup_gui_elements()
     menuitementry_tools_dataprobe->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_dataprobe));
     menuitementry_tools_crosssection->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_crosssection)); 
     //Event handlers for context menu
-    probelist->signal_row_activated().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_button_press));
+    //probelist->signal_row_activated().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_button_press));          //Does not compile
+    Glib::RefPtr<Gtk::TreeSelection> selection = probelist->get_selection();
+    selection->signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_button_press));
     //Initialize gui elements
     initialize_gui_elements();
 }
@@ -211,7 +213,7 @@ void GuiApplicationWindow::addDataprobe(ToolDataprobe probe)
     tool_dataprobes.push_back(probe);
 }
 
-void GuiApplicationWindow::on_action_probelist_button_press(Gtk::TreeModel::Path path, Gtk::TreeViewColumn* column)
+void GuiApplicationWindow::on_action_probelist_button_press()
 {
     std::cout << "List: Self destruction enabled... standby for blast" << std::endl;
 }

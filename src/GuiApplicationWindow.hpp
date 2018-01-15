@@ -62,7 +62,7 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         void on_action_test2();
         void on_action_dataprobe();
         void on_action_crosssection();
-        void GuiApplicationWindow::on_action_probelist_button_press(Gtk::TreeModel::Path path, Gtk::TreeViewColumn* column);
+        void on_action_probelist_button_press();
 
     protected:
         Glib::RefPtr<Gtk::Builder> m_refBuilder;
