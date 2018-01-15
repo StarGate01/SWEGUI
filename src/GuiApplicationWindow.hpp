@@ -3,6 +3,7 @@
 
 #include <gtkmm.h>
 #include <iostream>
+#include "ToolDataprobe.hpp"
 #include "sfml/SFMLWidget.hpp"
 #include "renderer/DataRenderer.hpp"
 
@@ -18,7 +19,9 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         static GuiApplicationWindow* create();
 
         void open_file_view(const Glib::RefPtr<Gio::File>& file);
+        static void register_custom_gui_elements();
 
+    private:
         //GUI Elements
         Gtk::Window* pWindow = nullptr;
         //Menubar
@@ -36,13 +39,12 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         sfml::SFMLWidget* sfml_area = nullptr;
         renderer::DataRenderer* data_renderer = nullptr;
 
-
         //GUI helper functions
         bool check_gui_initialized();
+
         //--- event handler ---
         void setup_gui_elements();
         void initialize_gui_elements();     //Called by setup_gui_elements
-        static void register_custom_gui_elements();
         //Actual event handlers
         void on_action_fileopen();
         void on_action_quit();
@@ -50,9 +52,10 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         void on_action_test2();
 
     protected:
-
         Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
+        //List of dataprobes
+        List<ToolDataprobe> tool_dataprobes;
 };
 
 #endif
