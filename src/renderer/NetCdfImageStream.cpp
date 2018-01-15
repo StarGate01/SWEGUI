@@ -32,7 +32,7 @@ bool NetCdfImageStream::select(Variable var, uint32_t index)
         if(!res) return false;
     }
     stream_pos = 0;
-    return true;
+    return find_minmax();
 }
 
 bool NetCdfImageStream::generate_meta()
@@ -55,7 +55,7 @@ bool NetCdfImageStream::generate_meta()
     header[BMP_OFFSET_BI_PLANES] = BMP_PLANES;
     header[BMP_OFFSET_BI_BITCOUNT] = BMP_BITCOUNT;
     copy_le((stream_size) - BMP_HEADER_SIZE, header + BMP_OFFSET_BI_SIZEIMAGE);
-    return find_minmax();
+    return true;
 }
 
 void NetCdfImageStream::copy_le(int32_t value, char* target)
