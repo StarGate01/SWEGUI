@@ -2,36 +2,40 @@
 
 ToolDataprobe::ToolDataprobe(std::string name)
 {
-    this->setName(name);
+    setName(name);
+    sprite.setOrigin(16.f, 16.f);
 }
 
 std::string ToolDataprobe::getName()
 {
-    return this->name;
+    return name;
 }
 
-void ToolDataprobe::setName(std::string name)
+void ToolDataprobe::setName(std::string n)
 {
-    if(name.length() > 0)
-        this->name = name;
-    else
-        this->name = "Invalid name";
+    if(n.length() > 0) name = n;
+    else name = "Invalid name";
 }
 
 Coordinate ToolDataprobe::getPosition()
 {
-    return this->position;
+    return position;
 }
 
 void ToolDataprobe::setPosition(Coordinate coordinate)
 {
-    this->position = coordinate;
+    position = coordinate;
 }
 
 void ToolDataprobe::setPosition(float x, float y)
 {
     Coordinate coordinate = {x, y};
     setPosition(coordinate);
+}
+
+sf::Sprite& ToolDataprobe::getSprite()
+{
+    return sprite;
 }
 
 bool ToolDataprobe::equals(ToolDataprobe other)

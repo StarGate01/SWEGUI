@@ -7,10 +7,10 @@
         "bibtex"
     ],
     "files.associations": {
-        "*.glsl": "glsl",
         "*.vstemplate": "xml",
         "SConstruct": "python",
         "SConscript": "python",
+        "*.glsl": "glsl",
         "iosfwd": "cpp",
         "*.glade": "xml",
         "array": "cpp",
@@ -49,6 +49,7 @@
         "type_traits": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "vector": "cpp"
     }
 }

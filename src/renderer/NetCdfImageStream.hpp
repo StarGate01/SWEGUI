@@ -23,11 +23,12 @@ namespace renderer
 
             struct Meta
             {
-                int width, height;
-                float min, max;
+                int nx = 1, ny = 1;
+                float min = 0.0, max = 1.0;
+                float dx = 1.f, dy = 1.f, originx = 0.f, originy = 0.f;
             };
 
-            Meta* meta_info = nullptr;
+            Meta meta_info;
 
             NetCdfImageStream() {}
             ~NetCdfImageStream();

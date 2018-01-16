@@ -197,14 +197,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkMenuItem" id="tools_dataprobe">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Dataprobe</property>
-                        <property name="use_underline">True</property>
-                      </object>
-                    </child>
-                    <child>
                       <object class="GtkMenuItem" id="tools_shoreanalysis">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>

@@ -6,7 +6,6 @@ using namespace renderer;
 NetCdfImageStream::~NetCdfImageStream()
 {
     if(reader != nullptr) delete reader;
-    if(meta_info != nullptr) delete meta_info;
 }
 
 bool NetCdfImageStream::open(std::string filename)
@@ -39,20 +38,22 @@ bool NetCdfImageStream::select(Variable var, uint32_t index)
 bool NetCdfImageStream::generate_meta()
 {
     if(reader == nullptr || !reader->success) return false;
-    if(meta_info != nullptr) delete meta_info;
-    meta_info = new Meta();
-    meta_info->width = reader->getGlobalIntAttribute("nx");
-    meta_info->height = reader->getGlobalIntAttribute("ny");
+    meta_info.nx = reader->getGlobalIntAttribute("nx");
+    meta_info.ny = reader->getGlobalIntAttribute("ny");
+    meta_info.dx = reader->getGlobalFloatAttribute("dx");
+    meta_info.dy = reader->getGlobalFloatAttribute("dy");
+    meta_info.originx = reader->getGlobalFloatAttribute("originx");
+    meta_info.originy = reader->getGlobalFloatAttribute("originy");
     //BMP Header
     header[BMP_OFFSET_BF_TYPE] = BMP_MAGIC_1;
     header[BMP_OFFSET_BF_TYPE + 1] = BMP_MAGIC_2;
-    stream_size = BMP_HEADER_SIZE + (meta_info->width * meta_info->height * BMP_BYTECOUNT);
+    stream_size = BMP_HEADER_SIZE + (meta_info.nx * meta_info.ny * BMP_BYTECOUNT);
     copy_le(stream_size, header + BMP_OFFSET_BF_SIZE);
     header[BMP_OFFSET_BF_OFFBITS] = BMP_HEADER_SIZE;
     //Info header
     header[BMP_OFFSET_BI_SIZE] = BMP_INFOHEADER_SIZE;
-    copy_le(meta_info->width, header + BMP_OFFSET_BI_WIDTH);
-    copy_le(meta_info->height, header + BMP_OFFSET_BI_HEIGHT);
+    copy_le(meta_info.nx, header + BMP_OFFSET_BI_WIDTH);
+    copy_le(meta_info.ny, header + BMP_OFFSET_BI_HEIGHT);
     header[BMP_OFFSET_BI_PLANES] = BMP_PLANES;
     header[BMP_OFFSET_BI_BITCOUNT] = BMP_BITCOUNT;
     copy_le((stream_size) - BMP_HEADER_SIZE, header + BMP_OFFSET_BI_SIZEIMAGE);
@@ -70,14 +71,14 @@ void NetCdfImageStream::copy_le(int32_t value, char* target)
 bool NetCdfImageStream::find_minmax()
 {
     if(reader == nullptr || !reader->success 
-        || current_data == nullptr || meta_info == nullptr) return false;
-    meta_info->min = current_data[0];
-    meta_info->max = current_data[0];
-    for(int i=1; i<meta_info->width * meta_info->height; i++)
+        || current_data == nullptr) return false;
+    meta_info.min = current_data[0];
+    meta_info.max = current_data[0];
+    for(int i=1; i<meta_info.nx * meta_info.ny; i++)
     {
         float fdata = current_data[i];
-        if(fdata < meta_info->min) meta_info->min = fdata;
-        if(fdata > meta_info->max) meta_info->max = fdata;
+        if(fdata < meta_info.min) meta_info.min = fdata;
+        if(fdata > meta_info.max) meta_info.max = fdata;
     }
     return true;
 }
@@ -93,11 +94,11 @@ sf::Int64 NetCdfImageStream::read(void* data, sf::Int64 size)
         stream_pos++;
         ri++;
     }
-    float diff = meta_info->max - meta_info->min;
+    float diff = meta_info.max - meta_info.min;
     while(stream_pos < stream_size && ri < (uint64_t)size)
     {
         uint64_t data_pos = stream_pos - BMP_HEADER_SIZE;
-        float fdata = (current_data[data_pos / 3] - meta_info->min) / diff;
+        float fdata = (current_data[data_pos / 3] - meta_info.min) / diff;
         float intp = 0.f;
         for(int i=0; i<=(int)(data_pos % 3); i++)
         {
