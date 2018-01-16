@@ -18,12 +18,10 @@ DataRenderer::DataRenderer(sfml::SFMLWidget &widget) : widget(widget)
     if (!shader.loadFromFile(PATH_TO_FRAG_SHADER, sf::Shader::Fragment)) perror("Cannot load shader");
     for(int i=0; i<5; i++) layers[i]->update_shader(shader, true);
 
-    background.setSize(sf::Vector2f(widget.renderWindow.getSize().x, widget.renderWindow.getSize().y));
-    shader.setParameter("screensize", widget.renderWindow.getSize().x, widget.renderWindow.getSize().y);
-
     crosshair_tex.loadFromFile(PATH_TO_CROSSHAIR_TEX);
     crosshair_active_tex.loadFromFile(PATH_TO_CROSSHAIR_ACTIVE_TEX);
 
+    update_padding();
 
     // Glib::signal_timeout().connect(sigc::bind_return(sigc::mem_fun(this, &DataRenderer::animate), true), TIMESTEP);
     widget.signal_draw().connect(sigc::bind_return(sigc::hide(sigc::mem_fun(this, &DataRenderer::draw)), true));
@@ -48,6 +46,7 @@ int DataRenderer::open(std::string filename)
     if(!ret) return ERROR_FILE;
     int res = select_timestamp(0);
     if(res != ERROR_SUCCESS) return res;
+    update_padding();
     update_shader();
     return ERROR_SUCCESS;
 }
@@ -107,8 +106,8 @@ void DataRenderer::draw()
     widget.renderWindow.draw(background, &shader);
     for(unsigned int i = 0; i < probes.size(); i++) 
     {
-        probes[i].getSprite().setPosition(((probes[i].getPosition().x - meta_info->originx) / meta_info->dx) * (float)widget.renderWindow.getSize().x,
-            ((probes[i].getPosition().y - meta_info->originy) / meta_info->dy) * (float)widget.renderWindow.getSize().y);
+        sf::Vector2f d2s = data_to_screen(sf::Vector2f(probes[i].getPosition().x, probes[i].getPosition().y));
+        probes[i].getSprite().setPosition(d2s.x, d2s.y);
         if(&(probes[i]) == active_probe) probes[i].getSprite().setTexture(crosshair_active_tex);
         else probes[i].getSprite().setTexture(crosshair_tex);
         widget.renderWindow.draw(probes[i].getSprite());
@@ -118,19 +117,58 @@ void DataRenderer::draw()
 
 void DataRenderer::resize_view()
 {
-    background.setSize(sf::Vector2f(widget.renderWindow.getSize().x, widget.renderWindow.getSize().y));
-    shader.setParameter("screensize", widget.renderWindow.getSize().x, widget.renderWindow.getSize().y);
+    update_padding();
     sf::Vector2f lower_right(widget.renderWindow.getSize().x, widget.renderWindow.getSize().y);
     sf::View view(lower_right * 0.5f, lower_right);
     widget.renderWindow.setView(view);
+}
+
+void DataRenderer::update_padding()
+{
+    float screen_width = widget.renderWindow.getSize().x;
+    float screen_height = widget.renderWindow.getSize().y;
+    background.setSize(sf::Vector2f(screen_width, screen_height));
+    shader.setParameter("screensize", sf::Vector2f(screen_width, screen_height));
+    float asp_screen = screen_width / screen_height;
+    float asp_data = meta_info->dx / meta_info->dy;
+    if(asp_data > asp_screen)
+    {
+        float newheight = meta_info->dy * (screen_width / meta_info->dx);
+        pad_v = (screen_height - newheight) / 2.f;
+        pad_h = 0.f;
+    }
+    else
+    {
+        float newwidth = meta_info->dx * (screen_height / meta_info->dy);
+        pad_h = (screen_width - newwidth) / 2.f;
+        pad_v = 0.f;
+    }
+    shader.setParameter("padding", sf::Vector2f(pad_h, pad_v));
+}
+
+
+sf::Vector2f DataRenderer::screen_to_data(sf::Vector2f coord)
+{
+    float screen_width = widget.renderWindow.getSize().x;
+    float screen_height = widget.renderWindow.getSize().y;
+    return sf::Vector2f((((coord.x - pad_h) / (screen_width - (pad_h * 2.0))) * meta_info->dx) + meta_info->originx,
+        (((coord.y - pad_v) / (screen_height - (pad_v * 2.0))) * meta_info->dy) + meta_info->originy);
+}
+
+sf::Vector2f DataRenderer::data_to_screen(sf::Vector2f coord)
+{
+    float screen_width = widget.renderWindow.getSize().x;
+    float screen_height = widget.renderWindow.getSize().y;
+    return sf::Vector2f((((coord.x - meta_info->originx) / meta_info->dx) * (screen_width - (pad_h * 2.0))) + pad_h,
+        (((coord.y - meta_info->originy) / meta_info->dy) * (screen_height - (pad_v * 2.0))) + pad_v);
 }
 
 bool DataRenderer::on_button_press_event(GdkEventButton *event)
 {
     if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1))
     {
-        m_signal_click.emit(((event->x / (float)widget.renderWindow.getSize().x) * meta_info->dx) + meta_info->originx,
-            ((event->y / (float)widget.renderWindow.getSize().y) * meta_info->dy) + meta_info->originy);
+        sf::Vector2f s2d = screen_to_data(sf::Vector2f(event->x, event->y));
+        m_signal_click.emit(s2d.x, s2d.y);
         return true;
     }
     if((event->type == GDK_BUTTON_PRESS) && (event->button == 1))

@@ -25,7 +25,7 @@ namespace renderer
             {
                 int nx = 1, ny = 1;
                 float min = 0.0, max = 1.0;
-                float dx = 1.f, dy = 1.f, originx = 0.f, originy = 0.f;
+                float dx = 2.f, dy = 1.f, originx = 0.f, originy = 0.f;
             };
 
             Meta meta_info;

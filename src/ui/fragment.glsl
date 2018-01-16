@@ -6,6 +6,7 @@ uniform sampler2D h_tex;
 uniform sampler2D hu_tex;
 uniform sampler2D hv_tex;
 uniform vec2 screensize;
+uniform vec2 padding;
 uniform vec4[NUM_LERP_POINTS] b_colors;
 uniform vec4[NUM_LERP_POINTS] h_colors;
 uniform vec4[NUM_LERP_POINTS] hu_colors;
@@ -45,22 +46,31 @@ void compute_color(in vec4 sval, in vec4[NUM_LERP_POINTS] colors, out vec3 pmaco
 
 void main()
 {
-    vec2 pos = vec2(gl_FragCoord.x / screensize.x, gl_FragCoord.y / screensize.y);
-    float factor; blend_factor(factor);
+    if(gl_FragCoord.x < padding.x || gl_FragCoord.x > (screensize.x - padding.x)
+        || gl_FragCoord.y < padding.y || gl_FragCoord.y > (screensize.y - padding.y))
+    {
+        gl_FragColor = vec4(0.5, 0.5, 0.5, 1.0);
+    }
+    else
+    {
+        vec2 pos = vec2((gl_FragCoord.x - padding.x) / (screensize.x - (padding.x * 2.0)), 
+            (gl_FragCoord.y - padding.y) / (screensize.y - (padding.y * 2.0)));
+        float factor; blend_factor(factor);
 
-    vec3 b, h, hu, hv, hx;
-    compute_color(texture2D(b_tex, pos), b_colors, b);
-    compute_color(texture2D(h_tex, pos), h_colors, h);
-    compute_color(texture2D(hu_tex, pos), hu_colors, hu);
-    compute_color(texture2D(hv_tex, pos), hv_colors, hv);
-    multi_lerp(length(abs(hu) + abs(hv)) / SQRT2, hx_colors, hx);
+        vec3 b, h, hu, hv, hx;
+        compute_color(texture2D(b_tex, pos), b_colors, b);
+        compute_color(texture2D(h_tex, pos), h_colors, h);
+        compute_color(texture2D(hu_tex, pos), hu_colors, hu);
+        compute_color(texture2D(hv_tex, pos), hv_colors, hv);
+        multi_lerp(length(abs(hu) + abs(hv)) / SQRT2, hx_colors, hx);
 
-    vec3 sum = vec3(0.0, 0.0, 0.0);
-    if(enable_layers[0]) sum += b * factor;
-    if(enable_layers[1]) sum += h * factor;
-    if(enable_layers[2]) sum += hu * factor;
-    if(enable_layers[3]) sum += hv * factor;
-    if(enable_layers[4]) sum += hx * factor;
+        vec3 sum = vec3(0.0, 0.0, 0.0);
+        if(enable_layers[0]) sum += b * factor;
+        if(enable_layers[1]) sum += h * factor;
+        if(enable_layers[2]) sum += hu * factor;
+        if(enable_layers[3]) sum += hv * factor;
+        if(enable_layers[4]) sum += hx * factor;
 
-    gl_FragColor = vec4(sum, 1.0);
+        gl_FragColor = vec4(sum, 1.0);
+    }
 }

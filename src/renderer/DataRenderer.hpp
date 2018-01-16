@@ -49,12 +49,16 @@ namespace renderer
       NetCdfImageStream netcdf_stream;
       sf::RectangleShape background;
       sf::Shader shader;
+      float pad_v = 0.f, pad_h = 0.f;
 
       sf::Texture crosshair_tex, crosshair_active_tex;
 
       void draw();
       // void animate();
       void resize_view();
+      void update_padding();
+      sf::Vector2f screen_to_data(sf::Vector2f coord);
+      sf::Vector2f data_to_screen(sf::Vector2f coord);
       int select_load(NetCdfImageStream::Variable variable, int index, sf::Texture& tex);
       bool on_button_press_event(GdkEventButton *event);
 
