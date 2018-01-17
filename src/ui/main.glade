@@ -31,45 +31,6 @@
       </object>
     </child>
   </object>
-  <object class="GtkAboutDialog" id="dialog_about">
-    <property name="can_focus">False</property>
-    <property name="title" translatable="yes">About SWEGUI</property>
-    <property name="modal">True</property>
-    <property name="window_position">center-on-parent</property>
-    <property name="icon_name">applications-graphics</property>
-    <property name="type_hint">normal</property>
-    <property name="program_name">SWEGUI</property>
-    <property name="version">0.0.1</property>
-    <property name="copyright" translatable="yes">(c) Bellamy, Honal, Wieser 2018</property>
-    <property name="website">https://gitlab.lrz.de/ChristophHonal/SWEGUI</property>
-    <property name="website_label" translatable="yes">TUM GitLab Repository</property>
-    <property name="authors">Christoph Honal
-Felix Wieser
-George Bellamy</property>
-    <property name="logo_icon_name">applications-graphics</property>
-    <property name="license_type">gpl-3-0</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="aboutdialog-vbox1">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="aboutdialog-action_area1">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkFileFilter" id="filefilter_open">
     <mime-types>
       <mime-type>application/x-netcdf</mime-type>
@@ -77,46 +38,6 @@ George Bellamy</property>
     <patterns>
       <pattern>*.nc</pattern>
     </patterns>
-  </object>
-  <object class="GtkFileChooserDialog" id="dialog_open">
-    <property name="width_request">800</property>
-    <property name="height_request">600</property>
-    <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Open NetCdf File</property>
-    <property name="window_position">center-on-parent</property>
-    <property name="icon_name">document-open</property>
-    <property name="type_hint">normal</property>
-    <property name="create_folders">False</property>
-    <property name="filter">filefilter_open</property>
-    <property name="preview_widget_active">False</property>
-    <property name="use_preview_label">False</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="filechooserdialog-vbox1">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="filechooserdialog-action_area1">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-    </child>
   </object>
   <object class="GtkListStore" id="liststore1">
     <columns>
@@ -144,7 +65,6 @@ George Bellamy</property>
     <property name="width_request">1000</property>
     <property name="height_request">800</property>
     <property name="can_focus">False</property>
-    <property name="margin_top">12</property>
     <property name="title" translatable="yes">SWEGUI</property>
     <property name="window_position">center</property>
     <property name="icon_name">applications-graphics</property>
@@ -359,7 +279,6 @@ George Bellamy</property>
           <object class="GtkToolbar" id="main_toolbar">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="margin_bottom">30</property>
             <property name="toolbar_style">icons</property>
             <child>
               <object class="GtkToolButton" id="tbtn_open">
@@ -429,9 +348,38 @@ George Bellamy</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="gtkmm__CustomObject_sfmlwidget" id="sfml_area">
+              <object class="GtkFrame" id="frame3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="label_xalign">0</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="top_padding">1</property>
+                    <property name="bottom_padding">1</property>
+                    <property name="left_padding">1</property>
+                    <property name="right_padding">1</property>
+                    <child>
+                      <object class="gtkmm__CustomObject_sfmlwidget" id="sfml_area">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="label" translatable="yes">Data Visualisation</property>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -445,15 +393,43 @@ George Bellamy</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkLabel" id="lbl_info">
+                  <object class="GtkFrame" id="frame1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">IMPORTANT
+                    <property name="margin_right">5</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkAlignment" id="alignment1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="top_padding">1</property>
+                        <property name="bottom_padding">1</property>
+                        <property name="left_padding">1</property>
+                        <property name="right_padding">1</property>
+                        <child>
+                          <object class="GtkLabel" id="lbl_info">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">IMPORTANT
 DATA
 TO
 Display</property>
-                    <property name="ellipsize">end</property>
-                    <property name="single_line_mode">True</property>
+                            <property name="ellipsize">end</property>
+                            <property name="single_line_mode">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child type="label">
+                      <object class="GtkLabel" id="label1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
+                        <property name="label" translatable="yes">Selected Probe Data</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -462,52 +438,82 @@ Display</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTreeView" id="treeview_probes">
+                  <object class="GtkFrame" id="frame2">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="model">liststore1</property>
-                    <property name="show_expanders">False</property>
-                    <child internal-child="selection">
-                      <object class="GtkTreeSelection" id="treeview-selection1"/>
-                    </child>
+                    <property name="can_focus">False</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow_type">in</property>
                     <child>
-                      <object class="GtkTreeViewColumn" id="treeviewcolumn_name">
-                        <property name="title" translatable="yes">Name</property>
+                      <object class="GtkAlignment" id="alignment2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="top_padding">1</property>
+                        <property name="bottom_padding">1</property>
+                        <property name="left_padding">1</property>
+                        <property name="right_padding">1</property>
                         <child>
-                          <object class="GtkCellRendererText" id="cellrenderertext1"/>
-                          <attributes>
-                            <attribute name="text">0</attribute>
-                          </attributes>
+                          <object class="GtkTreeView" id="treeview_probes">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="model">liststore1</property>
+                            <property name="show_expanders">False</property>
+                            <property name="enable_grid_lines">horizontal</property>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection" id="treeview-selection1"/>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="treeviewcolumn_name">
+                                <property name="title" translatable="yes">Name</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                                  <attributes>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="treeviewcolumn_x">
+                                <property name="title" translatable="yes">X</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext2"/>
+                                  <attributes>
+                                    <attribute name="text">1</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="treeviewcolumn_y">
+                                <property name="title" translatable="yes">Y</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext3"/>
+                                  <attributes>
+                                    <attribute name="text">2</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
                         </child>
                       </object>
                     </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="treeviewcolumn_x">
-                        <property name="title" translatable="yes">X</property>
-                        <child>
-                          <object class="GtkCellRendererText" id="cellrenderertext2"/>
-                          <attributes>
-                            <attribute name="text">1</attribute>
-                          </attributes>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="treeviewcolumn_y">
-                        <property name="title" translatable="yes">Y</property>
-                        <child>
-                          <object class="GtkCellRendererText" id="cellrenderertext3"/>
-                          <attributes>
-                            <attribute name="text">2</attribute>
-                          </attributes>
-                        </child>
+                    <child type="label">
+                      <object class="GtkLabel" id="label2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
+                        <property name="label" translatable="yes">Probe List</property>
                       </object>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
@@ -526,5 +532,118 @@ Display</property>
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkAboutDialog" id="dialog_about">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">About SWEGUI</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="icon_name">applications-graphics</property>
+    <property name="type_hint">normal</property>
+    <property name="transient_for">window_main</property>
+    <property name="program_name">SWEGUI</property>
+    <property name="version">0.0.1</property>
+    <property name="copyright" translatable="yes">(c) Bellamy, Honal, Wieser 2018</property>
+    <property name="website">https://gitlab.lrz.de/ChristophHonal/SWEGUI</property>
+    <property name="website_label" translatable="yes">TUM GitLab Repository</property>
+    <property name="authors">Christoph Honal
+Felix Wieser
+George Bellamy</property>
+    <property name="logo_icon_name">applications-graphics</property>
+    <property name="license_type">gpl-3-0</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="aboutdialog-vbox1">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="aboutdialog-action_area1">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkFileChooserDialog" id="dialog_open">
+    <property name="width_request">800</property>
+    <property name="height_request">600</property>
+    <property name="can_focus">False</property>
+    <property name="can_default">True</property>
+    <property name="title" translatable="yes">Open NetCdf File</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="icon_name">document-open</property>
+    <property name="type_hint">normal</property>
+    <property name="transient_for">window_main</property>
+    <property name="create_folders">False</property>
+    <property name="filter">filefilter_open</property>
+    <property name="preview_widget_active">False</property>
+    <property name="use_preview_label">False</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="filechooserdialog-vbox1">
+        <property name="can_focus">False</property>
+        <property name="can_default">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="filechooserdialog-action_area1">
+            <property name="can_focus">False</property>
+            <property name="can_default">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button_dialog_open_cancel">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_dialog_open_okay">
+                <property name="label">gtk-open</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <property name="xalign">0.56999999284744263</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">button_dialog_open_cancel</action-widget>
+      <action-widget response="-5">button_dialog_open_okay</action-widget>
+    </action-widgets>
   </object>
 </interface>
