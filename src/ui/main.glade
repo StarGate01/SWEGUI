@@ -39,7 +39,7 @@
       <pattern>*.nc</pattern>
     </patterns>
   </object>
-  <object class="GtkListStore" id="liststore1">
+  <object class="GtkListStore" id="liststore_probes">
     <columns>
       <!-- column-name Name -->
       <column type="gchararray"/>
@@ -457,7 +457,7 @@ Display</property>
                           <object class="GtkTreeView" id="treeview_probes">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="model">liststore1</property>
+                            <property name="model">liststore_probes</property>
                             <property name="show_expanders">False</property>
                             <property name="enable_grid_lines">horizontal</property>
                             <child internal-child="selection">

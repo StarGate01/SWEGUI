@@ -43,6 +43,12 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         Gtk::Label* lbl_raw_data = nullptr;
         //Probelist
         Gtk::TreeView* probelist = nullptr;
+        Gtk::ListStore* probemodel = nullptr;
+        
+        Gtk::TreeModelColumn<Glib::ustring> probes_col_name;
+        Gtk::TreeModelColumn<int> probes_col_x;
+        Gtk::TreeModelColumn<int> probes_col_y;
+
         Gtk::Menu* contextmenu_probelist = nullptr;
         // Gtk::TreeModelColumn<gchararray>* probelist_name_col = nullptr;
         // Gtk::TreeModelColumn<gfloat>* probelist_x_col = nullptr, *probelist_y_col = nullptr;
@@ -70,6 +76,7 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         void on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
         void on_action_probelist_button_press(GdkEventButton *event);
         void on_action_probelist_changed();
+        void on_action_probelist_context_delete();
         void on_sfml_click(float x, float y);
         void on_sfml_select();
         void on_layer_switch_changed();
@@ -82,6 +89,10 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         ToolDataprobe* getDataprobe(float x, float y);
         void removeDataprobe(ToolDataprobe probe);      //TODO: Implement
         void removeDataprobe(std::string name);         //TODO: Implement
+
+        //Probe list
+        void probelist_model_init();
+        void probelist_model_update();
 };
 
 #endif
