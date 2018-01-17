@@ -53,13 +53,13 @@ int DataRenderer::open(std::string filename)
 
 int DataRenderer::select_timestamp(int timestamp)
 {
-    int res = select_load(NetCdfImageStream::Variable::B, 0, layers[0]->texture);
+    int res = select_load(NetCdfImageStream::Variable::B, 0, b.texture);
     if(res != ERROR_SUCCESS) return res;
-    res = select_load(NetCdfImageStream::Variable::H, timestamp, layers[1]->texture);
+    res = select_load(NetCdfImageStream::Variable::H, timestamp, h.texture);
     if(res != ERROR_SUCCESS) return res;
-    res = select_load(NetCdfImageStream::Variable::Hu, timestamp, layers[2]->texture);
+    res = select_load(NetCdfImageStream::Variable::Hu, timestamp, hu.texture);
     if(res != ERROR_SUCCESS) return res;
-    res = select_load(NetCdfImageStream::Variable::Hv, timestamp, layers[3]->texture);
+    res = select_load(NetCdfImageStream::Variable::Hv, timestamp, hv.texture);
     if(res != ERROR_SUCCESS) return res;
     return ERROR_SUCCESS;
 }

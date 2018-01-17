@@ -26,7 +26,8 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
 
     private:
         //GUI Elements
-        Gtk::Window* pWindow = nullptr;
+        Gtk::Window* window_main = nullptr;
+        Gtk::Window* window_layers = nullptr;
         //Menubar
         Gtk::MenuBar* menubar_main = nullptr;
         Gtk::MenuItem* menuitementry_file_open = nullptr;
@@ -52,6 +53,9 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         //Dialogs
         Gtk::FileChooserDialog* dialog_open = nullptr;
         Gtk::AboutDialog* dialog_about = nullptr;
+        //Layer switches
+        Gtk::Switch* switch_b = nullptr, *switch_h = nullptr, 
+            *switch_hu = nullptr, *switch_hv = nullptr, *switch_hx = nullptr;
 
         //Handlers
         void setup_gui_elements();
@@ -68,6 +72,7 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         void on_action_probelist_changed();
         void on_sfml_click(float x, float y);
         void on_sfml_select();
+        void on_layer_switch_changed();
 
     protected:
         Glib::RefPtr<Gtk::Builder> m_refBuilder;

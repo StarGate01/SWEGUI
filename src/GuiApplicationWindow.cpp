@@ -25,7 +25,8 @@ void GuiApplicationWindow::register_custom_gui_elements()
 void GuiApplicationWindow::setup_gui_elements()
 {
     //Get window
-    m_refBuilder->get_widget("window_main", pWindow);
+    m_refBuilder->get_widget("window_main", window_main);
+    m_refBuilder->get_widget("window_layers", window_layers);
     //Get menu bar
     m_refBuilder->get_widget("main_menubar", menubar_main);
     m_refBuilder->get_widget("file_open", menuitementry_file_open);
@@ -52,6 +53,12 @@ void GuiApplicationWindow::setup_gui_elements()
     //Dialogs
     m_refBuilder->get_widget("dialog_open", dialog_open);
     m_refBuilder->get_widget("dialog_about", dialog_about);
+    //Layer switches
+    m_refBuilder->get_widget("switch_b", switch_b);
+    m_refBuilder->get_widget("switch_h", switch_h);
+    m_refBuilder->get_widget("switch_hu", switch_hu);
+    m_refBuilder->get_widget("switch_hv", switch_hv);
+    m_refBuilder->get_widget("switch_hx", switch_hx);
 
     //--- Event handler ---
     //Event handlers for toolbar
@@ -71,6 +78,12 @@ void GuiApplicationWindow::setup_gui_elements()
     //Event handlers for sfml widget
     data_renderer->signal_click().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_sfml_click));
     data_renderer->signal_select().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_sfml_select));
+    //Layer switches
+    switch_b->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
+    switch_h->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
+    switch_hu->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
+    switch_hv->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
+    switch_hx->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
     //Initialize gui elements
     initialize_gui_elements();
 }
@@ -92,7 +105,8 @@ void GuiApplicationWindow::on_action_fileopen()
         case Gtk::RESPONSE_OK:
         {
             std::string filename = dialog_open->get_filename();
-            data_renderer->open(filename);
+            int res = data_renderer->open(filename);
+            cout << "Open result: " << res << endl;
             break;
         }
         default: break;
@@ -112,7 +126,7 @@ void GuiApplicationWindow::on_action_quit()
 
 void GuiApplicationWindow::on_action_test1()
 {
-    std::cout << "Action: test1 clicked" << std::endl;
+    window_layers->show();
 }
 
 void GuiApplicationWindow::on_action_test2()
@@ -193,4 +207,14 @@ void GuiApplicationWindow::on_sfml_select()
 {
     std::cout << "sfml select: " << data_renderer->active_probe->getName() << std::endl;
     data_renderer->invalidate();
+}
+
+void GuiApplicationWindow::on_layer_switch_changed()
+{
+    data_renderer->b.enable = switch_b->get_active();
+    data_renderer->h.enable = switch_h->get_active();
+    data_renderer->hu.enable = switch_hu->get_active();
+    data_renderer->hv.enable = switch_hv->get_active();
+    data_renderer->hx.enable = switch_hx->get_active();
+    data_renderer->update_shader();
 }
