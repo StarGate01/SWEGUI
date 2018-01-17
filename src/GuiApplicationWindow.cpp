@@ -17,12 +17,6 @@ GuiApplicationWindow* GuiApplicationWindow::create()
     return window;
 }
 
-void GuiApplicationWindow::open_file_view(const Glib::RefPtr<Gio::File>& file)
-{
-    
-}
-
-
 void GuiApplicationWindow::register_custom_gui_elements()
 {
     sfml::SFMLWidget::register_type();
@@ -32,23 +26,19 @@ void GuiApplicationWindow::setup_gui_elements()
 {
     //Get window
     m_refBuilder->get_widget("window_main", pWindow);
-
     //Get menu bar
     m_refBuilder->get_widget("main_menubar", menubar_main);
-    m_refBuilder->get_widget("imagemenuitem1", menuitementry_file_open);
+    m_refBuilder->get_widget("file_open", menuitementry_file_open);
     m_refBuilder->get_widget("tools_crosssection", menuitementry_tools_crosssection);
-
-
+    m_refBuilder->get_widget("help_about", menuitementry_help_about);
     //Get toolbar
     m_refBuilder->get_widget("main_toolbar", toolbar_main);
-    m_refBuilder->get_widget("tbtn_new", tb_openfile);
+    m_refBuilder->get_widget("tbtn_open", tb_openfile);
     m_refBuilder->get_widget("bbtn_quit", tb_quit);
     m_refBuilder->get_widget("tbtn_test1", tb_test1);
     m_refBuilder->get_widget("tbtn_test2", tb_test2);
-
     //Get raw data label
     m_refBuilder->get_widget("lbl_info", lbl_raw_data);
-
     //probe list
     m_refBuilder->get_widget("treeview_probes", probelist);
     m_refBuilder->get_widget("context_menu_probelist", contextmenu_probelist);
@@ -56,10 +46,12 @@ void GuiApplicationWindow::setup_gui_elements()
     // m_refBuilder->get_widget("treeviewcolumn_x", probelist_x_col);
     // m_refBuilder->get_widget("treeviewcolumn_y", probelist_y_col);
     // m_refBuilder->get_widget("liststore1", probelist_liststore);
-
     //Get SFML control, init renderer
     m_refBuilder->get_widget("sfml_area", sfml_area);
     data_renderer = new renderer::DataRenderer(*sfml_area);
+    //Dialogs
+    m_refBuilder->get_widget("dialog_open", dialog_open);
+    m_refBuilder->get_widget("dialog_about", dialog_about);
 
     //--- Event handler ---
     //Event handlers for toolbar
@@ -69,7 +61,8 @@ void GuiApplicationWindow::setup_gui_elements()
     tb_test2->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_test2));
     //Event handlers for menubar
     menuitementry_file_open->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_fileopen));
-    menuitementry_tools_crosssection->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_crosssection)); 
+    menuitementry_tools_crosssection->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_crosssection));
+    menuitementry_help_about->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_about));
     //Event handlers for context menu
     probelist->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
     probelist->signal_row_activated().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_activate));
@@ -93,18 +86,33 @@ void GuiApplicationWindow::initialize_gui_elements()
 //Event handler
 void GuiApplicationWindow::on_action_fileopen()
 {
-    std::cout << "Action: file open clicked" << std::endl; 
+    int result = dialog_open->run();
+    switch(result)
+    {
+        case Gtk::RESPONSE_OK:
+        {
+            std::string filename = dialog_open->get_filename();
+            data_renderer->open(filename);
+            break;
+        }
+        default: break;
+    }
+    dialog_open->hide();
+}
+
+void GuiApplicationWindow::open_file_view(const Glib::RefPtr<Gio::File>& file)
+{
+    //data_renderer->open(file->get_path());
 }
 
 void GuiApplicationWindow::on_action_quit()
 {
-    std::cout << "Action: quit clicked" << std::endl;
+    Gtk::Main::quit();
 }
 
 void GuiApplicationWindow::on_action_test1()
 {
     std::cout << "Action: test1 clicked" << std::endl;
-    data_renderer->open("/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWE/build/data/swe_prod_00.nc");
 }
 
 void GuiApplicationWindow::on_action_test2()
@@ -115,6 +123,12 @@ void GuiApplicationWindow::on_action_test2()
 void GuiApplicationWindow::on_action_crosssection()
 {
     std::cout << "Action: crosssection clicked" << std::endl;
+}
+
+void GuiApplicationWindow::on_action_about()
+{
+    dialog_about->run();
+    dialog_about->hide();
 }
 
 void GuiApplicationWindow::addDataprobe(ToolDataprobe probe)

@@ -60,11 +60,8 @@ void GuiApplication::on_open(const Gio::Application::type_vec_files& files, cons
     {
         if(!appwindow)
         appwindow = create_appwindow();
-    
         //For each file, open a window
-        for(const auto& file : files)
-            appwindow->open_file_view(file);
-
+        for(const auto& file : files) appwindow->open_file_view(file);
         appwindow->present();
     }
     catch(const Glib::Error& ex)

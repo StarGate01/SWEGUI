@@ -31,6 +31,93 @@
       </object>
     </child>
   </object>
+  <object class="GtkAboutDialog" id="dialog_about">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">About SWEGUI</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="icon_name">applications-graphics</property>
+    <property name="type_hint">normal</property>
+    <property name="program_name">SWEGUI</property>
+    <property name="version">0.0.1</property>
+    <property name="copyright" translatable="yes">(c) Bellamy, Honal, Wieser 2018</property>
+    <property name="website">https://gitlab.lrz.de/ChristophHonal/SWEGUI</property>
+    <property name="website_label" translatable="yes">TUM GitLab Repository</property>
+    <property name="authors">Christoph Honal
+Felix Wieser
+George Bellamy</property>
+    <property name="logo_icon_name">applications-graphics</property>
+    <property name="license_type">gpl-3-0</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="aboutdialog-vbox1">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="aboutdialog-action_area1">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkFileFilter" id="filefilter_open">
+    <mime-types>
+      <mime-type>application/x-netcdf</mime-type>
+    </mime-types>
+    <patterns>
+      <pattern>*.nc</pattern>
+    </patterns>
+  </object>
+  <object class="GtkFileChooserDialog" id="dialog_open">
+    <property name="width_request">800</property>
+    <property name="height_request">600</property>
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Open NetCdf File</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="icon_name">document-open</property>
+    <property name="type_hint">normal</property>
+    <property name="create_folders">False</property>
+    <property name="filter">filefilter_open</property>
+    <property name="preview_widget_active">False</property>
+    <property name="use_preview_label">False</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="filechooserdialog-vbox1">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="filechooserdialog-action_area1">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkListStore" id="liststore1">
     <columns>
       <!-- column-name Name -->
@@ -54,12 +141,12 @@
     </data>
   </object>
   <object class="GtkApplicationWindow" id="window_main">
+    <property name="width_request">1000</property>
+    <property name="height_request">800</property>
     <property name="can_focus">False</property>
     <property name="margin_top">12</property>
-    <property name="title" translatable="yes">SuperCrazyVisualDataAnalyser 2000</property>
+    <property name="title" translatable="yes">SWEGUI</property>
     <property name="window_position">center</property>
-    <property name="default_width">1000</property>
-    <property name="default_height">800</property>
     <property name="icon_name">applications-graphics</property>
     <property name="urgency_hint">True</property>
     <child>
@@ -82,7 +169,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem1">
+                      <object class="GtkImageMenuItem" id="file_new">
                         <property name="label">gtk-new</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -91,7 +178,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem2">
+                      <object class="GtkImageMenuItem" id="file_open">
                         <property name="label">gtk-open</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -100,7 +187,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem3">
+                      <object class="GtkImageMenuItem" id="file_save">
                         <property name="label">gtk-save</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -109,7 +196,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem4">
+                      <object class="GtkImageMenuItem" id="file_save_as">
                         <property name="label">gtk-save-as</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -124,7 +211,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem5">
+                      <object class="GtkImageMenuItem" id="file_quit">
                         <property name="label">gtk-quit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -147,7 +234,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem6">
+                      <object class="GtkImageMenuItem" id="edit_cut">
                         <property name="label">gtk-cut</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -156,7 +243,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem7">
+                      <object class="GtkImageMenuItem" id="edit_copy">
                         <property name="label">gtk-copy</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -165,7 +252,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem8">
+                      <object class="GtkImageMenuItem" id="edit_paste">
                         <property name="label">gtk-paste</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -174,7 +261,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem9">
+                      <object class="GtkImageMenuItem" id="edit_delete">
                         <property name="label">gtk-delete</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -249,7 +336,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem10">
+                      <object class="GtkImageMenuItem" id="help_about">
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -275,13 +362,13 @@
             <property name="margin_bottom">30</property>
             <property name="toolbar_style">icons</property>
             <child>
-              <object class="GtkToolButton" id="tbtn_new">
+              <object class="GtkToolButton" id="tbtn_open">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="label" translatable="yes">New</property>
+                <property name="label" translatable="yes">Open</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-open</property>
-                <signal name="clicked" handler="app.new" swapped="no"/>
+                <signal name="clicked" handler="app.open" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -309,7 +396,7 @@
                 <property name="label" translatable="yes">Test 1</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-home</property>
-                <signal name="clicked" handler="app.tes1" swapped="no"/>
+                <signal name="clicked" handler="app.test1" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>

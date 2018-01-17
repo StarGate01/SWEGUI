@@ -21,7 +21,6 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         GuiApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
 
         static GuiApplicationWindow* create();
-
         void open_file_view(const Glib::RefPtr<Gio::File>& file);
         static void register_custom_gui_elements();
 
@@ -32,7 +31,7 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         Gtk::MenuBar* menubar_main = nullptr;
         Gtk::MenuItem* menuitementry_file_open = nullptr;
         Gtk::MenuItem* menuitementry_tools_crosssection = nullptr;
-        
+        Gtk::MenuItem* menuitementry_help_about = nullptr;
         //Toolbar
         Gtk::Toolbar* toolbar_main = nullptr;
         Gtk::ToolButton* tb_openfile = nullptr;
@@ -50,6 +49,9 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         //SFML control
         sfml::SFMLWidget* sfml_area = nullptr;
         renderer::DataRenderer* data_renderer = nullptr;
+        //Dialogs
+        Gtk::FileChooserDialog* dialog_open = nullptr;
+        Gtk::AboutDialog* dialog_about = nullptr;
 
         //Handlers
         void setup_gui_elements();
@@ -60,6 +62,7 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         void on_action_test1();
         void on_action_test2();
         void on_action_crosssection();
+        void on_action_about();
         void on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
         void on_action_probelist_button_press(GdkEventButton *event);
         void on_action_probelist_changed();
