@@ -196,7 +196,26 @@ void GuiApplicationWindow::on_action_probelist_button_press(GdkEventButton *even
 
 void GuiApplicationWindow::on_action_probelist_changed()
 {
-    // data_renderer->active_probe = getDataprobe("probe_0");
+    Glib::RefPtr<Gtk::TreeSelection> selection = probelist->get_selection();
+    Gtk::TreeModel::iterator iter = selection->get_selected();
+    if(iter)
+    {
+        Gtk::TreeModel::Row row = *iter;
+        int i = 0;
+        for(ToolDataprobe probe : data_renderer->probes)
+        {
+            std::string name(row.get_value(probes_col_name).data());
+            if(name.compare(probe.getName()) == 0)
+            {
+                std::cout << "Selected probe is nr " << i << std::endl;
+                data_renderer->active_probe = getDataprobe(name);
+                data_renderer->invalidate();
+                break;
+            }
+            i++;
+        }
+    }
+    //data_renderer->active_probe = getDataprobe("probe_0");
     // data_renderer->invalidate();
 }
 
