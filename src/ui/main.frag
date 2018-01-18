@@ -1,7 +1,7 @@
 /**
  * @file main.glsl
  * @brief The main shader for topographical rendering
- * @namespace GLSL
+ * @namespace shader
  * @class MainShader
  */
 
