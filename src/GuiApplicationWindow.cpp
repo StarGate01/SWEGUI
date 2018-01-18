@@ -1,5 +1,7 @@
 #include "GuiApplicationWindow.hpp"
 
+using namespace swegui;
+
 probe::ProbeColumns GuiApplicationWindow::probelist_columns;
 
 GuiApplicationWindow::GuiApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
@@ -97,7 +99,7 @@ void GuiApplicationWindow::setup_gui_elements()
     switch_hu->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
     switch_hv->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
     switch_hx->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
-    
+
     //Initialize gui elements
     initialize_gui_elements();
 }

@@ -4,33 +4,33 @@
 #include <iostream>
 #include <gtkmm.h>
 #include "GuiApplicationWindow.hpp"
-#include "Const.hpp"
+#include "GuiEnums.hpp"
 
-//Implemented according to: https://developer.gnome.org/gtkmm-tutorial/stable/sec-buildapp-trivial-app.html.en
-
-
-
-class GuiApplication : public Gtk::Application
+namespace swegui
 {
-    protected:
 
-        GuiApplication();
+    class GuiApplication : public Gtk::Application
+    {
 
-    public:
+        public:
 
-        static Glib::RefPtr<GuiApplication> create(); 
+            static Glib::RefPtr<GuiApplication> create(); 
 
-    protected:
+          
+        protected:
 
-        //Override default signal handlers
-        void on_activate() override;
-        void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
+            GuiApplication();
+            void on_activate() override;
+            void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
 
-    private:
+        private:
 
-        GuiApplicationWindow* create_appwindow();
-        void on_hide_window(Gtk::Window* window);
-        void on_window_action(Signal signal);
-};
+            GuiApplicationWindow* create_appwindow();
+            void on_hide_window(Gtk::Window* window);
+            void on_window_action(Signal signal);
+
+    };
+
+}
 
 #endif
