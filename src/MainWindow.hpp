@@ -77,15 +77,16 @@ namespace swegui
             void on_action_probelist_button_press(GdkEventButton *event);
             void on_action_probelist_changed();
             void on_action_probelist_context_edit();
-            void on_action_probelist_context_remove();
+            void on_probe_remove();
             void on_action_button_probe_add();
-            void on_sfml_update(bool added);
-            void on_sfml_select();
+            void on_probe_update(bool added);
+            void on_probe_select();
 
         protected:
 
             Glib::RefPtr<Gtk::Builder> m_refBuilder;
             Gtk::TreeStore::iterator search_probelist(std::string name);
+            void prepare_add_edit(bool clear);
             void handle_add_edit();
 
     };

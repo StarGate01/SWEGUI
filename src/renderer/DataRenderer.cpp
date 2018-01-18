@@ -158,22 +158,12 @@ bool DataRenderer::on_button_press_event(GdkEventButton *event)
     if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1))
     {
         sf::Vector2f s2d = screen_to_data(sf::Vector2f(event->x, event->y));
-        bool added = false;
         string name = unique_name();
-        if (probes.find(name) == probes.end())
-        {
-            probe::DataProbe probe(s2d.x, s2d.y);
-            probes[name] = probe;
-            added = true;
-        }
-        else
-        {
-            probes[name].x = s2d.x;
-            probes[name].y = s2d.y;
-        }
+        probe::DataProbe probe(s2d.x, s2d.y);
+        probes[name] = probe;
         active_probe_name = name;
         invalidate();
-        m_signal_update.emit(added);
+        m_signal_update.emit(true);
         m_signal_select.emit();
         return true;
     }

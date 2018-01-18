@@ -79,10 +79,10 @@ void MainWindow::setup_gui_elements()
     button_probe_add->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_button_probe_add));
     //And its context menu
     menuitem_probelist_edit->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_context_edit));
-    menuitem_probelist_remove->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_context_remove));
+    menuitem_probelist_remove->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_probe_remove));
     //Event handlers for sfml widget
-    data_renderer->signal_update().connect(sigc::mem_fun(this, &MainWindow::on_sfml_update));
-    data_renderer->signal_select().connect(sigc::mem_fun(this, &MainWindow::on_sfml_select));
+    data_renderer->signal_update().connect(sigc::mem_fun(this, &MainWindow::on_probe_update));
+    data_renderer->signal_select().connect(sigc::mem_fun(this, &MainWindow::on_probe_select));
 
     //Initialize gui elements
     initialize_gui_elements();
@@ -165,11 +165,12 @@ void MainWindow::on_action_probelist_changed()
 
 void MainWindow::on_action_probelist_context_edit()
 {
+    prepare_add_edit(false);
     if(dialog_probe_edit->run() == Gtk::RESPONSE_OK) handle_add_edit();
     dialog_probe_edit->hide();
 }
 
-void MainWindow::on_action_probelist_context_remove()
+void MainWindow::on_probe_remove()
 {
     Gtk::TreeModel::iterator iter = probelist->get_selection()->get_selected();
     if(iter)
@@ -183,13 +184,61 @@ void MainWindow::on_action_probelist_context_remove()
 
 void MainWindow::on_action_button_probe_add()
 {
+    prepare_add_edit(true);
     if(dialog_probe_edit->run() == Gtk::RESPONSE_OK) handle_add_edit();
     dialog_probe_edit->hide();
 }
 
+void MainWindow::prepare_add_edit(bool clear)
+{
+    // dialog_probe_edit->set_min_max(data_renderer->meta_info->originx, 
+    //     data_renderer->meta_info->originx + data_renderer->meta_info->ax(), 
+    //     data_renderer->meta_info->originy, 
+    //     data_renderer->meta_info->originy + data_renderer->meta_info->ay());
+    if(!clear)
+    {
+        Gtk::TreeModel::iterator iter = probelist->get_selection()->get_selected();
+        if(iter)
+        {
+            Gtk::TreeModel::Row row = *iter;
+            string name = row[probelist_columns.col_name];
+            probe::DataProbe& probe = data_renderer->probes[name];
+            dialog_probe_edit->set_name(name);
+            dialog_probe_edit->set_x(probe.x);
+            dialog_probe_edit->set_y(probe.y);
+            dialog_probe_edit->existing = true;
+            dialog_probe_edit->set_title("Edit probe");
+            return;
+        }
+    }
+    dialog_probe_edit->set_name("");
+    dialog_probe_edit->set_x(0.f);
+    dialog_probe_edit->set_y(0.f);
+    dialog_probe_edit->existing = false;
+    dialog_probe_edit->set_title("Add probe");
+}
+
 void MainWindow::handle_add_edit()
 {
-    cout << "Add or modify probe" << endl;
+    bool added = false;
+    string name = dialog_probe_edit->get_name();
+    if(name == "") return;
+    if (data_renderer->probes.find(name) == data_renderer->probes.end())
+    {
+        if(dialog_probe_edit->existing) on_probe_remove();
+        probe::DataProbe probe(dialog_probe_edit->get_x(), dialog_probe_edit->get_y());
+        data_renderer->probes[name] = probe;
+        added = true;
+    }
+    else
+    {
+        data_renderer->probes[name].x = dialog_probe_edit->get_x();
+        data_renderer->probes[name].y = dialog_probe_edit->get_y();
+    }
+    data_renderer->active_probe_name = name;
+    data_renderer->invalidate();
+    on_probe_update(added);
+    on_probe_select();
 }
 
 Gtk::TreeStore::iterator MainWindow::search_probelist(std::string name)
@@ -205,7 +254,7 @@ Gtk::TreeStore::iterator MainWindow::search_probelist(std::string name)
     return iter;
 }
 
-void MainWindow::on_sfml_update(bool added)
+void MainWindow::on_probe_update(bool added)
 {
     probe::DataProbe& probe = data_renderer->probes[data_renderer->active_probe_name];
     if(added)
@@ -225,7 +274,7 @@ void MainWindow::on_sfml_update(bool added)
     }
 }
 
-void MainWindow::on_sfml_select()
+void MainWindow::on_probe_select()
 {
     Gtk::TreeStore::iterator iter = search_probelist(data_renderer->active_probe_name);
     if(iter)
