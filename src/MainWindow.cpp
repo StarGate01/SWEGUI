@@ -145,7 +145,8 @@ void MainWindow::on_action_probelist_activate(const Gtk::TreeModel::Path& path, 
 
 void MainWindow::on_action_probelist_button_press(GdkEventButton *event)
 {
-    if((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
+    if((event->type == GDK_BUTTON_PRESS) && (event->button == 3)
+        && probelist->get_selection()->count_selected_rows() > 0)
     {
         contextmenu_probelist->popup(event->button, event->time);
     }
