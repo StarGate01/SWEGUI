@@ -63,7 +63,7 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">SWEGUI</property>
     <property name="window_position">center</property>
-    <property name="icon_name">applications-graphics</property>
+    <property name="icon">icon_32.png</property>
     <property name="urgency_hint">True</property>
     <child>
       <object class="GtkBox" id="main_box">
@@ -574,7 +574,7 @@ Display</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
-    <property name="icon_name">applications-graphics</property>
+    <property name="icon_name">help-about</property>
     <property name="type_hint">normal</property>
     <property name="transient_for">window_main</property>
     <property name="program_name">SWEGUI</property>
@@ -585,7 +585,7 @@ Display</property>
     <property name="authors">Christoph Honal
 Felix Wieser
 George Bellamy</property>
-    <property name="logo_icon_name">applications-graphics</property>
+    <property name="logo">icon_fancy.png</property>
     <property name="license_type">gpl-3-0</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="aboutdialog-vbox1">
@@ -686,7 +686,7 @@ George Bellamy</property>
     <property name="title" translatable="yes">Edit Probe</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
-    <property name="icon_name">applications-graphics</property>
+    <property name="icon_name">applications-system</property>
     <property name="type_hint">dialog</property>
     <property name="transient_for">window_main</property>
     <child internal-child="vbox">
@@ -851,6 +851,7 @@ George Bellamy</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Select layers</property>
     <property name="resizable">False</property>
+    <property name="window_position">center-on-parent</property>
     <property name="icon_name">applications-system</property>
     <property name="transient_for">window_main</property>
     <child>
