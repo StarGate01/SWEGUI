@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=SWE Data Analyzer
+GenericName=Graphical SWE Data Analyzer
+Comment=Graphical analyzer for the SWE tsunami simulation
+StartupNotify=true
+Exec=@bindir@/guiapplication %U
+Categories=Programming;Utility
+Terminal=false

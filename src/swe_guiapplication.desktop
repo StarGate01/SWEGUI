@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=SWE Data Analyzer
-GenericName=Gui Application
-Comment=Analyzer for the SWE tsunami simulation
-StartupNotify=true
-Exec=@bindir@/guiapplication %U
-Categories=Programming;Utility
