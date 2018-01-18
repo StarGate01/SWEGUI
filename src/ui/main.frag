@@ -1,19 +1,31 @@
-#define NUM_LERP_POINTS 8
+/**
+ * @file main.glsl
+ * @brief The main shader for topographical rendering
+ * @namespace GLSL
+ * @class MainShader
+ */
+
+#define NUM_LERP_POINTS 8  ///< How many points there are in a color map
 #define SQRT2           1.41421356237
 
-uniform sampler2D b_tex;
-uniform sampler2D h_tex;
-uniform sampler2D hu_tex;
-uniform sampler2D hv_tex;
-uniform vec2 screensize;
-uniform vec2 padding;
-uniform vec4[NUM_LERP_POINTS] b_colors;
-uniform vec4[NUM_LERP_POINTS] h_colors;
-uniform vec4[NUM_LERP_POINTS] hu_colors;
-uniform vec4[NUM_LERP_POINTS] hv_colors;
-uniform vec4[NUM_LERP_POINTS] hx_colors;
-uniform bool[5] enable_layers;
+uniform sampler2D b_tex; ///< The bathymetry texture
+uniform sampler2D h_tex; ///< The water height texture
+uniform sampler2D hu_tex; ///< The horizontal flux texture
+uniform sampler2D hv_tex; ///< The vertical flux texture
+uniform vec2 screensize; ///< The screen size in pixels
+uniform vec2 padding; ///< Padding for aspect ratio
+uniform vec4[NUM_LERP_POINTS] b_colors; ///< The color map for the bathymetry
+uniform vec4[NUM_LERP_POINTS] h_colors; ///< The color map for the water height
+uniform vec4[NUM_LERP_POINTS] hu_colors; ///< The color map for the horizontal flux
+uniform vec4[NUM_LERP_POINTS] hv_colors; ///< The color map for the vertical flux
+uniform vec4[NUM_LERP_POINTS] hx_colors; ///< The color map for the total flux
+uniform bool[5] enable_layers; ///< What layers to enable
 
+/**
+ * @brief Computes the blending factor needed based on the number of active layers
+ *
+ * @param[out] factor The computed blending factor
+ */
 void blend_factor(out float factor)
 {
     float num = 0.0;
@@ -21,11 +33,26 @@ void blend_factor(out float factor)
     factor = 1.0 / num;
 }
 
+/**
+ * @brief Recombines a color to a relative value
+ * 
+ * This undoes the transport data compression.
+ *
+ * @param[in] col The color
+ * @param[out] val The computed relative value
+ */
 void recombine(in vec4 col, out float val)
 {
     val = col.b + (col.g / 100.0) + (col.r / 10000.0);
 }
 
+/**
+ * @brief Lerps the color of a relative value by iterating a color map
+ *
+ * @param[in] val The relative value
+ * @param[in] colors The color map
+ * @param[out] col The computed color
+ */
 void multi_lerp(in float val, in vec4[NUM_LERP_POINTS] colors, out vec3 col)
 {
     int si = 0, ei = 0;
@@ -38,12 +65,22 @@ void multi_lerp(in float val, in vec4[NUM_LERP_POINTS] colors, out vec3 col)
         (val  - colors[si].w) / (colors[ei].w - colors[si].w));
 }
 
+/**
+ * @brief Computes the color of a sampled value based on a color map
+ *
+ * @param[in] sval The sampled value
+ * @param[in] colors The color map
+ * @param[out] pmacol The computed color
+ */
 void compute_color(in vec4 sval, in vec4[NUM_LERP_POINTS] colors, out vec3 pmacol)
 {
     float tval; recombine(sval, tval);
     multi_lerp(tval, colors, pmacol);
 }
 
+/**
+ * @brief The main fragment routine
+ */
 void main()
 {
     if(gl_FragCoord.x < padding.x || gl_FragCoord.x > (screensize.x - padding.x)

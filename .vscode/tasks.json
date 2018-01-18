@@ -129,7 +129,7 @@
             }
         },
         {
-            "label": "Clean Framework Documentation",
+            "label": "Clean Documentation",
             "type": "shell",
             "command": "rm",
             "args": [
