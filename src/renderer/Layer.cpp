@@ -34,5 +34,4 @@ void Layer::update_shader(sf::Shader& shader, bool use_tex)
     }
     ss << "enable_layers[" << index << "]";
     shader.setParameter(ss.str(), enable);
-    cout << index << " " << enable << endl;
 }

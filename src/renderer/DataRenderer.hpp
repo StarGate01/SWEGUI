@@ -3,12 +3,12 @@
 
 #include <gtkmm.h>
 #include <glibmm.h>
-#include <vector>
+#include <map>
 #include "../sfml/SFMLWidget.hpp"
 #include "NetCdfImageStream.hpp"
 #include "ShaderConstants.hpp"
 #include "Layer.hpp"
-#include "../ToolDataprobe.hpp"
+#include "../probe/DataProbe.hpp"
 
 namespace renderer
 {
@@ -21,8 +21,8 @@ namespace renderer
       NetCdfImageStream::Meta* meta_info = nullptr;
 
       Layer b, h, hu, hv, hx;
-      vector<ToolDataprobe> probes;
-      ToolDataprobe* active_probe = nullptr;
+      map<std::string, probe::DataProbe> probes;
+      std::string active_probe_name;
 
       DataRenderer(sfml::SFMLWidget &widget);
 
@@ -31,14 +31,14 @@ namespace renderer
       void update_shader();
       void invalidate();
 
-      typedef sigc::signal<void, float, float> type_signal_click;
-      type_signal_click signal_click();
-
+      typedef sigc::signal<void, bool> type_signal_update;
+      type_signal_update signal_update();
       typedef sigc::signal<void> type_signal_select;
       type_signal_select signal_select();
 
     protected:
-      type_signal_click m_signal_click;
+    
+      type_signal_update m_signal_update;
       type_signal_select m_signal_select;
 
     private:
@@ -61,6 +61,7 @@ namespace renderer
       sf::Vector2f data_to_screen(sf::Vector2f coord);
       int select_load(NetCdfImageStream::Variable variable, int index, sf::Texture& tex);
       bool on_button_press_event(GdkEventButton *event);
+      string unique_name();
 
   };
 

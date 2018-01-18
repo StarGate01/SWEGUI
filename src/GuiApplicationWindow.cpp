@@ -1,9 +1,16 @@
 #include "GuiApplicationWindow.hpp"
 
+probe::ProbeColumns GuiApplicationWindow::probelist_columns;
+
 GuiApplicationWindow::GuiApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
     : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder)
 {
     setup_gui_elements();
+}
+
+GuiApplicationWindow::~GuiApplicationWindow()
+{
+    delete data_renderer;
 }
 
 GuiApplicationWindow* GuiApplicationWindow::create()
@@ -43,19 +50,18 @@ void GuiApplicationWindow::setup_gui_elements()
     //probe list
     m_refBuilder->get_widget("treeview_probes", probelist);
     m_refBuilder->get_widget("context_menu_probelist", contextmenu_probelist);
-    // m_refBuilder->get_widget("treeviewcolumn_name", probelist_name_col);
-    // m_refBuilder->get_widget("treeviewcolumn_x", probelist_x_col);
-    // m_refBuilder->get_widget("treeviewcolumn_y", probelist_y_col);
-    probelist->get_model();
-    if(probemodel == nullptr)
-        std::cout << "Failed to init liststore_probes" << std::endl;
-
+    probelist_store = Glib::RefPtr<Gtk::ListStore>::cast_dynamic(m_refBuilder->get_object("liststore_probes"));
+    m_refBuilder->get_widget("button_probe_add", button_probe_add);
+    //Its context menu
+    m_refBuilder->get_widget("menuitem_probelist_edit", menuitem_probelist_edit);
+    m_refBuilder->get_widget("menuitem_probelist_remove", menuitem_probelist_remove);
     //Get SFML control, init renderer
     m_refBuilder->get_widget("sfml_area", sfml_area);
     data_renderer = new renderer::DataRenderer(*sfml_area);
     //Dialogs
     m_refBuilder->get_widget("dialog_open", dialog_open);
     m_refBuilder->get_widget("dialog_about", dialog_about);
+    m_refBuilder->get_widget("dialog_probe_edit", dialog_probe_edit);
     //Layer switches
     m_refBuilder->get_widget("switch_b", switch_b);
     m_refBuilder->get_widget("switch_h", switch_h);
@@ -73,13 +79,17 @@ void GuiApplicationWindow::setup_gui_elements()
     menuitementry_file_open->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_fileopen));
     menuitementry_tools_crosssection->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_crosssection));
     menuitementry_help_about->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_about));
-    //Event handlers for context menu
+    //Event handlers probe list
     probelist->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
     probelist->signal_row_activated().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_activate));
     probelist->signal_button_press_event().connect_notify(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_button_press));
     probelist->get_selection()->signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_changed));
+    button_probe_add->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_button_probe_add));
+    //And its context menu
+    menuitem_probelist_edit->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_context_edit));
+    menuitem_probelist_remove->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_context_remove));
     //Event handlers for sfml widget
-    data_renderer->signal_click().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_sfml_click));
+    data_renderer->signal_update().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_sfml_update));
     data_renderer->signal_select().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_sfml_select));
     //Layer switches
     switch_b->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
@@ -93,9 +103,6 @@ void GuiApplicationWindow::setup_gui_elements()
     
 void GuiApplicationWindow::initialize_gui_elements()
 {
-    //Init probe list model
-    probelist_model_init();
-
     //TESTING: Change label of textfield
     //TODO: Remove the following line after proof of concept
     lbl_raw_data->set_width_chars(30);
@@ -105,17 +112,11 @@ void GuiApplicationWindow::initialize_gui_elements()
 //Event handler
 void GuiApplicationWindow::on_action_fileopen()
 {
-    int result = dialog_open->run();
-    switch(result)
+    if(dialog_open->run() == Gtk::RESPONSE_OK)
     {
-        case Gtk::RESPONSE_OK:
-        {
-            std::string filename = dialog_open->get_filename();
-            int res = data_renderer->open(filename);
-            cout << "Open result: " << res << endl;
-            break;
-        }
-        default: break;
+        std::string filename = dialog_open->get_filename();
+        int res = data_renderer->open(filename);
+        cout << "Open result: " << res << endl;
     }
     dialog_open->hide();
 }
@@ -138,8 +139,6 @@ void GuiApplicationWindow::on_action_test1()
 void GuiApplicationWindow::on_action_test2()
 {
     std::cout << "Lets get going" << std::endl;
-    probelist_model_init();
-    std::cout << "Finished updates" << std::endl;
 }
 
 void GuiApplicationWindow::on_action_crosssection()
@@ -152,34 +151,6 @@ void GuiApplicationWindow::on_action_about()
     dialog_about->run();
     dialog_about->hide();
 }
-
-void GuiApplicationWindow::addDataprobe(ToolDataprobe probe)
-{
-    //Check if name already exists
-    if(getDataprobe(probe.getName()) != nullptr)
-        throw std::runtime_error("Probe with this name already exists");
-    
-    data_renderer->probes.push_back(probe);
-}
-
-ToolDataprobe* GuiApplicationWindow::getDataprobe(std::string name)
-{
-    for(ToolDataprobe& p : data_renderer->probes)
-        if(p.getName().compare(name) == 0) return &p;
-    return nullptr;
-}
-
-ToolDataprobe* GuiApplicationWindow::getDataprobe(float x, float y)
-{
-    Coordinate c;
-    for(ToolDataprobe& p : data_renderer->probes)
-    {
-        c = p.getPosition();
-        if(c.x == x && c.y == y) return &p;
-    }
-    return nullptr;
-}
-
 
 void GuiApplicationWindow::on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column)
 {
@@ -201,58 +172,81 @@ void GuiApplicationWindow::on_action_probelist_changed()
     if(iter)
     {
         Gtk::TreeModel::Row row = *iter;
-        int i = 0;
-        for(ToolDataprobe probe : data_renderer->probes)
-        {
-            std::string name(row.get_value(probes_col_name).data());
-            if(name.compare(probe.getName()) == 0)
-            {
-                std::cout << "Selected probe is nr " << i << std::endl;
-                data_renderer->active_probe = getDataprobe(name);
-                data_renderer->invalidate();
-                break;
-            }
-            i++;
-        }
+        data_renderer->active_probe_name = row[probelist_columns.col_name];
+        data_renderer->invalidate();
     }
-    //data_renderer->active_probe = getDataprobe("probe_0");
-    // data_renderer->invalidate();
 }
 
-//TODO: Integrate this code into context menu
-void GuiApplicationWindow::on_action_probelist_context_delete()
+void GuiApplicationWindow::on_action_probelist_context_edit()
 {
-    Glib::RefPtr<Gtk::ListStore> model = Glib::RefPtr<Gtk::ListStore>::cast_dynamic(probelist->get_model());
-    Glib::RefPtr<Gtk::TreeSelection> ref_selection = probelist->get_selection();
-    Gtk::TreeModel::iterator iter = ref_selection->get_selected();
+    if(dialog_probe_edit->run() == Gtk::RESPONSE_OK) handle_add_edit();
+    dialog_probe_edit->hide();
+}
+
+void GuiApplicationWindow::on_action_probelist_context_remove()
+{
+    Gtk::TreeModel::iterator iter = probelist->get_selection()->get_selected();
     if(iter)
     {
-        std::cout << "Deleting row" << std::endl;
-        model->erase(iter);
+        Gtk::TreeModel::Row row = *iter;
+        data_renderer->probes.erase(row[probelist_columns.col_name]);
+        probelist_store->erase(iter);
+        data_renderer->invalidate();
+    }
+}
+
+void GuiApplicationWindow::on_action_button_probe_add()
+{
+    if(dialog_probe_edit->run() == Gtk::RESPONSE_OK) handle_add_edit();
+    dialog_probe_edit->hide();
+}
+
+void GuiApplicationWindow::handle_add_edit()
+{
+    cout << "Add or modify probe" << endl;
+}
+
+Gtk::TreeStore::iterator GuiApplicationWindow::search_probelist(std::string name)
+{
+    Gtk::TreeModel::Children children = probelist_store->children();
+    for(Gtk::TreeStore::iterator iter = children.begin(); iter != children.end(); ++iter)
+    {
+        Gtk::TreeModel::Row row = *iter;
+        string name = row[probelist_columns.col_name];
+        if(name == data_renderer->active_probe_name) return iter;
+    }
+    Gtk::TreeStore::iterator iter;
+    return iter;
+}
+
+void GuiApplicationWindow::on_sfml_update(bool added)
+{
+    probe::DataProbe& probe = data_renderer->probes[data_renderer->active_probe_name];
+    if(added)
+    {
+        Gtk::TreeModel::Row row = *(probelist_store->append());
+        row[probelist_columns.col_name] = data_renderer->active_probe_name;
+        probe.fill_row(row);
     }
     else
     {
-        std::cout << "Nothing selected" << std::endl;
+        Gtk::TreeStore::iterator iter = search_probelist(data_renderer->active_probe_name);
+        if(iter)
+        {
+            Gtk::TreeModel::Row row = *iter;
+            probe.fill_row(row);
+        }
     }
-}
-
-void GuiApplicationWindow::on_sfml_click(float x, float y)
-{
-    std::cout << "sfml add please: " << x << ", " << y << std::endl;
-    string name = "probe_" + to_string(data_renderer->probes.size());
-    ToolDataprobe probe(name);
-    probe.setPosition(x, y);
-    addDataprobe(probe);
-    data_renderer->active_probe = getDataprobe(name);
-    data_renderer->invalidate();
-    probelist_model_update();
 }
 
 void GuiApplicationWindow::on_sfml_select()
 {
-    std::cout << "sfml select: " << data_renderer->active_probe->getName() << std::endl;
-    data_renderer->invalidate();
-    probelist_model_update();
+    Gtk::TreeStore::iterator iter = search_probelist(data_renderer->active_probe_name);
+    if(iter)
+    {
+        Glib::RefPtr<Gtk::TreeSelection> selection = probelist->get_selection();
+        selection->select(iter);
+    }
 }
 
 void GuiApplicationWindow::on_layer_switch_changed()
@@ -263,80 +257,4 @@ void GuiApplicationWindow::on_layer_switch_changed()
     data_renderer->hv.enable = switch_hv->get_active();
     data_renderer->hx.enable = switch_hx->get_active();
     data_renderer->update_shader();
-}
-
-void GuiApplicationWindow::probelist_model_init()
-{
-    //TODO: Reuse the model from probelist instead of creating a new one
-    //Recreate model
-    Gtk::TreeModelColumnRecord columns;
-    Gtk::TreeModelColumn<Glib::ustring> col_name;
-    Gtk::TreeModelColumn<int> col_x;
-    Gtk::TreeModelColumn<int> col_y;
-    columns.add(col_name);
-    columns.add(col_x);
-    columns.add(col_y);
-    const Glib::RefPtr<Gtk::ListStore> model = Gtk::ListStore::create(columns);
-    probelist->set_model(model);
-
-    //Save model for later use
-    probes_col_name = col_name;
-    probes_col_x = col_x;
-    probes_col_y = col_y;
-
-    //Set titles
-    probelist->get_column(0)->set_title("Name");
-    probelist->get_column(1)->set_title("X");
-    probelist->get_column(2)->set_title("Y");
-
-    probelist_model_update();
-}
-
-void GuiApplicationWindow::probelist_model_update()
-{
-    if(probelist == nullptr)
-    {
-        std::cout << "Failed to update probelist (nullptr)" << std::endl;
-        return;
-    }
-
-    const Glib::RefPtr<Gtk::ListStore> model = Glib::RefPtr<Gtk::ListStore>::cast_dynamic(probelist->get_model());      //Get model
-    model->clear();     //Clear all lines
-    //Add lines
-
-    int index = 0;
-    int active_index = -1;
-    for(auto probe : data_renderer->probes)
-    {
-        Gtk::TreeModel::Row row = *(model->append());
-        row[probes_col_name] = Glib::ustring(probe.getName());
-        row[probes_col_x] = probe.getPosition().x;
-        row[probes_col_y] = probe.getPosition().y;
-        if(probe.equals(*(data_renderer->active_probe)))
-        {
-            //row[probes_col_name] = Glib::ustring(">" + probe.getName() + " <");
-            active_index = index;
-        }
-        index++;
-    }
-
-    //Select active probe
-    if(data_renderer->active_probe == nullptr || active_index < 0)
-    {
-        std::cout << "Nothing selected" << std::endl;
-        return;
-    }
-
-    std::cout << "AI: " << active_index << std::endl;
-    Gtk::TreeModel::iterator iter;
-    int i = 0;
-    for(iter = model->children().begin(); iter != model->children().end(); ++iter)
-    {
-        if(i == active_index)
-            break;
-        i++;
-    } 
-    
-    Glib::RefPtr<Gtk::TreeSelection> selection = probelist->get_selection();
-    selection->select(iter);
 }

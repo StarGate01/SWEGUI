@@ -23,16 +23,15 @@ DataRenderer::DataRenderer(sfml::SFMLWidget &widget) : widget(widget)
 
     update_padding();
 
-    // Glib::signal_timeout().connect(sigc::bind_return(sigc::mem_fun(this, &DataRenderer::animate), true), TIMESTEP);
     widget.signal_draw().connect(sigc::bind_return(sigc::hide(sigc::mem_fun(this, &DataRenderer::draw)), true));
     widget.signal_size_allocate().connect(sigc::hide(sigc::mem_fun(this, &DataRenderer::resize_view)));
     widget.add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
     widget.signal_button_press_event().connect(sigc::mem_fun(this, &DataRenderer::on_button_press_event));
 }
 
-DataRenderer::type_signal_click DataRenderer::signal_click()
+DataRenderer::type_signal_update DataRenderer::signal_update()
 {
-    return m_signal_click;
+    return m_signal_update;
 }
 
 DataRenderer::type_signal_select DataRenderer::signal_select()
@@ -91,26 +90,17 @@ void DataRenderer::invalidate()
     widget.invalidate();
 }
 
-// void DataRenderer::animate()
-// {
-//     for(auto& chair: crosshairs)
-//     {
-//         chair.rotate(1.f);
-//     }
-//     widget.invalidate();
-// }
-
 void DataRenderer::draw()
 {
     widget.renderWindow.clear(sf::Color::White);
     widget.renderWindow.draw(background, &shader);
-    for(unsigned int i = 0; i < probes.size(); i++) 
+    for(auto& probe: probes) 
     {
-        sf::Vector2f d2s = data_to_screen(sf::Vector2f(probes[i].getPosition().x, probes[i].getPosition().y));
-        probes[i].getSprite().setPosition(d2s.x, d2s.y);
-        if(&(probes[i]) == active_probe) probes[i].getSprite().setTexture(crosshair_active_tex);
-        else probes[i].getSprite().setTexture(crosshair_tex);
-        widget.renderWindow.draw(probes[i].getSprite());
+        sf::Vector2f d2s = data_to_screen(sf::Vector2f(probe.second.x, probe.second.y));
+        probe.second.getSprite().setPosition(d2s.x, d2s.y);
+        if(probe.first == active_probe_name) probe.second.getSprite().setTexture(crosshair_active_tex);
+        else probe.second.getSprite().setTexture(crosshair_tex);
+        widget.renderWindow.draw(probe.second.getSprite());
     }
     widget.display();
 }
@@ -143,11 +133,6 @@ void DataRenderer::update_padding()
         pad_h = (screen_width - newwidth) / 2.f;
         pad_v = 0.f;
     }
-    // cout << "d: " << meta_info->dx << " " << meta_info->dy
-    //     << ", n: " << meta_info->nx << " " << meta_info->ny
-    //     << ", a: " << meta_info->ax() << " " << meta_info->ay()
-    //     << ", s:" << screen_width << " " << screen_height
-    //     << ", p:" << pad_h << ", " << pad_v << endl;
     shader.setParameter("padding", sf::Vector2f(pad_h, pad_v));
 }
 
@@ -173,18 +158,37 @@ bool DataRenderer::on_button_press_event(GdkEventButton *event)
     if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1))
     {
         sf::Vector2f s2d = screen_to_data(sf::Vector2f(event->x, event->y));
-        m_signal_click.emit(s2d.x, s2d.y);
+        bool added = false;
+        string name = unique_name();
+        if (probes.find(name) == probes.end())
+        {
+            probe::DataProbe probe(s2d.x, s2d.y);
+            probes[name] = probe;
+            added = true;
+        }
+        else
+        {
+            probes[name].x = s2d.x;
+            probes[name].y = s2d.y;
+        }
+        active_probe_name = name;
+        invalidate();
+        m_signal_update.emit(added);
+        m_signal_select.emit();
         return true;
     }
     if((event->type == GDK_BUTTON_PRESS) && (event->button == 1))
     {
+        if(event->x < pad_h || event->x > (widget.renderWindow.getSize().x - pad_h)
+            || event->y < pad_v || event->y > (widget.renderWindow.getSize().y - pad_v)) return true;
         for(auto& probe: probes)
         {
-            float dx = probe.getSprite().getPosition().x - event->x;
-            float dy = probe.getSprite().getPosition().y - event->y;
+            float dx = probe.second.getSprite().getPosition().x - event->x;
+            float dy = probe.second.getSprite().getPosition().y - event->y;
             if(sqrt(dx*dx + dy*dy) <= 16.f)
             {
-                active_probe = &probe;
+                active_probe_name = probe.first;
+                invalidate();
                 m_signal_select.emit();
                 return true;
             }
@@ -192,4 +196,17 @@ bool DataRenderer::on_button_press_event(GdkEventButton *event)
         return true;
     }
     return false;
+}
+
+string DataRenderer::unique_name()
+{
+    int index = 0;
+    while(true)
+    {
+        stringstream ss;
+        ss << "probe_" << index;
+        string name = ss.str();
+        if(probes.find(name) == probes.end()) return name;
+        index++;
+    }
 }
