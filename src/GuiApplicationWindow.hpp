@@ -86,15 +86,6 @@ class GuiApplicationWindow : public Gtk::ApplicationWindow
         Gtk::TreeStore::iterator search_probelist(std::string name);
         void handle_add_edit();
 
-        // void addDataprobe(ToolDataprobe probe);
-        // ToolDataprobe* getDataprobe(std::string name);
-        // ToolDataprobe* getDataprobe(float x, float y);
-        // void removeDataprobe(ToolDataprobe probe);      //TODO: Implement
-        // void removeDataprobe(std::string name);         //TODO: Implement
-
-        //Probe list
-        // void probelist_model_init();
-        // void probelist_model_update();
 };
 
 #endif
