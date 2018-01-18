@@ -17,11 +17,9 @@ GuiApplicationWindow::~GuiApplicationWindow()
 
 GuiApplicationWindow* GuiApplicationWindow::create()
 {
-    //Load builder and instantiate widget
     auto refBuilder = Gtk::Builder::create_from_file(PATH_TO_MAIN_GUI);
     GuiApplicationWindow* window = nullptr;
     refBuilder->get_widget_derived("window_main", window);
-    //Add event mask
     window->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
     return window;
 }
@@ -33,9 +31,6 @@ void GuiApplicationWindow::register_custom_gui_elements()
 
 void GuiApplicationWindow::setup_gui_elements()
 {
-    //Get window
-    m_refBuilder->get_widget("window_main", window_main);
-    m_refBuilder->get_widget("window_layers", window_layers);
     //Get menu bar
     m_refBuilder->get_widget("main_menubar", menubar_main);
     m_refBuilder->get_widget("file_open", menuitementry_file_open);
@@ -63,15 +58,10 @@ void GuiApplicationWindow::setup_gui_elements()
     //Dialogs
     m_refBuilder->get_widget("dialog_open", dialog_open);
     m_refBuilder->get_widget("dialog_about", dialog_about);
-    m_refBuilder->get_widget("dialog_probe_edit", dialog_probe_edit);
-    //Layer switches
-    m_refBuilder->get_widget("switch_b", switch_b);
-    m_refBuilder->get_widget("switch_h", switch_h);
-    m_refBuilder->get_widget("switch_hu", switch_hu);
-    m_refBuilder->get_widget("switch_hv", switch_hv);
-    m_refBuilder->get_widget("switch_hx", switch_hx);
+    dialog_probe_edit = EditProbeDialog::create(this);
+    //Windows
+    window_layers = LayerWindow::create(this);
 
--
     //Event handlers for toolbar
     tb_openfile->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_fileopen));
     tb_quit->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_quit));
@@ -93,12 +83,6 @@ void GuiApplicationWindow::setup_gui_elements()
     //Event handlers for sfml widget
     data_renderer->signal_update().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_sfml_update));
     data_renderer->signal_select().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_sfml_select));
-    //Layer switches
-    switch_b->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
-    switch_h->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
-    switch_hu->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
-    switch_hv->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
-    switch_hx->property_active().signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_layer_switch_changed));
 
     //Initialize gui elements
     initialize_gui_elements();
@@ -249,14 +233,4 @@ void GuiApplicationWindow::on_sfml_select()
         Glib::RefPtr<Gtk::TreeSelection> selection = probelist->get_selection();
         selection->select(iter);
     }
-}
-
-void GuiApplicationWindow::on_layer_switch_changed()
-{
-    data_renderer->b.enable = switch_b->get_active();
-    data_renderer->h.enable = switch_h->get_active();
-    data_renderer->hu.enable = switch_hu->get_active();
-    data_renderer->hv.enable = switch_hv->get_active();
-    data_renderer->hx.enable = switch_hx->get_active();
-    data_renderer->update_shader();
 }

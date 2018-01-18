@@ -6,7 +6,9 @@ import os
 Import('env_program')
 
 # List sources
-sourceFiles = ['main.cpp', 'GuiApplication.cpp', 'GuiApplicationWindow.cpp', 'probe/DataProbe.cpp', 'probe/ProbeColumns.cpp']
+sourceFiles = ['main.cpp', 'GuiApplication.cpp']
+sourceFiles += ['GuiApplicationWindow.cpp', 'LayerWindow.cpp', 'EditProbeDialog.cpp']
+sourceFiles += ['probe/DataProbe.cpp', 'probe/ProbeColumns.cpp']
 sourceFiles += ['renderer/DataRenderer.cpp', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp']
 for i in sourceFiles: env_program.src_files.append(env_program.Object(i))
 
@@ -30,6 +32,7 @@ env_program.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h', 'renderer/NetC
 Install('#'+env_program['buildDir']+'/packet', env_program.program_name)
 
 # Copy UI scripts
-uis = ['main.glade', 'main.frag', 'crosshair.png', 'crosshair_active.png']
+uis = ['main.glade', 'layers.glade', 'probe.glade']
+uis +=['main.frag', 'crosshair.png', 'crosshair_active.png']
 uis += ['icon_fancy.png', 'icon_32.png']
 for x in uis: Install('#'+env_program['buildDir']+'/packet/ui', 'ui/'+x)

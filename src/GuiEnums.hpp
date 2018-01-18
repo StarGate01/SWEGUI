@@ -1,4 +1,5 @@
-//TODO: Add pre-processor flag if necessary
+#ifndef SIGNAL_H
+#define SIGNAL_H
 
 namespace swegui
 {
@@ -14,3 +15,5 @@ namespace swegui
     };
 
 }
+
+#endif
