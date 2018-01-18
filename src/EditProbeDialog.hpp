@@ -32,7 +32,7 @@ namespace swegui
 
             MainWindow* parent = nullptr;
 
-            Gtk::Adjustment* adjustment_x = nullptr, *adjustment_y = nullptr;
+            Glib::RefPtr<Gtk::Adjustment> adjustment_x, adjustment_y;
             Gtk::Entry* entry_name = nullptr;
             Gtk::SpinButton* spin_x = nullptr, *spin_y = nullptr;
             Gtk::Button* button_okay = nullptr;

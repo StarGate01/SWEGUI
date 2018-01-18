@@ -21,8 +21,8 @@ EditProbeDialog* EditProbeDialog::create(MainWindow* pa)
 
 void EditProbeDialog::setup_gui_elements()
 {
-    m_refBuilder->get_widget("adjustment_x", adjustment_x);
-    m_refBuilder->get_widget("adjustment_y", adjustment_y);
+    adjustment_x = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(m_refBuilder->get_object("adjustment_x"));
+    adjustment_y = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(m_refBuilder->get_object("adjustment_y"));
     m_refBuilder->get_widget("entry_name", entry_name);
     m_refBuilder->get_widget("spin_x", spin_x);
     m_refBuilder->get_widget("spin_y", spin_y);
