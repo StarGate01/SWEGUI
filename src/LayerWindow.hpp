@@ -8,7 +8,7 @@
 namespace swegui
 {
 
-    class GuiApplicationWindow; //Forward declaration to resolve circular include dependencies
+    class MainWindow; //Forward declaration to resolve circular include dependencies
 
     class LayerWindow : public Gtk::Window
     {
@@ -16,11 +16,11 @@ namespace swegui
         public:
 
             LayerWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
-            static LayerWindow* create(GuiApplicationWindow* pa);
+            static LayerWindow* create(MainWindow* pa);
 
         private:
 
-            GuiApplicationWindow* parent = nullptr;
+            MainWindow* parent = nullptr;
 
             Gtk::Switch* switch_b = nullptr, *switch_h = nullptr, 
                 *switch_hu = nullptr, *switch_hv = nullptr, *switch_hx = nullptr;

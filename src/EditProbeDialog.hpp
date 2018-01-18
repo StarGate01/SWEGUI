@@ -8,7 +8,7 @@
 namespace swegui
 {
 
-    class GuiApplicationWindow; //Forward declaration to resolve circular include dependencies
+    class MainWindow; //Forward declaration to resolve circular include dependencies
 
     class EditProbeDialog : public Gtk::Dialog
     {
@@ -16,11 +16,11 @@ namespace swegui
         public:
 
             EditProbeDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
-            static EditProbeDialog* create(GuiApplicationWindow* pa);
+            static EditProbeDialog* create(MainWindow* pa);
 
         private:
 
-            GuiApplicationWindow* parent = nullptr;
+            MainWindow* parent = nullptr;
 
             void setup_gui_elements();
 

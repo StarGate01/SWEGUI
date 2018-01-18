@@ -1,5 +1,5 @@
 #include "LayerWindow.hpp"
-#include "GuiApplicationWindow.hpp"
+#include "MainWindow.hpp"
 
 using namespace swegui;
 
@@ -9,7 +9,7 @@ LayerWindow::LayerWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
     setup_gui_elements();
 }
 
-LayerWindow* LayerWindow::create(GuiApplicationWindow* pa)
+LayerWindow* LayerWindow::create(MainWindow* pa)
 {
     auto refBuilder = Gtk::Builder::create_from_file(PATH_TO_LAYER_GUI);
     LayerWindow* window = nullptr;

@@ -3,29 +3,29 @@
 
 #include <iostream>
 #include <gtkmm.h>
-#include "GuiApplicationWindow.hpp"
+#include "MainWindow.hpp"
 #include "GuiEnums.hpp"
 
 namespace swegui
 {
 
-    class GuiApplication : public Gtk::Application
+    class Application : public Gtk::Application
     {
 
         public:
 
-            static Glib::RefPtr<GuiApplication> create(); 
+            static Glib::RefPtr<Application> create(); 
 
           
         protected:
 
-            GuiApplication();
+            Application();
             void on_activate() override;
             void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
 
         private:
 
-            GuiApplicationWindow* create_appwindow();
+            MainWindow* create_appwindow();
             void on_hide_window(Gtk::Window* window);
             void on_window_action(Signal signal);
 

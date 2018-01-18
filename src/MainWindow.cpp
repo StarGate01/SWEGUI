@@ -1,35 +1,35 @@
-#include "GuiApplicationWindow.hpp"
+#include "MainWindow.hpp"
 
 using namespace swegui;
 
-probe::ProbeColumns GuiApplicationWindow::probelist_columns;
+probe::ProbeColumns MainWindow::probelist_columns;
 
-GuiApplicationWindow::GuiApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
+MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
     : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder)
 {
     setup_gui_elements();
 }
 
-GuiApplicationWindow::~GuiApplicationWindow()
+MainWindow::~MainWindow()
 {
     delete data_renderer;
 }
 
-GuiApplicationWindow* GuiApplicationWindow::create()
+MainWindow* MainWindow::create()
 {
     auto refBuilder = Gtk::Builder::create_from_file(PATH_TO_MAIN_GUI);
-    GuiApplicationWindow* window = nullptr;
+    MainWindow* window = nullptr;
     refBuilder->get_widget_derived("window_main", window);
     window->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
     return window;
 }
 
-void GuiApplicationWindow::register_custom_gui_elements()
+void MainWindow::register_custom_gui_elements()
 {
     sfml::SFMLWidget::register_type();
 }
 
-void GuiApplicationWindow::setup_gui_elements()
+void MainWindow::setup_gui_elements()
 {
     //Get menu bar
     m_refBuilder->get_widget("main_menubar", menubar_main);
@@ -63,32 +63,32 @@ void GuiApplicationWindow::setup_gui_elements()
     window_layers = LayerWindow::create(this);
 
     //Event handlers for toolbar
-    tb_openfile->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_fileopen));
-    tb_quit->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_quit));
-    tb_test1->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_test1));
-    tb_test2->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_test2));
+    tb_openfile->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_fileopen));
+    tb_quit->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_quit));
+    tb_test1->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_test1));
+    tb_test2->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_test2));
     //Event handlers for menubar
-    menuitementry_file_open->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_fileopen));
-    menuitementry_tools_crosssection->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_crosssection));
-    menuitementry_help_about->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_about));
+    menuitementry_file_open->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_fileopen));
+    menuitementry_tools_crosssection->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_crosssection));
+    menuitementry_help_about->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_about));
     //Event handlers probe list
     probelist->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
-    probelist->signal_row_activated().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_activate));
-    probelist->signal_button_press_event().connect_notify(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_button_press));
-    probelist->get_selection()->signal_changed().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_changed));
-    button_probe_add->signal_clicked().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_button_probe_add));
+    probelist->signal_row_activated().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_activate));
+    probelist->signal_button_press_event().connect_notify(sigc::mem_fun(this, &MainWindow::on_action_probelist_button_press));
+    probelist->get_selection()->signal_changed().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_changed));
+    button_probe_add->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_button_probe_add));
     //And its context menu
-    menuitem_probelist_edit->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_context_edit));
-    menuitem_probelist_remove->signal_activate().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_action_probelist_context_remove));
+    menuitem_probelist_edit->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_context_edit));
+    menuitem_probelist_remove->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_context_remove));
     //Event handlers for sfml widget
-    data_renderer->signal_update().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_sfml_update));
-    data_renderer->signal_select().connect(sigc::mem_fun(this, &GuiApplicationWindow::on_sfml_select));
+    data_renderer->signal_update().connect(sigc::mem_fun(this, &MainWindow::on_sfml_update));
+    data_renderer->signal_select().connect(sigc::mem_fun(this, &MainWindow::on_sfml_select));
 
     //Initialize gui elements
     initialize_gui_elements();
 }
     
-void GuiApplicationWindow::initialize_gui_elements()
+void MainWindow::initialize_gui_elements()
 {
     //TESTING: Change label of textfield
     //TODO: Remove the following line after proof of concept
@@ -96,7 +96,7 @@ void GuiApplicationWindow::initialize_gui_elements()
     lbl_raw_data->set_text("Hello world");
 }
 
-void GuiApplicationWindow::on_action_fileopen()
+void MainWindow::on_action_fileopen()
 {
     if(dialog_open->run() == Gtk::RESPONSE_OK)
     {
@@ -107,43 +107,43 @@ void GuiApplicationWindow::on_action_fileopen()
     dialog_open->hide();
 }
 
-void GuiApplicationWindow::open_file_view(const Glib::RefPtr<Gio::File>& file)
+void MainWindow::open_file_view(const Glib::RefPtr<Gio::File>& file)
 {
     //data_renderer->open(file->get_path());
 }
 
-void GuiApplicationWindow::on_action_quit()
+void MainWindow::on_action_quit()
 {
     Gtk::Main::quit();
 }
 
-void GuiApplicationWindow::on_action_test1()
+void MainWindow::on_action_test1()
 {
     window_layers->show();
 }
 
-void GuiApplicationWindow::on_action_test2()
+void MainWindow::on_action_test2()
 {
     std::cout << "Lets get going" << std::endl;
 }
 
-void GuiApplicationWindow::on_action_crosssection()
+void MainWindow::on_action_crosssection()
 {
     std::cout << "Action: crosssection clicked" << std::endl;
 }
 
-void GuiApplicationWindow::on_action_about()
+void MainWindow::on_action_about()
 {
     dialog_about->run();
     dialog_about->hide();
 }
 
-void GuiApplicationWindow::on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column)
+void MainWindow::on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column)
 {
     std::cout << "List: Self destruction enabled... standby for blast" << std::endl;
 }
 
-void GuiApplicationWindow::on_action_probelist_button_press(GdkEventButton *event)
+void MainWindow::on_action_probelist_button_press(GdkEventButton *event)
 {
     if((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
     {
@@ -151,7 +151,7 @@ void GuiApplicationWindow::on_action_probelist_button_press(GdkEventButton *even
     }
 }
 
-void GuiApplicationWindow::on_action_probelist_changed()
+void MainWindow::on_action_probelist_changed()
 {
     Glib::RefPtr<Gtk::TreeSelection> selection = probelist->get_selection();
     Gtk::TreeModel::iterator iter = selection->get_selected();
@@ -163,13 +163,13 @@ void GuiApplicationWindow::on_action_probelist_changed()
     }
 }
 
-void GuiApplicationWindow::on_action_probelist_context_edit()
+void MainWindow::on_action_probelist_context_edit()
 {
     if(dialog_probe_edit->run() == Gtk::RESPONSE_OK) handle_add_edit();
     dialog_probe_edit->hide();
 }
 
-void GuiApplicationWindow::on_action_probelist_context_remove()
+void MainWindow::on_action_probelist_context_remove()
 {
     Gtk::TreeModel::iterator iter = probelist->get_selection()->get_selected();
     if(iter)
@@ -181,18 +181,18 @@ void GuiApplicationWindow::on_action_probelist_context_remove()
     }
 }
 
-void GuiApplicationWindow::on_action_button_probe_add()
+void MainWindow::on_action_button_probe_add()
 {
     if(dialog_probe_edit->run() == Gtk::RESPONSE_OK) handle_add_edit();
     dialog_probe_edit->hide();
 }
 
-void GuiApplicationWindow::handle_add_edit()
+void MainWindow::handle_add_edit()
 {
     cout << "Add or modify probe" << endl;
 }
 
-Gtk::TreeStore::iterator GuiApplicationWindow::search_probelist(std::string name)
+Gtk::TreeStore::iterator MainWindow::search_probelist(std::string name)
 {
     Gtk::TreeModel::Children children = probelist_store->children();
     for(Gtk::TreeStore::iterator iter = children.begin(); iter != children.end(); ++iter)
@@ -205,7 +205,7 @@ Gtk::TreeStore::iterator GuiApplicationWindow::search_probelist(std::string name
     return iter;
 }
 
-void GuiApplicationWindow::on_sfml_update(bool added)
+void MainWindow::on_sfml_update(bool added)
 {
     probe::DataProbe& probe = data_renderer->probes[data_renderer->active_probe_name];
     if(added)
@@ -225,7 +225,7 @@ void GuiApplicationWindow::on_sfml_update(bool added)
     }
 }
 
-void GuiApplicationWindow::on_sfml_select()
+void MainWindow::on_sfml_select()
 {
     Gtk::TreeStore::iterator iter = search_probelist(data_renderer->active_probe_name);
     if(iter)

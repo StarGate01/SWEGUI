@@ -16,14 +16,14 @@
 namespace swegui
 {
 
-    class GuiApplicationWindow : public Gtk::ApplicationWindow
+    class MainWindow : public Gtk::ApplicationWindow
     {
 
         public:
 
-            GuiApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
-            ~GuiApplicationWindow();
-            static GuiApplicationWindow* create();
+            MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
+            ~MainWindow();
+            static MainWindow* create();
 
             void open_file_view(const Glib::RefPtr<Gio::File>& file);
             static void register_custom_gui_elements();

@@ -6,8 +6,8 @@ import os
 Import('env_program')
 
 # List sources
-sourceFiles = ['main.cpp', 'GuiApplication.cpp']
-sourceFiles += ['GuiApplicationWindow.cpp', 'LayerWindow.cpp', 'EditProbeDialog.cpp']
+sourceFiles = ['main.cpp', 'Application.cpp']
+sourceFiles += ['MainWindow.cpp', 'LayerWindow.cpp', 'EditProbeDialog.cpp']
 sourceFiles += ['probe/DataProbe.cpp', 'probe/ProbeColumns.cpp']
 sourceFiles += ['renderer/DataRenderer.cpp', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp']
 for i in sourceFiles: env_program.src_files.append(env_program.Object(i))

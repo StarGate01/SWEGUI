@@ -1,35 +1,35 @@
 #include <exception>
 #include <iostream>
-#include "GuiApplication.hpp"
-#include "GuiApplicationWindow.hpp"
+#include "Application.hpp"
+#include "MainWindow.hpp"
 
 using namespace swegui;
 
-GuiApplication::GuiApplication() 
+Application::Application() 
     : Gtk::Application("de.tum.in.www5.tssim.g03.swegui", Gio::APPLICATION_HANDLES_OPEN)
 {
 }
 
-Glib::RefPtr<GuiApplication> GuiApplication::create()
+Glib::RefPtr<Application> Application::create()
 {
-    return Glib::RefPtr<GuiApplication>(new GuiApplication());
+    return Glib::RefPtr<Application>(new Application());
 }
 
-GuiApplicationWindow* GuiApplication::create_appwindow()
+MainWindow* Application::create_appwindow()
 {
-    GuiApplicationWindow::register_custom_gui_elements();
-    auto appwindow = GuiApplicationWindow::create();
+    MainWindow::register_custom_gui_elements();
+    auto appwindow = MainWindow::create();
 
     //Run the application as long as the window is open
     add_window(*appwindow);
 
     //Delete the window when its hidden
-    appwindow->signal_hide().connect(sigc::bind<Gtk::Window*>(sigc::mem_fun(*this, &GuiApplication::on_hide_window), appwindow));
+    appwindow->signal_hide().connect(sigc::bind<Gtk::Window*>(sigc::mem_fun(*this, &Application::on_hide_window), appwindow));
 
     return appwindow;
 }
 
-void GuiApplication::on_activate()
+void Application::on_activate()
 {
     try
     {
@@ -39,22 +39,22 @@ void GuiApplication::on_activate()
     }
     catch(const Glib::Error& ex)
     {
-        std::cerr << "GuiApplication::on_activate(): " << ex.what() << std::endl;
+        std::cerr << "Application::on_activate(): " << ex.what() << std::endl;
     }
     catch(const std::exception& ex)
     {
-        std::cerr << "GuiApplication::on_activate(): " << ex.what() << std::endl;
+        std::cerr << "Application::on_activate(): " << ex.what() << std::endl;
     }
     
 }
 
-void GuiApplication::on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint)
+void Application::on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint)
 {
     //Create a window if no window already exists
-    GuiApplicationWindow* appwindow = nullptr;
+    MainWindow* appwindow = nullptr;
     auto windows = get_windows();
     if(windows.size() > 0)
-        appwindow = dynamic_cast<GuiApplicationWindow*>(windows[0]);
+        appwindow = dynamic_cast<MainWindow*>(windows[0]);
 
 
     try
@@ -67,21 +67,21 @@ void GuiApplication::on_open(const Gio::Application::type_vec_files& files, cons
     }
     catch(const Glib::Error& ex)
     {
-        std::cerr << "GuiApplication::on_open(): " + ex.what() << std::endl;
+        std::cerr << "Application::on_open(): " + ex.what() << std::endl;
     }
     catch(const std::exception& ex)
     {
-        std::cerr << "GuiApplication::on_open(): " << ex.what() << std::endl;
+        std::cerr << "Application::on_open(): " << ex.what() << std::endl;
     }
 }
 
-void GuiApplication::on_hide_window(Gtk::Window* window)
+void Application::on_hide_window(Gtk::Window* window)
 {
     delete window;
 }
 
 //TODO: Not necessary anymore??
-void GuiApplication::on_window_action(Signal signal)
+void Application::on_window_action(Signal signal)
 {
     switch(signal)
     {
@@ -104,6 +104,6 @@ void GuiApplication::on_window_action(Signal signal)
             std::cout << "TOOL_CROSSSECTION received from window" << std::endl;
             break;
         default:
-            std::cerr << "GuiApplication: on_window_action: invalid signal received: " << signal << std::endl;
+            std::cerr << "Application: on_window_action: invalid signal received: " << signal << std::endl;
     }
 }

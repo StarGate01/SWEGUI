@@ -1,5 +1,5 @@
 #include "EditProbeDialog.hpp"
-#include "GuiApplicationWindow.hpp"
+#include "MainWindow.hpp"
 
 using namespace swegui;
 
@@ -9,7 +9,7 @@ EditProbeDialog::EditProbeDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk
     setup_gui_elements();
 }
 
-EditProbeDialog* EditProbeDialog::create(GuiApplicationWindow* pa)
+EditProbeDialog* EditProbeDialog::create(MainWindow* pa)
 {
     auto refBuilder = Gtk::Builder::create_from_file(PATH_TO_PROBE_GUI);
     EditProbeDialog* window = nullptr;
