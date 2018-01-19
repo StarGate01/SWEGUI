@@ -9,10 +9,9 @@ Layer::Layer()
 {
     colors[0] = sf::Color::Blue;
     colors[0].a = 0;
-    colors[1] = sf::Color::Yellow;
+    colors[1] = sf::Color::White;
     colors[1].a = 128;
-    colors[2] = sf::Color::Red;
-    colors[2].a = 255;
+    for(int i=2; i<8; i++) colors[i] = sf::Color::Red;
 }
 
 void Layer::update_shader(sf::Shader& shader, bool use_tex)
@@ -34,4 +33,13 @@ void Layer::update_shader(sf::Shader& shader, bool use_tex)
     }
     ss << "enable_layers[" << index << "]";
     shader.setParameter(ss.str(), enable);
+    ss.str(string());
+    ss.clear();
+    ss << name << "_clip";
+    if(clip)
+    {
+        shader.setParameter(ss.str(), sf::Vector2f((clip_min - meta_info.min) / abs(meta_info.max - meta_info.min), 
+            (clip_max - meta_info.min) / abs(meta_info.max - meta_info.min)));
+    }
+    else shader.setParameter(ss.str(), sf::Vector2f(0.f, 1.f));
 }

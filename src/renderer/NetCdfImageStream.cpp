@@ -18,9 +18,13 @@ bool NetCdfImageStream::open(std::string filename)
 
 bool NetCdfImageStream::select(Variable var, uint32_t index)
 {
+    add_bathymetry = false;
     switch(var)
     {
-        case H: current_data = reader->hData; break;
+        case H: 
+            current_data = reader->hData;
+            add_bathymetry = true;
+            break;
         case Hu: current_data = reader->huData; break;
         case Hv: current_data = reader->hvData; break;
         case B: current_data = reader->bData; break;
@@ -53,7 +57,7 @@ bool NetCdfImageStream::generate_meta()
     //Info header
     header[BMP_OFFSET_BI_SIZE] = BMP_INFOHEADER_SIZE;
     copy_le(meta_info.nx, header + BMP_OFFSET_BI_WIDTH);
-    copy_le(meta_info.ny, header + BMP_OFFSET_BI_HEIGHT);
+    copy_le(-meta_info.ny, header + BMP_OFFSET_BI_HEIGHT); //top down
     header[BMP_OFFSET_BI_PLANES] = BMP_PLANES;
     header[BMP_OFFSET_BI_BITCOUNT] = BMP_BITCOUNT;
     copy_le((stream_size) - BMP_HEADER_SIZE, header + BMP_OFFSET_BI_SIZEIMAGE);
@@ -77,6 +81,11 @@ bool NetCdfImageStream::find_minmax()
     for(int i=1; i<meta_info.nx * meta_info.ny; i++)
     {
         float fdata = current_data[i];
+        if(add_bathymetry)
+        {
+            float bdata = reader->bData[i];
+            fdata = fdata + bdata;
+        }
         if(fdata < meta_info.min) meta_info.min = fdata;
         if(fdata > meta_info.max) meta_info.max = fdata;
     }
@@ -98,8 +107,15 @@ sf::Int64 NetCdfImageStream::read(void* data, sf::Int64 size)
     while(stream_pos < stream_size && ri < (uint64_t)size)
     {
         uint64_t data_pos = stream_pos - BMP_HEADER_SIZE;
-        float fdata = (current_data[data_pos / 3] - meta_info.min) / diff;
+        float fdata = current_data[data_pos / 3];
+        if(add_bathymetry)
+        {
+            float bdata = reader->bData[data_pos / 3];
+            fdata = fdata + bdata;
+        }
+        fdata = (fdata - meta_info.min) / diff;
         float intp = 0.f;
+
         for(int i=0; i<=(int)(data_pos % 3); i++)
         {
             fdata *= 100.f;

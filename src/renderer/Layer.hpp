@@ -4,6 +4,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "ShaderConstants.hpp"
+#include "NetCdfImageStream.hpp"
 
 namespace renderer
 {
@@ -13,10 +14,14 @@ namespace renderer
 
     public:
 
+        NetCdfImageStream::Meta meta_info;
+
         std::string name;
         int index;
         sf::Color colors[NUM_LERP_POINTS] = { };
-        bool enable = true;
+        bool clip = false;
+        float clip_min = -1.f, clip_max = 1.f;
+        bool enable = false;
         bool computed = false;
         sf::Texture texture;
 

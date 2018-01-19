@@ -12,6 +12,16 @@ DataRenderer::DataRenderer(sfml::SFMLWidget &widget) : widget(widget)
     b.name = "b"; b.index = 0; h.name = "h"; h.index = 1;
     hu.name = "hu"; hu.index = 2; hv.name = "hv";  hv.index = 3;
     hx.name = "hx"; hx.index = 4; hx.computed = true;
+
+    //test
+    b.enable = true;
+    h.enable = true;
+    h.clip = true;
+    b.colors[0] = sf::Color::Black;
+    b.colors[0].a = 0;
+    for(int i=2; i<8; i++) b.colors[i] = sf::Color::White;
+    //end test
+
     meta_info = &netcdf_stream.meta_info;
 
     if (!sf::Shader::isAvailable()) perror("Shaders are not available on this GPU");
@@ -43,7 +53,7 @@ int DataRenderer::open(std::string filename)
 {
     bool ret = netcdf_stream.open(filename);
     if(!ret) return ERROR_FILE;
-    int res = select_timestamp(0);
+    int res = select_timestamp(3);
     if(res != ERROR_SUCCESS) return res;
     update_padding();
     update_shader();
@@ -52,21 +62,22 @@ int DataRenderer::open(std::string filename)
 
 int DataRenderer::select_timestamp(int timestamp)
 {
-    int res = select_load(NetCdfImageStream::Variable::B, 0, b.texture);
+    int res = select_load(NetCdfImageStream::Variable::B, 0, b);
     if(res != ERROR_SUCCESS) return res;
-    res = select_load(NetCdfImageStream::Variable::H, timestamp, h.texture);
+    res = select_load(NetCdfImageStream::Variable::H, timestamp, h);
     if(res != ERROR_SUCCESS) return res;
-    res = select_load(NetCdfImageStream::Variable::Hu, timestamp, hu.texture);
+    res = select_load(NetCdfImageStream::Variable::Hu, timestamp, hu);
     if(res != ERROR_SUCCESS) return res;
-    res = select_load(NetCdfImageStream::Variable::Hv, timestamp, hv.texture);
+    res = select_load(NetCdfImageStream::Variable::Hv, timestamp, hv);
     if(res != ERROR_SUCCESS) return res;
     return ERROR_SUCCESS;
 }
 
-int DataRenderer::select_load(NetCdfImageStream::Variable variable, int index, sf::Texture& tex)
+int DataRenderer::select_load(NetCdfImageStream::Variable variable, int index, Layer& lay)
 {
-    bool ret = netcdf_stream.select(NetCdfImageStream::Variable::B, 0);
+    bool ret = netcdf_stream.select(variable, index);
     if(!ret) return ERROR_SELECT;
+    lay.meta_info = netcdf_stream.meta_info; //copy!
     sf::Image img;
     ret = img.loadFromStream(netcdf_stream);
     if(!ret) return ERROR_STREAM;
@@ -74,7 +85,7 @@ int DataRenderer::select_load(NetCdfImageStream::Variable variable, int index, s
     // sf::Rect<int> area(0, 0, 
     //     max(netcdf_stream.meta_info->width, max_tex),
     //     max(netcdf_stream.meta_info->height, max_tex));
-    ret = tex.loadFromImage(img); //, area);
+    ret = lay.texture.loadFromImage(img); //, area);
     if(!ret) return ERROR_IMAGE;
     return ERROR_SUCCESS;
 }
@@ -92,7 +103,7 @@ void DataRenderer::invalidate()
 
 void DataRenderer::draw()
 {
-    widget.renderWindow.clear(sf::Color::White);
+    widget.renderWindow.clear(sf::Color(128, 128, 128, 255));
     widget.renderWindow.draw(background, &shader);
     for(auto& probe: probes) 
     {

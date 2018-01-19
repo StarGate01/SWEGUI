@@ -102,6 +102,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="margin_top">5</property>
+            <property name="active">True</property>
+            <property name="state">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>

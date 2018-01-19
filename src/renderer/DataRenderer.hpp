@@ -59,7 +59,7 @@ namespace renderer
       void update_padding();
       sf::Vector2f screen_to_data(sf::Vector2f coord);
       sf::Vector2f data_to_screen(sf::Vector2f coord);
-      int select_load(NetCdfImageStream::Variable variable, int index, sf::Texture& tex);
+      int select_load(NetCdfImageStream::Variable variable, int index, Layer& lay);
       bool on_button_press_event(GdkEventButton *event);
       string unique_name();
 

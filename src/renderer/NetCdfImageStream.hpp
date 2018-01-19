@@ -47,6 +47,7 @@ namespace renderer
             sf::Int64 stream_pos;
             io::NetCdfReader* reader = nullptr;
             float* current_data = nullptr;
+            bool add_bathymetry = false;
             char header[BMP_HEADER_SIZE] = { 0 };
             sf::Int64 stream_size;
             bool generate_meta();
