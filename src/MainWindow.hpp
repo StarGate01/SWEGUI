@@ -36,9 +36,19 @@ namespace swegui
             LayerWindow* window_layers = nullptr;
             //Menubar
             Gtk::MenuBar* menubar_main = nullptr;
-            Gtk::MenuItem* menuitementry_file_open = nullptr;
-            Gtk::MenuItem* menuitementry_tools_crosssection = nullptr;
-            Gtk::MenuItem* menuitementry_help_about = nullptr;
+            Gtk::MenuItem* mb_file_open = nullptr;
+            Gtk::MenuItem* mb_file_quit = nullptr;            
+            Gtk::MenuItem* mb_view_layer = nullptr;
+            Gtk::MenuItem* mb_view_zoom_in = nullptr;
+            Gtk::MenuItem* mb_view_zoom_out = nullptr;
+            Gtk::MenuItem* mb_view_reset = nullptr;
+            Gtk::MenuItem* mb_simulation_goto_start = nullptr;                     
+            Gtk::MenuItem* mb_simulation_play = nullptr;
+            Gtk::MenuItem* mb_simulation_next = nullptr;
+            Gtk::MenuItem* mb_simulation_prev = nullptr;         
+            Gtk::MenuItem* mb_tool_cda = nullptr;
+            Gtk::MenuItem* mb_tool_crosssection = nullptr;
+            Gtk::MenuItem* mb_help_about = nullptr;
             //Toolbar
             Gtk::Toolbar* toolbar_main = nullptr;
             Gtk::ToolButton* tb_openfile = nullptr;
@@ -82,9 +92,9 @@ namespace swegui
             void on_action_simulation_play();
             void on_action_simulation_next();
             void on_action_layer();
-            void on_action_simulation_zoom_out();
-            void on_action_simulation_zoom_reset();
-            void on_action_simulation_zoom_in();
+            void on_action_zoom_out();
+            void on_action_zoom_reset();
+            void on_action_zoom_in();
             void on_action_cda();
             void on_action_crosssection();
             void on_action_about();
