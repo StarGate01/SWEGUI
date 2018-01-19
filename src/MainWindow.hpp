@@ -42,9 +42,17 @@ namespace swegui
             //Toolbar
             Gtk::Toolbar* toolbar_main = nullptr;
             Gtk::ToolButton* tb_openfile = nullptr;
-            Gtk::ToolButton* tb_quit = nullptr;
-            Gtk::ToolButton* tb_test1 = nullptr;
-            Gtk::ToolButton* tb_test2 = nullptr;
+            Gtk::ToolButton* tb_simulation_goto_start = nullptr;
+            Gtk::ToolButton* tb_simulation_prev = nullptr;
+            Gtk::ToolButton* tb_simulation_play = nullptr;
+            Gtk::ToolButton* tb_simulation_next = nullptr;            
+            Gtk::ToolButton* tb_layer = nullptr;
+            Gtk::ToolButton* tb_zoom_out = nullptr;
+            Gtk::ToolButton* tb_zoom_reset = nullptr;
+            Gtk::ToolButton* tb_zoom_in = nullptr;
+            Gtk::ToolButton* tb_tool_cda = nullptr;
+            Gtk::ToolButton* tb_crosssection = nullptr;
+            
             //Raw data field
             Gtk::Label* lbl_raw_data = nullptr;
             //Probelist
@@ -69,8 +77,15 @@ namespace swegui
             //Actual event handlers
             void on_action_fileopen();
             void on_action_quit();
-            void on_action_test1();
-            void on_action_test2();
+            void on_action_simulation_goto_start();
+            void on_action_simulation_prev();
+            void on_action_simulation_play();
+            void on_action_simulation_next();
+            void on_action_layer();
+            void on_action_simulation_zoom_out();
+            void on_action_simulation_zoom_reset();
+            void on_action_simulation_zoom_in();
+            void on_action_cda();
             void on_action_crosssection();
             void on_action_about();
             void on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);

@@ -128,56 +128,6 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menuitem_edit">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Edit</property>
-                <property name="use_underline">True</property>
-                <child type="submenu">
-                  <object class="GtkMenu" id="menu2">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkImageMenuItem" id="edit_cut">
-                        <property name="label">gtk-cut</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem" id="edit_copy">
-                        <property name="label">gtk-copy</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem" id="edit_paste">
-                        <property name="label">gtk-paste</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem" id="edit_delete">
-                        <property name="label">gtk-delete</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
               <object class="GtkMenuItem" id="menuitem_view">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -222,6 +172,14 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Start / Stop</property>
+                        <property name="use_underline">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="simulation_goto_start">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Reset</property>
                         <property name="use_underline">True</property>
                       </object>
                     </child>
@@ -279,13 +237,9 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="bbtn_quit">
+              <object class="GtkSeparatorToolItem" id="seperator_1">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="label" translatable="yes">Quit</property>
-                <property name="use_underline">True</property>
-                <property name="stock_id">gtk-quit</property>
-                <signal name="clicked" handler="app.quit" swapped="no"/>
+                <property name="can_focus">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -293,12 +247,74 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="tbtn_test1">
+              <object class="GtkToolButton" id="tbtn_simulation_goto_start">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Revert</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">media-skip-backward</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="tbtn_simulation_prev">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Prev frame</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">media-seek-backward</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="tbtn_simulation_play">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Play</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">media-playback-start</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="tbtn_simulation_next">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Next frame</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">media-seek-forward</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparatorToolItem" id="seperator_2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="tbtn_layer">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="label" translatable="yes">Test 1</property>
+                <property name="label" translatable="yes">Layer</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-home</property>
+                <property name="icon_name">emblem-photos</property>
                 <signal name="clicked" handler="app.test1" swapped="no"/>
               </object>
               <packing>
@@ -307,13 +323,74 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="tbtn_test2">
+              <object class="GtkToolButton" id="tbtn_zoom_out">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="label" translatable="yes">Test 2</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Zoom out</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-about</property>
-                <signal name="clicked" handler="app.test2" swapped="no"/>
+                <property name="stock_id">gtk-zoom-out</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="tbtn_zoom_reset">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Zoom 1:1</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">zoom-original</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="tbtn_zoom_in">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Zoom in</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-zoom-in</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparatorToolItem" id="seperator_3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="tbtn_tool_cda">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">CDA</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">security-high</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="tbtn_tool_crosssection">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Crosssection</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">applications-development</property>
               </object>
               <packing>
                 <property name="expand">False</property>
