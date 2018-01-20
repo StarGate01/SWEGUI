@@ -6,8 +6,7 @@
 
 using namespace renderer;
 
-
-DataRenderer::DataRenderer(sfml::SFMLWidget &widget) : widget(widget)
+DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
 {
     b.name = "b"; h.name = "h"; hu.name = "hu"; hv.name = "hv"; hx.name = "hx"; hx.computed = true;
     meta_info = &netcdf_stream.meta_info;

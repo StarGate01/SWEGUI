@@ -6,7 +6,7 @@
 #include <gtk/gtkdrawingarea.h>
 #include <SFML/Graphics.hpp>
 
-namespace sfml
+namespace widgets
 {
 
   class SFMLWidget : public Gtk::DrawingArea

@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include "LayerWindow.hpp"
 #include "EditProbeDialog.hpp"
-#include "sfml/SFMLWidget.hpp"
+#include "widgets/SFMLWidget.hpp"
 #include "renderer/DataRenderer.hpp"
 #include "probe/ProbeColumns.hpp"
 
@@ -75,7 +75,7 @@ namespace swegui
             Gtk::MenuItem* menuitem_probelist_edit = nullptr;
             Gtk::MenuItem* menuitem_probelist_remove = nullptr;
             //SFML control
-            sfml::SFMLWidget* sfml_area = nullptr;
+            widgets::SFMLWidget* sfml_area = nullptr;
             //Additional dialogs
             Gtk::FileChooserDialog* dialog_open = nullptr;
             Gtk::AboutDialog* dialog_about = nullptr;

@@ -4,7 +4,7 @@
 #include <gtkmm.h>
 #include <glibmm.h>
 #include <map>
-#include "../sfml/SFMLWidget.hpp"
+#include "../widgets/SFMLWidget.hpp"
 #include "NetCdfImageStream.hpp"
 #include "ShaderConstants.hpp"
 #include "Layer.hpp"
@@ -25,7 +25,7 @@ namespace renderer
       map<std::string, probe::DataProbe> probes;
       std::string active_probe_name;
 
-      DataRenderer(sfml::SFMLWidget &widget);
+      DataRenderer(widgets::SFMLWidget &widget);
 
       int open(std::string filename);
       int select_timestamp(int timestamp);
@@ -44,7 +44,7 @@ namespace renderer
 
     private:
 
-      sfml::SFMLWidget &widget;
+      widgets::SFMLWidget &widget;
       NetCdfImageStream netcdf_stream;
       sf::RectangleShape background;
       sf::Shader shader;

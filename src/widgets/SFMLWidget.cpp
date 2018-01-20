@@ -1,7 +1,7 @@
 #include "SFMLWidget.hpp"
 #include <gdk/gdkx.h>
 
-using namespace sfml;
+using namespace widgets;
 
 SFMLWidget::SFMLWidget(sf::VideoMode mode, int size_request)
 {
