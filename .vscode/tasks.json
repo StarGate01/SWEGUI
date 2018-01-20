@@ -151,5 +151,105 @@
             },
             "problemMatcher": []
         },
+        {
+            "label": "Build Presentation",
+            "type": "shell",
+            "command": "xelatex",
+            "args": [
+                "presentation.tex"
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/documentation/project/presentation"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Presentation",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-f",
+                "*.aux", "*.log", "*.nav", "*.out", "*.pdf", "*.snm", "*.toc"
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/documentation/project/presentation"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build HowTo",
+            "type": "shell",
+            "command": "xelatex",
+            "args": [
+                "howto.tex"
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/documentation/project/howto"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean HowTo",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-f",
+                "*.aux", "*.log", "*.nav", "*.out", "*.pdf", "*.snm", "*.toc"
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/documentation/project/howto"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Specification",
+            "type": "shell",
+            "command": "xelatex",
+            "args": [
+                "specification.tex"
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/documentation/project/specification"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Specification",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-f",
+                "*.aux", "*.log", "*.nav", "*.out", "*.pdf", "*.snm", "*.toc"
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/documentation/project/specification"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Suggestion",
+            "type": "shell",
+            "command": "xelatex",
+            "args": [
+                "suggestion.tex"
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/documentation/project/suggestion"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Suggestion",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-f",
+                "*.aux", "*.log", "*.nav", "*.out", "*.pdf", "*.snm", "*.toc"
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/documentation/project/suggestion"
+            },
+            "problemMatcher": []
+        }
     ]
 }
