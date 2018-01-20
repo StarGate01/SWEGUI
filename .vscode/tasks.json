@@ -156,7 +156,7 @@
             "type": "shell",
             "command": "xelatex",
             "args": [
-                "presentation.tex"
+                "project.tex"
             ],
             "options": {
                 "cwd": "${workspaceRoot}/documentation/project/presentation"
