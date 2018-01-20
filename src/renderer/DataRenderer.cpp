@@ -1,5 +1,6 @@
 #include <iostream>
 #include "DataRenderer.hpp"
+#include "../resources/ResourceHelper.hpp"
 #include "Errors.hpp"
 
 // #define TIMESTEP 20
@@ -21,7 +22,8 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
     //end test
 
     if (!sf::Shader::isAvailable()) perror("Shaders are not available on this GPU");
-    if (!shader.loadFromFile(PATH_TO_FRAG_SHADER, sf::Shader::Fragment)) perror("Cannot load shader");
+    string shader_src = resources::ResourceHelper::global_to_string(PATH_TO_FRAG_SHADER);
+    if (!shader.loadFromMemory(sf::String(shader_src), sf::Shader::Fragment)) perror("Cannot load shader");
     for(int i=0; i<5; i++) 
     {
         layers[i]->index = i;
@@ -29,8 +31,10 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
         layers[i]->update_shader(true);
     }
 
-    crosshair_tex.loadFromFile(PATH_TO_CROSSHAIR_TEX);
-    crosshair_active_tex.loadFromFile(PATH_TO_CROSSHAIR_ACTIVE_TEX);
+    crosshair_tex.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_CROSSHAIR_TEX),
+        resources::ResourceHelper::global_get_size(PATH_TO_CROSSHAIR_TEX));
+    crosshair_active_tex.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_CROSSHAIR_ACTIVE_TEX),
+        resources::ResourceHelper::global_get_size(PATH_TO_CROSSHAIR_ACTIVE_TEX));
 
     update_padding();
 

@@ -12,15 +12,17 @@ namespace widgets
   class SFMLWidget : public Gtk::Bin
   {
 
-    private:
+    public:
 
-      static GType gtype;
+      sf::RenderWindow renderWindow;
 
-      SFMLWidget(GtkBin *gobj);
-      SFMLWidget();
-      void initialize(sf::VideoMode mode, int size_request = -1);
+      SFMLWidget(sf::VideoMode mode, int size_request = -1);
+      virtual ~SFMLWidget() { }
 
-      static Glib::ObjectBase *wrap_new(GObject *o);
+      void invalidate();
+      void display();
+
+      static void register_type();
 
     protected:
 
@@ -32,18 +34,16 @@ namespace widgets
 
       Glib::RefPtr<Gdk::Window> m_refGdkWindow;
 
-    public:
+    private:
 
-      sf::RenderWindow renderWindow;
+      static GType gtype;
 
-      SFMLWidget(sf::VideoMode mode, int size_request = -1);
-      virtual ~SFMLWidget();
+      SFMLWidget(GtkBin *gobj);
+      SFMLWidget();
+      void initialize(sf::VideoMode mode, int size_request = -1);
 
-      void invalidate();
-      void display();
+      static Glib::ObjectBase *wrap_new(GObject *o);
 
-      static void register_type();
-      
   };
 
 }

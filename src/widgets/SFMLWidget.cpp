@@ -15,9 +15,6 @@ void SFMLWidget::initialize(sf::VideoMode mode, int size_request)
     set_has_window(false);
 }
 
-SFMLWidget::~SFMLWidget()
-{ }
-
 void SFMLWidget::on_size_allocate(Gtk::Allocation &allocation)
 {
     this->set_allocation(allocation);

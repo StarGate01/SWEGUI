@@ -29,6 +29,10 @@ vars.AddVariables(
 # Set environment
 env = Environment(ENV = {'PATH': os.environ['PATH']}, variables=vars, tools = ['default', 'cxxtest'])
 
+# GTK resource builder
+gtkresbld = Builder(action = 'glib-compile-resources --target=$TARGET --generate-source $SOURCE')
+env.Append(BUILDERS = {'GtkResBld': gtkresbld})
+
 # All required libraries
 libs = ['gtkmm-3.0', 'sfml-system', 'sfml-graphics', 'netcdf']
 
@@ -60,5 +64,5 @@ env.src_files = []
 env_program = env.Clone()
 env_library = env.Clone()
 Export('env_program', 'env_library')
-SConscript('src/SConscript', variant_dir=env['buildDir']+'/build_'+env.program_name, duplicate=0)
-SConscript('src/widgets/SConscript', variant_dir=env['buildDir']+'/build_'+env.library_name, duplicate=0)
+SConscript('src/SConscript', variant_dir=env_program['buildDir']+'/build_'+env_program.program_name, duplicate=0)
+SConscript('src/widgets/SConscript', variant_dir=env_library['buildDir']+'/build_'+env_library.library_name, duplicate=0)

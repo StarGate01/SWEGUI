@@ -9,7 +9,7 @@ EditProbeDialog::EditProbeDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk
 
 EditProbeDialog* EditProbeDialog::create(MainWindow* pa)
 {
-    auto refBuilder = Gtk::Builder::create_from_file(PATH_TO_PROBE_GUI);
+    auto refBuilder = Gtk::Builder::create_from_resource(PATH_TO_PROBE_GUI);
     EditProbeDialog* window = nullptr;
     refBuilder->get_widget_derived("dialog_probe_edit", window);
     window->parent = pa;

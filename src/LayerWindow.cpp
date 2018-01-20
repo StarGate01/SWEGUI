@@ -17,7 +17,7 @@ LayerWindow::~LayerWindow()
 
 LayerWindow* LayerWindow::create(MainWindow* pa)
 {
-    auto refBuilder = Gtk::Builder::create_from_file(PATH_TO_LAYER_GUI);
+    auto refBuilder = Gtk::Builder::create_from_resource(PATH_TO_LAYER_GUI);
     LayerWindow* window = nullptr;
     refBuilder->get_widget_derived("window_layers", window);
     window->parent = pa;

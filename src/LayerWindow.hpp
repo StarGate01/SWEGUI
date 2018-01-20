@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-#define PATH_TO_LAYER_GUI "ui/layers.glade"
+#define PATH_TO_LAYER_GUI "/main/src/ui/layers.glade"
 
 namespace renderer
 {

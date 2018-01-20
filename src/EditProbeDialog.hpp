@@ -4,7 +4,7 @@
 #include <gtkmm.h>
 #include <string>
 
-#define PATH_TO_PROBE_GUI "ui/probe.glade"
+#define PATH_TO_PROBE_GUI "/main/src/ui/probe.glade"
 
 namespace swegui
 {

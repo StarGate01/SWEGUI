@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/main">
+    <file preprocess="xml-stripblanks">src/ui/main.glade</file>
+    <file preprocess="xml-stripblanks">src/ui/probe.glade</file>
+    <file preprocess="xml-stripblanks">src/ui/layers.glade</file>
+    <file>src/ui/crosshair.png</file>
+    <file>src/ui/crosshair_active.png</file>
+    <file>src/ui/icon_32.png</file>
+    <file>src/ui/icon_fancy.png</file>
+    <file>src/ui/main.frag</file>
+  </gresource>
+</gresources>

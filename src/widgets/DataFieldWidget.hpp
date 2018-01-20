@@ -1,15 +1,29 @@
 #ifndef DATAFIELD_WIDGET_H
 #define DATAFIELD_WIDGET_H
 
+#include <string>
 #include <gtkmm.h>
 #include <gtkmm/bin.h>
 #include <gtk/gtkbin.h>
+
+#define PATH_TO_DATAFIELD_GUI "/widgets/src/widgets/ui/datafield.glade"
 
 namespace widgets
 {
 
   class DataFieldWidget : public Gtk::Bin
   {
+
+    public:
+
+      DataFieldWidget();
+      virtual ~DataFieldWidget() { }
+
+      static void register_type();
+
+    protected:
+
+      Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
     private:
 
@@ -20,15 +34,7 @@ namespace widgets
 
       static Glib::ObjectBase *wrap_new(GObject *o);
 
-    protected:
-
-
-    public:
-
-      DataFieldWidget();
-      virtual ~DataFieldWidget();
-
-      static void register_type();
+      Gtk::Notebook* notebook = nullptr;
       
   };
 

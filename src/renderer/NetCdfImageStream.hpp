@@ -1,5 +1,5 @@
-#ifndef NETCDFIMAGESTREAM_H_INCLUDED
-#define NETCDFIMAGESTREAM_H_INCLUDED
+#ifndef NETCDFIMAGESTREAM_H
+#define NETCDFIMAGESTREAM_H
 
 #include <SFML/System.hpp>
 #include "BMP.hpp"

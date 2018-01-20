@@ -12,7 +12,7 @@
 #include "probe/ProbeColumns.hpp"
 #include "widgets/DataFieldWidget.hpp"
 
-#define PATH_TO_MAIN_GUI "ui/main.glade"
+#define PATH_TO_MAIN_GUI "/main/src/ui/main.glade"
 
 namespace swegui
 {
