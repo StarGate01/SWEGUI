@@ -7,6 +7,7 @@ Import('env_library')
 # List sources
 sourceFiles = [ 'WidgetsGlade.cpp' ]
 sourceFiles += [ 'SFMLWidget.cpp', 'SFMLWidgetEx.cpp' ]
+sourceFiles += [ 'DataFieldWidget.cpp', 'DataFieldWidgetEx.cpp' ]
 for i in sourceFiles: env_library.src_files.append(env_library.Object(i))
 
 # Build binary
@@ -17,5 +18,6 @@ env_library.SharedLibrary(env_library.library_name, env_library.src_files)
 # Copy binary
 Install('#'+env_library['buildDir']+'/packet/lib', 'lib'+env_library.library_name+'.so')
 
-# Copy catalog
-Install('#'+env_library['buildDir']+'/packet/lib', 'Widgets.xml')
+# Copy catalog and resources
+Install('#'+env_library['buildDir']+'/packet/lib', 'sweguiwidgets.xml')
+Install('#'+env_library['buildDir']+'/packet/lib', '#src/ui/datafield.glade')

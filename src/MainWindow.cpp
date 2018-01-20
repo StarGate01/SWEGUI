@@ -27,6 +27,7 @@ MainWindow* MainWindow::create()
 void MainWindow::register_custom_gui_elements()
 {
     widgets::SFMLWidget::register_type();
+    widgets::DataFieldWidget::register_type();
 }
 
 void MainWindow::setup_gui_elements()

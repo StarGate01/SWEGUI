@@ -2,21 +2,21 @@
 #define SFML_WIDGET_H
 
 #include <gtkmm.h>
-#include <gtkmm/drawingarea.h>
-#include <gtk/gtkdrawingarea.h>
+#include <gtkmm/bin.h>
+#include <gtk/gtkbin.h>
 #include <SFML/Graphics.hpp>
 
 namespace widgets
 {
 
-  class SFMLWidget : public Gtk::DrawingArea
+  class SFMLWidget : public Gtk::Bin
   {
 
     private:
 
       static GType gtype;
 
-      SFMLWidget(GtkDrawingArea *gobj);
+      SFMLWidget(GtkBin *gobj);
       SFMLWidget();
       void initialize(sf::VideoMode mode, int size_request = -1);
 

@@ -33,12 +33,9 @@ void SFMLWidget::on_realize()
     Gtk::Widget::on_realize();
     if (!m_refGdkWindow)
     {
-        //Create the GdkWindow:
         GdkWindowAttr attributes;
         memset(&attributes, 0, sizeof(attributes));
         Gtk::Allocation allocation = get_allocation();
-
-        //Set initial position and size of the Gdk::Window:
         attributes.x = allocation.get_x();
         attributes.y = allocation.get_y();
         attributes.width = allocation.get_width();
@@ -46,17 +43,12 @@ void SFMLWidget::on_realize()
         attributes.event_mask = get_events() | Gdk::EXPOSURE_MASK;
         attributes.window_type = GDK_WINDOW_CHILD;
         attributes.wclass = GDK_INPUT_OUTPUT;
-
         m_refGdkWindow = Gdk::Window::create(get_window(), &attributes, GDK_WA_X | GDK_WA_Y);
         set_has_window(true);
         set_window(m_refGdkWindow);
-
         this->unset_background_color();
         this->set_double_buffered(false);
-
-        //make the widget receive expose events
         m_refGdkWindow->set_user_data(gobj());
-
         renderWindow.create(GDK_WINDOW_XID(m_refGdkWindow->gobj()));
     }
 }

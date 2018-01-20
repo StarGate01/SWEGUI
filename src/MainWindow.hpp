@@ -10,6 +10,7 @@
 #include "widgets/SFMLWidget.hpp"
 #include "renderer/DataRenderer.hpp"
 #include "probe/ProbeColumns.hpp"
+#include "widgets/DataFieldWidget.hpp"
 
 #define PATH_TO_MAIN_GUI "ui/main.glade"
 

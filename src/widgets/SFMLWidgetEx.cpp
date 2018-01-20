@@ -7,8 +7,8 @@ using namespace widgets;
 
 GType SFMLWidget::gtype = 0;
 
-SFMLWidget::SFMLWidget(GtkDrawingArea* gobj)
-    : Gtk::DrawingArea(gobj)
+SFMLWidget::SFMLWidget(GtkBin* gobj)
+    : Gtk::Bin(gobj)
 {
     initialize(sf::VideoMode(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 }
@@ -21,8 +21,8 @@ SFMLWidget::SFMLWidget()
 
 Glib::ObjectBase* SFMLWidget::wrap_new(GObject* o)
 {
-    if (gtk_widget_is_toplevel(GTK_WIDGET(o))) return new SFMLWidget(GTK_DRAWING_AREA(o));
-    else return Gtk::manage(new SFMLWidget(GTK_DRAWING_AREA(o)));
+    if (gtk_widget_is_toplevel(GTK_WIDGET(o))) return new SFMLWidget(GTK_BIN(o));
+    else return Gtk::manage(new SFMLWidget(GTK_BIN(o)));
 }
 
 void SFMLWidget::register_type()
