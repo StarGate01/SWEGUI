@@ -1,0 +1,48 @@
+\documentclass[paper=a4]{proc}
+\usepackage[ngerman]{babel}
+
+%Images
+\usepackage{graphicx, svg}
+
+%Tikz
+\usepackage{tikz}
+\usepackage{environ}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{positioning}
+
+\pagenumbering{gobble}		%Disable page numbers
+
+\title{Graphical Data Visualization Tool - How To Use The Interface}
+\author{George Bellamy, Christoph Honal, Felix Wieser}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}	%Disable page numbers
+	\section{Overview}
+		This is a graphical user interface to interactively visualize the output of the SWE tsunami simulation and provide basic analysis functions. It takes pre-calculated data sets as NetCDF and displays these. 
+Once you open the program you can see that the UI is divided in to different parts. At the top is the toolbar which can be used to open new files, control the simulation speed and time and export images. Below this to the left is the render view where the simulation data can be observed in a colored 2D birds eye view. It can be clicked to place probes which let you observe the data of a point in more detail.
+To the top right is the data display where information on the currently selected probe is shown. Below this is a list of probe points witch can be deleted or changed.
+		
+	\section{UI elements}
+	We will now further explain the different parts of the UI in more detail. 
+	
+		\subsection{Toolbar}
+		It is located at the top of the GUI. Looking at the buttons from left to right we have:
+		\begin{itemize}
+		\item Open: This opens a NetCDF file in a selection window. The chosen file is imported and displayed
+		\item Exit: This closes the GUI.
+		\item Place probe: After selecting this probes can be placed on the render view.
+		\item Cross section: Two points can be selected. The cross section between them is shown as an extra graph.
+		\end{itemize}
+		
+			
+		\subsection{Render view}
+		This fills most of the UI and is located on the lower left side. Here the data of the simulation is displayed with a color heightmap. Also Probe points are shown as cross hairs. The color map is chosen automatically to cover the range from the lowest point to the highest point. The renderer can be switched between the values of b(land height), b+h(land + water height), h(water height), hv(vertical water speed), hu(horizontal water speed), hx(total water speed) via the toolbar.
+		\subsection{Probes}
+		These are points of interest selected on the render view. They are listed at the bottom right and can be deleted by right clicking. To create a new point select the tool from the tool bar and click on the rendered view. The point will stay at that position and the selected points data will be displayed in the data display.
+		\subsection{Data display}
+		Above the probes on the right. Here thee data of the chosen probe is shown. The active probe can be changed by clicking on one in the list.
+		\subsection{Graphs}
+		By choosing the button in the tool bar two points can be selected on the render view. The cross section of the values between these two points in a line is then shown in an extra window. Close this window to return to the main program.
+\end{document}
