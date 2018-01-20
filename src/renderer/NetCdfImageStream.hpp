@@ -24,7 +24,7 @@ namespace renderer
             struct Meta
             {
                 int nx = 1, ny = 1;
-                float min = 0.0, max = 1.0;
+                float min = -1.f, max = 1.f;
                 float dx = 2.f, dy = 1.f, originx = 0.f, originy = 0.f;
                 float ax() { return dx * nx; }
                 float ay() { return dy * ny; }

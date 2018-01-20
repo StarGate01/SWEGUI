@@ -81,11 +81,7 @@ bool NetCdfImageStream::find_minmax()
     for(int i=1; i<meta_info.nx * meta_info.ny; i++)
     {
         float fdata = current_data[i];
-        if(add_bathymetry)
-        {
-            float bdata = reader->bData[i];
-            fdata = fdata + bdata;
-        }
+        if(add_bathymetry) fdata += reader->bData[i];
         if(fdata < meta_info.min) meta_info.min = fdata;
         if(fdata > meta_info.max) meta_info.max = fdata;
     }
@@ -108,11 +104,7 @@ sf::Int64 NetCdfImageStream::read(void* data, sf::Int64 size)
     {
         uint64_t data_pos = stream_pos - BMP_HEADER_SIZE;
         float fdata = current_data[data_pos / 3];
-        if(add_bathymetry)
-        {
-            float bdata = reader->bData[data_pos / 3];
-            fdata = fdata + bdata;
-        }
+        if(add_bathymetry) fdata += reader->bData[data_pos / 3];
         fdata = (fdata - meta_info.min) / diff;
         float intp = 0.f;
 

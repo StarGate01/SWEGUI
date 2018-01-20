@@ -9,9 +9,8 @@ using namespace renderer;
 
 DataRenderer::DataRenderer(sfml::SFMLWidget &widget) : widget(widget)
 {
-    b.name = "b"; b.index = 0; h.name = "h"; h.index = 1;
-    hu.name = "hu"; hu.index = 2; hv.name = "hv";  hv.index = 3;
-    hx.name = "hx"; hx.index = 4; hx.computed = true;
+    b.name = "b"; h.name = "h"; hu.name = "hu"; hv.name = "hv"; hx.name = "hx"; hx.computed = true;
+    meta_info = &netcdf_stream.meta_info;
 
     //test
     b.enable = true;
@@ -22,11 +21,14 @@ DataRenderer::DataRenderer(sfml::SFMLWidget &widget) : widget(widget)
     for(int i=2; i<8; i++) b.colors[i] = sf::Color::White;
     //end test
 
-    meta_info = &netcdf_stream.meta_info;
-
     if (!sf::Shader::isAvailable()) perror("Shaders are not available on this GPU");
     if (!shader.loadFromFile(PATH_TO_FRAG_SHADER, sf::Shader::Fragment)) perror("Cannot load shader");
-    for(int i=0; i<5; i++) layers[i]->update_shader(shader, true);
+    for(int i=0; i<5; i++) 
+    {
+        layers[i]->index = i;
+        layers[i]->shader = &shader;
+        layers[i]->update_shader(true);
+    }
 
     crosshair_tex.loadFromFile(PATH_TO_CROSSHAIR_TEX);
     crosshair_active_tex.loadFromFile(PATH_TO_CROSSHAIR_ACTIVE_TEX);
@@ -92,7 +94,7 @@ int DataRenderer::select_load(NetCdfImageStream::Variable variable, int index, L
 
 void DataRenderer::update_shader()
 {
-    for(int i=0; i<5; i++) layers[i]->update_shader(shader);
+    for(int i=0; i<5; i++) layers[i]->update_shader();
     widget.invalidate();
 }
 

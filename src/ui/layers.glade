@@ -64,7 +64,7 @@
   </object>
   <object class="GtkWindow" id="window_layers">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Select layers</property>
+    <property name="title" translatable="yes">Select Layers</property>
     <property name="resizable">False</property>
     <property name="window_position">center-on-parent</property>
     <property name="icon_name">applications-system</property>
@@ -339,6 +339,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="adjustment">adjustment_b_min</property>
+            <property name="digits">2</property>
+            <property name="value">-1</property>
           </object>
           <packing>
             <property name="left_attach">3</property>
@@ -351,6 +353,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="adjustment">adjustment_h_min</property>
+            <property name="digits">2</property>
+            <property name="value">-1</property>
           </object>
           <packing>
             <property name="left_attach">3</property>
@@ -363,6 +367,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="adjustment">adjustment_hu_min</property>
+            <property name="digits">2</property>
+            <property name="value">-1</property>
           </object>
           <packing>
             <property name="left_attach">3</property>
@@ -375,6 +381,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="adjustment">adjustment_hv_min</property>
+            <property name="digits">2</property>
+            <property name="value">-1</property>
           </object>
           <packing>
             <property name="left_attach">3</property>
@@ -387,6 +395,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="adjustment">adjustment_hx_min</property>
+            <property name="digits">2</property>
+            <property name="value">-1</property>
           </object>
           <packing>
             <property name="left_attach">3</property>
@@ -399,6 +409,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="adjustment">adjustment_b_max</property>
+            <property name="digits">2</property>
+            <property name="value">1</property>
           </object>
           <packing>
             <property name="left_attach">4</property>
@@ -411,6 +423,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="adjustment">adjustment_h_max</property>
+            <property name="digits">2</property>
+            <property name="value">1</property>
           </object>
           <packing>
             <property name="left_attach">4</property>
@@ -423,6 +437,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="adjustment">adjustment_hu_max</property>
+            <property name="digits">2</property>
+            <property name="value">1</property>
           </object>
           <packing>
             <property name="left_attach">4</property>
@@ -435,6 +451,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="adjustment">adjustment_hv_max</property>
+            <property name="digits">2</property>
+            <property name="value">1</property>
           </object>
           <packing>
             <property name="left_attach">4</property>
@@ -447,6 +465,8 @@
             <property name="can_focus">True</property>
             <property name="margin_right">5</property>
             <property name="adjustment">adjustment_hx_max</property>
+            <property name="digits">2</property>
+            <property name="value">1</property>
           </object>
           <packing>
             <property name="left_attach">4</property>

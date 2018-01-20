@@ -21,6 +21,7 @@ namespace renderer
       NetCdfImageStream::Meta* meta_info = nullptr;
 
       Layer b, h, hu, hv, hx;
+      Layer* layers[5] = { &b, &h, &hu, &hv, &hx };
       map<std::string, probe::DataProbe> probes;
       std::string active_probe_name;
 
@@ -42,8 +43,6 @@ namespace renderer
       type_signal_select m_signal_select;
 
     private:
-
-      Layer* layers[5] = { &b, &h, &hu, &hv, &hx };
 
       sfml::SFMLWidget &widget;
       NetCdfImageStream netcdf_stream;

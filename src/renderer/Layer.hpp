@@ -24,9 +24,10 @@ namespace renderer
         bool enable = false;
         bool computed = false;
         sf::Texture texture;
+        sf::Shader* shader = nullptr;
 
         Layer();
-        void update_shader(sf::Shader&, bool use_tex = false);
+        void update_shader(bool use_tex = false);
         
     };
 

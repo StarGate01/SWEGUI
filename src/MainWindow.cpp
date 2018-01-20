@@ -138,6 +138,7 @@ void MainWindow::on_action_fileopen()
         std::string filename = dialog_open->get_filename();
         int res = data_renderer->open(filename);
         cout << "Open result: " << res << endl;
+        window_layers->update_ui();
     }
     dialog_open->hide();
 }

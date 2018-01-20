@@ -5,9 +5,7 @@ using namespace swegui;
 
 EditProbeDialog::EditProbeDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
     : Gtk::Dialog(cobject), m_refBuilder(refBuilder)
-{
-    setup_gui_elements();
-}
+{ }
 
 EditProbeDialog* EditProbeDialog::create(MainWindow* pa)
 {
@@ -16,6 +14,7 @@ EditProbeDialog* EditProbeDialog::create(MainWindow* pa)
     refBuilder->get_widget_derived("dialog_probe_edit", window);
     window->parent = pa;
     window->set_transient_for(*(window->parent));
+    window->setup_gui_elements();
     return window;
 }
 

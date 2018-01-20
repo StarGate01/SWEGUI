@@ -28,6 +28,10 @@ namespace swegui
             float get_y();
             bool existing = false;
 
+        protected:
+
+            Glib::RefPtr<Gtk::Builder> m_refBuilder;
+
         private:
 
             MainWindow* parent = nullptr;
@@ -38,10 +42,6 @@ namespace swegui
             Gtk::Button* button_okay = nullptr;
 
             void setup_gui_elements();
-
-        protected:
-
-            Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
     };
 
