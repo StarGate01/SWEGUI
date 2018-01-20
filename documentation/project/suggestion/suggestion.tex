@@ -1,0 +1,49 @@
+\documentclass[paper=a4]{proc}
+\usepackage[ngerman]{babel}
+
+\pagenumbering{gobble}		%Disable page numbers
+
+\title{Graphical Data Visualization Tool}
+\author{George Bellamy, Christoph Honal, Felix Wieser}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}	%Disable page numbers
+	\section{Outline}
+		This project is about implementing a graphical user interface to interactively visualize the output of the SWE-tsunami-simulation and provide basic analyzing functions for the tsunami waves. Additionally, the ability to export images, videos and graphs (i.e. cross-sections) are planned as well. The project is intended to be a standalone application which loads pre-calculated datasets.
+	\section{Description}
+		\subsection{GUI}
+			The GUI consists of a 2D renderer and some control elements. It should support zoom/pan of the map and multiple layers of data to allow overlays.
+ 		\subsection{Data analysis}
+			The following analysis-tools are planned at this time:
+			\subsubsection*{Cell probe}
+				Displays the raw cell data at a predefined point on the map, i.e. the pointers location or a fixed position.
+			\subsubsection*{Arrival time calculator}
+				Arrival time calculator: After the specification of a target location, the arrival time of the tsunami is calculated. Technically, the cells with a high water level are highlighted and a probe detects the first iteration, in which a highlighted cell is at or close to (coastal regions) this location.
+			\subsubsection*{Coastal damage estimation}
+				This feature is an extension of the arrival time calculator, except it probes all coastal regions and outputs the maximum wave height over time at each location.
+			\subsection*{Cross-section analysis}
+				In order to visualize a vertical profile, cross-sections can be very helpful. Two points must be selected on the map to specify the line along which the vertical profile of bathymetry and water height is then plotted.
+		\subsection{Export}
+			For increased usability the application should be capable to export images and maybe even videos of the scenario and graphs.
+	\section{Implementation steps}
+		The project is partitioned into several milestones, the essentials being the first three, and all others being additional features.
+		\begin{itemize}
+			\item Framework
+			\begin{itemize}
+				\item Using \emph{gtkmm} (with \emph{glade})
+			\end{itemize}
+			\item Height-map renderer
+			\begin{itemize}
+				\item Using \emph{openGL} pixelshaders
+			\end{itemize}
+			\item Data analysis functions
+			\item Interactive GUI-Elements
+			\item Add zoom/pan of the map
+			\item Layer-based rendering
+			\item Image and video export
+			\begin{itemize}
+				\item Using \emph{ffmpeg}
+			\end{itemize}
+		\end{itemize}
+\end{document}
