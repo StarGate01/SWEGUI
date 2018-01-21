@@ -214,6 +214,7 @@ void MainWindow::on_action_probelist_activate(const Gtk::TreeModel::Path& path, 
     probe::ProbeDetailsWindow** window = &(data_renderer->probes[data_renderer->active_probe_name].window);
     if(*window == nullptr) *window = probe::ProbeDetailsWindow::create(this, data_renderer->active_probe_name);
     (*window)->show();
+    (*window)->update_ui();
 }
 
 void MainWindow::on_action_probelist_button_press(GdkEventButton *event)
