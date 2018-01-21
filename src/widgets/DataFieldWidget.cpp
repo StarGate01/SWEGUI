@@ -34,5 +34,11 @@ void DataFieldWidget::update_ui()
         //sample data with parent->data_renderer->sample
         //does not work for hx (not in file), calculate by hand
         //note: sample is not yet implemented, always returns 0
+
+        //tip: put controls in arrays and use parent->data_renderer->layers instead of individual objects
+        //check out and adapt implementation from LayerWindow
+
+        //when i think of it, this class should not be very different from LayerWindow
+        //it even has only uni- instead of bi-directional dataflow
     }
 }
