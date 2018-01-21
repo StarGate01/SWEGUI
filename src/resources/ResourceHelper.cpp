@@ -1,3 +1,8 @@
+/**
+ * @file ResourceHelper.cpp
+ * @brief Implements the functionality defined in Resourcehelper.hpp
+ */
+
 #include <gtkmm.h>
 #include <giomm/resource.h>
 #include "ResourceHelper.hpp"
@@ -26,6 +31,7 @@ void* ResourceHelper::global_to_memory(const std::string& path)
 
 unsigned long ResourceHelper::global_get_size(const std::string& path)
 {
+    if(!Gio::Resource::get_file_exists_global_nothrow(path)) return -1;
     gsize size;
     Gio::ResourceFlags flags;
     Gio::Resource::get_info_global(path, size, flags);

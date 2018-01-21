@@ -65,7 +65,7 @@ namespace swegui
             Gtk::ToolButton* tb_crosssection = nullptr;
             
             //Raw data field
-            Gtk::Label* lbl_raw_data = nullptr;
+            // Gtk::Label* lbl_raw_data = nullptr;
             //Probelist
             Gtk::TreeView* probelist = nullptr;
             Glib::RefPtr<Gtk::ListStore> probelist_store;

@@ -61,7 +61,7 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("tbtn_tool_cda", tb_tool_cda);
     m_refBuilder->get_widget("tbtn_tool_crosssection", tb_crosssection);
     //Get raw data label
-    m_refBuilder->get_widget("lbl_info", lbl_raw_data);
+    //m_refBuilder->get_widget("lbl_info", lbl_raw_data);
     //probe list
     m_refBuilder->get_widget("treeview_probes", probelist);
     m_refBuilder->get_widget("context_menu_probelist", contextmenu_probelist);
@@ -128,8 +128,8 @@ void MainWindow::initialize_gui_elements()
 {
     //TESTING: Change label of textfield
     //TODO: Remove the following line after proof of concept
-    lbl_raw_data->set_width_chars(30);
-    lbl_raw_data->set_text("Hello world");
+    // lbl_raw_data->set_width_chars(30);
+    // lbl_raw_data->set_text("Hello world");
 }
 
 void MainWindow::on_action_fileopen()

@@ -1,6 +1,8 @@
+#include <iostream>
 #include "DataFieldWidget.hpp"
 
 using namespace widgets;
+using namespace std;
 
 GType DataFieldWidget::gtype = 0;
 
@@ -18,8 +20,9 @@ DataFieldWidget::DataFieldWidget()
 
 Glib::ObjectBase* DataFieldWidget::wrap_new(GObject* o)
 {
-    if (gtk_widget_is_toplevel(GTK_WIDGET(o))) return new DataFieldWidget(GTK_BIN(o));
-    else return Gtk::manage(new DataFieldWidget(GTK_BIN(o)));
+    DataFieldWidget* widget = new DataFieldWidget(GTK_BIN(o));
+    if (gtk_widget_is_toplevel(GTK_WIDGET(o))) return widget;
+    else return Gtk::manage(widget);
 }
 
 void DataFieldWidget::register_type()

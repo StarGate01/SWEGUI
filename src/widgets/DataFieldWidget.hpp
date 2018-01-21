@@ -23,6 +23,9 @@ namespace widgets
 
     protected:
 
+      virtual void on_realize();
+      virtual void on_unrealize();
+
       Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
     private:
