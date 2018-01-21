@@ -30,5 +30,9 @@ void DataFieldWidget::update_ui()
     {
         cout << "probe WIDGET: " << name << " updates ui" << endl;
         //put data from parent->data_renderer->probes[name] into ui elements
+        //use coordinates from probe
+        //sample data with parent->data_renderer->sample
+        //does not work for hx (not in file), calculate by hand
+        //note: sample is not yet implemented, always returns 0
     }
 }

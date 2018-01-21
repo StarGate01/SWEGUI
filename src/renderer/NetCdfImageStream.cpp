@@ -39,6 +39,11 @@ bool NetCdfImageStream::select(Variable var, uint32_t index)
     return find_minmax();
 }
 
+float NetCdfImageStream::sample(Variable var, float x, float y)
+{
+    return 0.f; //todo
+}
+
 bool NetCdfImageStream::generate_meta()
 {
     if(reader == nullptr || !reader->success) return false;

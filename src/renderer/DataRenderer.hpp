@@ -31,6 +31,7 @@ namespace renderer
       int select_timestamp(int timestamp);
       void update_shader();
       void invalidate();
+      float sample(NetCdfImageStream::Variable var, float x, float y);
 
       typedef sigc::signal<void, bool> type_signal_update;
       type_signal_update signal_update();

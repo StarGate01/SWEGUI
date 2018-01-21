@@ -78,6 +78,11 @@ int DataRenderer::select_timestamp(int timestamp)
     return ERROR_SUCCESS;
 }
 
+float DataRenderer::sample(NetCdfImageStream::Variable var, float x, float y)
+{
+    return netcdf_stream.sample(var, x, y);
+}
+
 int DataRenderer::select_load(NetCdfImageStream::Variable variable, int index, Layer& lay)
 {
     bool ret = netcdf_stream.select(variable, index);
