@@ -88,7 +88,7 @@
             "type": "shell",
             "command": "./swegui",
             "options": {
-                "cwd": "${workspaceRoot}/build/packet"
+                "cwd": "${workspaceRoot}/build/build_swegui"
             },
             "args": [],
             "problemMatcher": []
@@ -98,7 +98,7 @@
             "type": "shell",
             "command": "bash",
             "options": {
-                "cwd": "${workspaceRoot}/build/packet"
+                "cwd": "${workspaceRoot}/build/build_swegui"
             },
             "args": [
                 "-c",
@@ -138,16 +138,6 @@
             ],
             "options": {
                 "cwd": "${workspaceRoot}/documentation"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Regenerate Glade Configuaration",
-            "type": "shell",
-            "command": "./gladeconf.sh",
-            "args": [ ],
-            "options": {
-                "cwd": "${workspaceRoot}/.vscode"
             },
             "problemMatcher": []
         },

@@ -3,41 +3,36 @@
 
 #include <string>
 #include <gtkmm.h>
-#include <gtkmm/bin.h>
-#include <gtk/gtkbin.h>
 
-#define PATH_TO_DATAFIELD_GUI "/widgets/src/widgets/ui/datafield.glade"
+#define PATH_TO_DATAFIELD_GUI "/main/src/ui/datafield.glade"
+
+namespace swegui
+{
+
+  class MainWindow;
+
+}
 
 namespace widgets
 {
 
-  class DataFieldWidget : public Gtk::Bin
+  class DataFieldWidget : public Gtk::Notebook
   {
 
     public:
 
-      DataFieldWidget();
-      virtual ~DataFieldWidget() { }
-
-      static void register_type();
+      DataFieldWidget(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
+      static DataFieldWidget* create(swegui::MainWindow* pa);
 
     protected:
-
-      virtual void on_realize();
-      virtual void on_unrealize();
 
       Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
     private:
 
-      static GType gtype;
+      swegui::MainWindow* parent = nullptr;
 
-      DataFieldWidget(GtkBin *gobj);
-      void initialize();
-
-      static Glib::ObjectBase *wrap_new(GObject *o);
-
-      Gtk::Notebook* notebook = nullptr;
+      void setup_gui_elements();
       
   };
 

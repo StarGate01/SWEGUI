@@ -15,7 +15,7 @@ namespace renderer
 namespace swegui
 {
 
-    class MainWindow; //Forward declaration to resolve circular include dependencies
+    class MainWindow;
 
     class LayerWindow : public Gtk::Window
     {

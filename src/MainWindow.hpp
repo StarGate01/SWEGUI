@@ -27,14 +27,11 @@ namespace swegui
             static MainWindow* create();
 
             void open_file_view(const Glib::RefPtr<Gio::File>& file);
-            static void register_custom_gui_elements();
 
             renderer::DataRenderer* data_renderer = nullptr;
 
         private:
 
-            //Additional windows
-            LayerWindow* window_layers = nullptr;
             //Menubar
             Gtk::MenuBar* menubar_main = nullptr;
             Gtk::MenuItem* mb_file_open = nullptr;
@@ -66,6 +63,8 @@ namespace swegui
             
             //Raw data field
             // Gtk::Label* lbl_raw_data = nullptr;
+            Gtk::Alignment* alignment_frame_probedata = nullptr;
+            widgets::DataFieldWidget* probedata = nullptr;
             //Probelist
             Gtk::TreeView* probelist = nullptr;
             Glib::RefPtr<Gtk::ListStore> probelist_store;
@@ -76,11 +75,14 @@ namespace swegui
             Gtk::MenuItem* menuitem_probelist_edit = nullptr;
             Gtk::MenuItem* menuitem_probelist_remove = nullptr;
             //SFML control
+            Gtk::Alignment* alignment_frame_sfml = nullptr;
             widgets::SFMLWidget* sfml_area = nullptr;
             //Additional dialogs
             Gtk::FileChooserDialog* dialog_open = nullptr;
             Gtk::AboutDialog* dialog_about = nullptr;
             EditProbeDialog* dialog_probe_edit = nullptr;
+            //Additional windows
+            LayerWindow* window_layers = nullptr;
 
             //Handlers
             void setup_gui_elements();

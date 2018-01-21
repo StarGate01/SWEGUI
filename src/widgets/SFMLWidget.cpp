@@ -1,17 +1,27 @@
 #include "SFMLWidget.hpp"
+#include "../MainWindow.hpp"
 #include <gdk/gdkx.h>
 
 using namespace widgets;
 
-SFMLWidget::SFMLWidget(sf::VideoMode mode, int size_request)
+SFMLWidget::SFMLWidget(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
+    : Gtk::Bin(cobject), m_refBuilder(refBuilder)
+{ }
+
+SFMLWidget* SFMLWidget::create(swegui::MainWindow* pa)
 {
-    initialize(mode, size_request);
+    auto refBuilder = Gtk::Builder::create_from_resource(PATH_TO_SFML_GUI);
+    SFMLWidget* widget = nullptr;
+    refBuilder->get_widget_derived("sfml_bin", widget);
+    widget->parent = pa;
+    // widget->set_transient_for(*(widget->parent));
+    widget->setup_gui_elements();
+    return widget;
 }
 
-void SFMLWidget::initialize(sf::VideoMode mode, int size_request)
+void SFMLWidget::setup_gui_elements()
 {
-    if (size_request <= 0) size_request = std::max<int>(1, std::min<int>(mode.width, mode.height) / 2);
-    set_size_request(size_request, size_request);
+    set_size_request(300, 200);
     set_has_window(false);
 }
 

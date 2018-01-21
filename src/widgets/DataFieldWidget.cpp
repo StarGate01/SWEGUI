@@ -1,36 +1,24 @@
-#include <iostream>
-#include <cstdlib>
 #include "DataFieldWidget.hpp"
-#include <gdk/gdkx.h>
-#include <unistd.h>
+#include "../MainWindow.hpp"
 
 using namespace widgets;
-using namespace std;
 
-void DataFieldWidget::initialize()
+DataFieldWidget::DataFieldWidget(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
+    : Gtk::Notebook(cobject), m_refBuilder(refBuilder)
+{ }
+
+DataFieldWidget* DataFieldWidget::create(swegui::MainWindow* pa)
 {
-    set_size_request(100, 100);
-    set_has_window(false);
-
-    // remove();
-    // Gtk::Button tbtn("test");
-    // add(tbtn);
-    // tbtn.show_all();
-    // show_all();
+    auto refBuilder = Gtk::Builder::create_from_resource(PATH_TO_DATAFIELD_GUI);
+    DataFieldWidget* widget = nullptr;
+    refBuilder->get_widget_derived("notebook_main", widget);
+    widget->parent = pa;
+    // widget->set_transient_for(*(widget->parent));
+    widget->setup_gui_elements();
+    return widget;
 }
 
-void DataFieldWidget::on_realize()
+void DataFieldWidget::setup_gui_elements()
 {
-    Gtk::Widget::on_realize();
-    m_refBuilder = Gtk::Builder::create_from_resource(PATH_TO_DATAFIELD_GUI);
-    m_refBuilder->get_widget("notebook_main", notebook);
-    add(*notebook);
-    notebook->show();
-    show_all_children();
-    show();
-}
 
-void DataFieldWidget::on_unrealize()
-{
-    Gtk::Widget::on_unrealize();
 }

@@ -5,6 +5,7 @@ using namespace probe;
 ProbeColumns DataProbe::cols;
 
 DataProbe::DataProbe()
+    : DataProbe(0.f, 0.f)
 { }
 
 DataProbe::DataProbe(float px, float py)

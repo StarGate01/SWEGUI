@@ -4,6 +4,9 @@
     <file preprocess="xml-stripblanks">src/ui/main.glade</file>
     <file preprocess="xml-stripblanks">src/ui/probe.glade</file>
     <file preprocess="xml-stripblanks">src/ui/layers.glade</file>
+    <file preprocess="xml-stripblanks">src/ui/datafield.glade</file>
+    <file preprocess="xml-stripblanks">src/ui/sfml.glade</file>
+    <file preprocess="xml-stripblanks">src/ui/probe_detail.glade</file>
     <file>src/ui/crosshair.png</file>
     <file>src/ui/crosshair_active.png</file>
     <file>src/ui/icon_32.png</file>

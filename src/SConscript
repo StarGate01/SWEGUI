@@ -3,39 +3,33 @@
 import sys
 import os
 
-Import('env_program')
+Import('env')
 
 # List resources
-sourceFiles_res = ['ui/main.glade', 'ui/probe.glade', 'ui/layers.glade']
-sourceFiles_res += ['ui/crosshair.png', 'ui/crosshair_active.png', 'ui/icon_32.png', 'ui/icon_fancy.png']
-sourceFiles_res += ['ui/main.frag']
-res_code = '#'+env_program['buildDir']+'/'+env_program['buildDir']+'_'+env_program.program_name+'/ui/resources_main.c'
+ui_res = ['ui/main.glade', 'ui/probe.glade', 'ui/layers.glade', 'ui/datafield.glade', 'ui/sfml.glade', 'ui/probe_detail.glade']
+ui_res += ['ui/crosshair.png', 'ui/crosshair_active.png', 'ui/icon_32.png', 'ui/icon_fancy.png']
+ui_res += ['ui/main.frag']
+res_code = '#'+env['buildDir']+'/'+env['buildDir']+'_'+env.program_name+'/ui/resources_main.c'
 res_xml = 'ui/main.gresource.xml'
-Depends(res_xml, sourceFiles_res)
-env_program.GtkResBld(res_code, res_xml)
+res = env.GtkResBld(res_code, res_xml)
+Depends(res, ui_res)
 
 # List sources
 sourceFiles_prog = ['main.cpp', 'Application.cpp', 'resources/ResourceHelper.cpp']
-sourceFiles_prog += ['widgets/SFMLWidget.cpp', 'widgets/SFMLWidgetEx.cpp']
-sourceFiles_prog += ['widgets/DataFieldWidget.cpp', 'widgets/DataFieldWidgetEx.cpp']
+sourceFiles_prog += ['widgets/SFMLWidget.cpp', 'widgets/DataFieldWidget.cpp']
 sourceFiles_prog += ['MainWindow.cpp', 'LayerWindow.cpp', 'EditProbeDialog.cpp']
-sourceFiles_prog += ['probe/DataProbe.cpp', 'probe/ProbeColumns.cpp']
+sourceFiles_prog += ['probe/DataProbe.cpp', 'probe/ProbeColumns.cpp', 'probe/ProbeDetailsWindow.cpp']
 sourceFiles_prog += ['renderer/DataRenderer.cpp', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp']
 sourceFiles_prog += [res_code]
-env_program.src_files = []
-for i in sourceFiles_prog: env_program.src_files.append(env_program.Object(i))
-
-env_program.Append(CCFLAGS=['-fPIC'])
+env.src_files = []
+for i in sourceFiles_prog: env.src_files.append(env.Object(i))
 
 # Add search path for swe
 Repository('#submodules/swe')
-env_program.Append(CPPPATH=['#submodules/swe/src'])
+env.Append(CPPPATH=['#submodules/swe/src'])
 
 # Build binary
-env_program.Program(env_program.program_name, env_program.src_files)
+prog = env.Program(env.program_name, env.src_files)
 
 # Define tests
-env_program.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp'])
-
-# Copy binary
-Install('#'+env_program['buildDir']+'/packet', env_program.program_name)
+env.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp'])

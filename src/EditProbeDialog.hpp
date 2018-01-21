@@ -9,7 +9,7 @@
 namespace swegui
 {
 
-    class MainWindow; //Forward declaration to resolve circular include dependencies
+    class MainWindow;
 
     class EditProbeDialog : public Gtk::Dialog
     {

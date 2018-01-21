@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
+<interface>
+  <requires lib="gtk+" version="3.12"/>
+  <object class="GtkWindow" id="window_probe">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Probe Details</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="icon_name">applications-system</property>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+</interface>

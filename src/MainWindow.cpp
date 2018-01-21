@@ -24,12 +24,6 @@ MainWindow* MainWindow::create()
     return window;
 }
 
-void MainWindow::register_custom_gui_elements()
-{
-    widgets::SFMLWidget::register_type();
-    widgets::DataFieldWidget::register_type();
-}
-
 void MainWindow::setup_gui_elements()
 {
     //Get menu bar
@@ -62,6 +56,9 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("tbtn_tool_crosssection", tb_crosssection);
     //Get raw data label
     //m_refBuilder->get_widget("lbl_info", lbl_raw_data);
+    m_refBuilder->get_widget("alignment_frame_probedata", alignment_frame_probedata);
+    probedata = widgets::DataFieldWidget::create(this);
+    alignment_frame_probedata->add(*probedata);
     //probe list
     m_refBuilder->get_widget("treeview_probes", probelist);
     m_refBuilder->get_widget("context_menu_probelist", contextmenu_probelist);
@@ -71,7 +68,9 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("menuitem_probelist_edit", menuitem_probelist_edit);
     m_refBuilder->get_widget("menuitem_probelist_remove", menuitem_probelist_remove);
     //Get SFML control, init renderer
-    m_refBuilder->get_widget("sfml_area", sfml_area);
+    m_refBuilder->get_widget("alignment_frame_sfml", alignment_frame_sfml);
+    sfml_area = widgets::SFMLWidget::create(this);
+    alignment_frame_sfml->add(*sfml_area);
     data_renderer = new renderer::DataRenderer(*sfml_area);
     //Dialogs
     m_refBuilder->get_widget("dialog_open", dialog_open);
@@ -212,7 +211,9 @@ void MainWindow::on_action_about()
 
 void MainWindow::on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column)
 {
-    std::cout << "List: Self destruction enabled... standby for blast" << std::endl;
+    probe::ProbeDetailsWindow** window = &(data_renderer->probes[data_renderer->active_probe_name].window);
+    if(*window == nullptr) *window = probe::ProbeDetailsWindow::create(this);
+    (*window)->show();
 }
 
 void MainWindow::on_action_probelist_button_press(GdkEventButton *event)

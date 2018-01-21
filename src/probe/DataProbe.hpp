@@ -5,6 +5,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "ProbeColumns.hpp"
+#include "ProbeDetailsWindow.hpp"
 
 namespace probe
 {
@@ -23,6 +24,7 @@ namespace probe
             sf::Sprite& getSprite();
             void fill_row(const Gtk::TreeRow& row);
 
+            ProbeDetailsWindow* window = nullptr;
 
         private:
 

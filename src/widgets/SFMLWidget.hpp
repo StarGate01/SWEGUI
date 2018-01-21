@@ -2,9 +2,16 @@
 #define SFML_WIDGET_H
 
 #include <gtkmm.h>
-#include <gtkmm/bin.h>
-#include <gtk/gtkbin.h>
 #include <SFML/Graphics.hpp>
+
+#define PATH_TO_SFML_GUI "/main/src/ui/sfml.glade"
+
+namespace swegui
+{
+
+  class MainWindow;
+
+}
 
 namespace widgets
 {
@@ -16,16 +23,15 @@ namespace widgets
 
       sf::RenderWindow renderWindow;
 
-      SFMLWidget(sf::VideoMode mode, int size_request = -1);
-      virtual ~SFMLWidget() { }
+      SFMLWidget(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
+      static SFMLWidget* create(swegui::MainWindow* pa);
 
       void invalidate();
       void display();
 
-      static void register_type();
-
     protected:
 
+      Glib::RefPtr<Gtk::Builder> m_refBuilder;
       sf::VideoMode m_vMode;
 
       virtual void on_size_allocate(Gtk::Allocation &allocation);
@@ -36,13 +42,9 @@ namespace widgets
 
     private:
 
-      static GType gtype;
+      swegui::MainWindow* parent = nullptr;
 
-      SFMLWidget(GtkBin *gobj);
-      SFMLWidget();
-      void initialize(sf::VideoMode mode, int size_request = -1);
-
-      static Glib::ObjectBase *wrap_new(GObject *o);
+      void setup_gui_elements();
 
   };
 

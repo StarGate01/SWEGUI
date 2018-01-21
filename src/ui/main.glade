@@ -2,7 +2,6 @@
 <!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
-  <requires lib="sweguiwidgets" version="0.0"/>
   <object class="GtkMenu" id="context_menu_probelist">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -46,7 +45,7 @@
     </columns>
   </object>
   <object class="GtkApplicationWindow" id="window_main">
-    <property name="width_request">800</property>
+    <property name="width_request">1000</property>
     <property name="height_request">600</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">SWEGUI</property>
@@ -459,7 +458,7 @@
                 <property name="label_xalign">0</property>
                 <property name="shadow_type">in</property>
                 <child>
-                  <object class="GtkAlignment" id="alignment3">
+                  <object class="GtkAlignment" id="alignment_frame_sfml">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="top_padding">1</property>
@@ -467,10 +466,7 @@
                     <property name="left_padding">1</property>
                     <property name="right_padding">1</property>
                     <child>
-                      <object class="gtkmm__CustomObject_sfmlwidget" id="sfml_area">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
+                      <placeholder/>
                     </child>
                   </object>
                 </child>
@@ -496,14 +492,18 @@
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkFrame" id="frame1">
+                  <object class="GtkFrame" id="frame_probedata">
+                    <property name="width_request">300</property>
+                    <property name="height_request">200</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_right">5</property>
+                    <property name="hexpand">False</property>
+                    <property name="vexpand">False</property>
                     <property name="label_xalign">0</property>
                     <property name="shadow_type">in</property>
                     <child>
-                      <object class="GtkAlignment" id="alignment1">
+                      <object class="GtkAlignment" id="alignment_frame_probedata">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="top_padding">1</property>
@@ -511,15 +511,7 @@
                         <property name="left_padding">1</property>
                         <property name="right_padding">1</property>
                         <child>
-                          <object class="gtkmm__CustomObject_datafieldwidget" id="datafieldwidget1">
-                            <property name="width_request">200</property>
-                            <property name="height_request">150</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
+                          <placeholder/>
                         </child>
                       </object>
                     </child>
@@ -535,7 +527,7 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="fill">False</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
