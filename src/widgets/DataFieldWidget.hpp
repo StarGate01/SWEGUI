@@ -22,7 +22,10 @@ namespace widgets
     public:
 
       DataFieldWidget(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
-      static DataFieldWidget* create(swegui::MainWindow* pa);
+      static DataFieldWidget* create(swegui::MainWindow* pa, std::string na);
+
+      void update_ui();
+      std::string name;
 
     protected:
 

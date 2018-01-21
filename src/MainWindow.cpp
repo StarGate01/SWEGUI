@@ -57,7 +57,7 @@ void MainWindow::setup_gui_elements()
     //Get raw data label
     //m_refBuilder->get_widget("lbl_info", lbl_raw_data);
     m_refBuilder->get_widget("alignment_frame_probedata", alignment_frame_probedata);
-    probedata = widgets::DataFieldWidget::create(this);
+    probedata = widgets::DataFieldWidget::create(this, "");
     alignment_frame_probedata->add(*probedata);
     //probe list
     m_refBuilder->get_widget("treeview_probes", probelist);
@@ -65,6 +65,7 @@ void MainWindow::setup_gui_elements()
     probelist_store = Glib::RefPtr<Gtk::ListStore>::cast_dynamic(m_refBuilder->get_object("liststore_probes"));
     m_refBuilder->get_widget("button_probe_add", button_probe_add);
     //Its context menu
+    m_refBuilder->get_widget("menuitem_probelist_open", menuitem_probelist_open);
     m_refBuilder->get_widget("menuitem_probelist_edit", menuitem_probelist_edit);
     m_refBuilder->get_widget("menuitem_probelist_remove", menuitem_probelist_remove);
     //Get SFML control, init renderer
@@ -113,6 +114,7 @@ void MainWindow::setup_gui_elements()
     probelist->get_selection()->signal_changed().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_changed));
     button_probe_add->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_button_probe_add));
     //And its context menu
+    menuitem_probelist_open->signal_activate().connect(sigc::mem_fun(this, &MainWindow::open_probe_ui));
     menuitem_probelist_edit->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_context_edit));
     menuitem_probelist_remove->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_probe_remove));
     //Event handlers for sfml widget
@@ -211,19 +213,22 @@ void MainWindow::on_action_about()
 
 void MainWindow::on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column)
 {
+    open_probe_ui();
+}
+
+void MainWindow::open_probe_ui()
+{
     probe::ProbeDetailsWindow** window = &(data_renderer->probes[data_renderer->active_probe_name].window);
     if(*window == nullptr) *window = probe::ProbeDetailsWindow::create(this, data_renderer->active_probe_name);
-    (*window)->show();
     (*window)->update_ui();
+    (*window)->show();
 }
 
 void MainWindow::on_action_probelist_button_press(GdkEventButton *event)
 {
     if((event->type == GDK_BUTTON_PRESS) && (event->button == 3)
         && probelist->get_selection()->count_selected_rows() > 0)
-    {
-        contextmenu_probelist->popup(event->button, event->time);
-    }
+            contextmenu_probelist->popup(event->button, event->time);
 }
 
 void MainWindow::on_action_probelist_changed()
@@ -234,6 +239,7 @@ void MainWindow::on_action_probelist_changed()
     {
         Gtk::TreeModel::Row row = *iter;
         data_renderer->active_probe_name = row[probelist_columns.col_name];
+        update_probe_ui(data_renderer->active_probe_name);
         data_renderer->invalidate();
     }
 }
@@ -254,7 +260,7 @@ void MainWindow::on_probe_remove()
         string name = row[probelist_columns.col_name];
         probe::ProbeDetailsWindow* window = data_renderer->probes[name].window;
         if(window != nullptr) window->hide();
-        data_renderer->probes.erase();
+        data_renderer->probes.erase(name);
         probelist_store->erase(iter);
         data_renderer->invalidate();
     }
@@ -315,6 +321,7 @@ void MainWindow::handle_add_edit()
     }
     data_renderer->active_probe_name = name;
     data_renderer->invalidate();
+    update_probe_ui(data_renderer->active_probe_name);
     on_probe_update(added);
     on_probe_select();
 }
@@ -359,5 +366,14 @@ void MainWindow::on_probe_select()
     {
         Glib::RefPtr<Gtk::TreeSelection> selection = probelist->get_selection();
         selection->select(iter);
+        update_probe_ui(data_renderer->active_probe_name);
     }
+}
+
+void MainWindow::update_probe_ui(string name)
+{
+    probedata->name = name;
+    probedata->update_ui();
+    probe::ProbeDetailsWindow* window = data_renderer->probes[name].window;
+    if(window != nullptr) window->update_ui();
 }

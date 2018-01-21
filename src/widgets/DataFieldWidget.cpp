@@ -7,12 +7,13 @@ DataFieldWidget::DataFieldWidget(BaseObjectType* cobject, const Glib::RefPtr<Gtk
     : Gtk::Notebook(cobject), m_refBuilder(refBuilder)
 { }
 
-DataFieldWidget* DataFieldWidget::create(swegui::MainWindow* pa)
+DataFieldWidget* DataFieldWidget::create(swegui::MainWindow* pa, std::string na)
 {
     auto refBuilder = Gtk::Builder::create_from_resource(PATH_TO_DATAFIELD_GUI);
     DataFieldWidget* widget = nullptr;
     refBuilder->get_widget_derived("notebook_main", widget);
     widget->parent = pa;
+    widget->name = na;
     // widget->set_transient_for(*(widget->parent));
     widget->setup_gui_elements();
     return widget;
@@ -21,4 +22,13 @@ DataFieldWidget* DataFieldWidget::create(swegui::MainWindow* pa)
 void DataFieldWidget::setup_gui_elements()
 {
 
+}
+
+void DataFieldWidget::update_ui()
+{
+    if(name != "")
+    {
+        cout << "probe WIDGET: " << name << " updates ui" << endl;
+        //put data from parent->data_renderer->probes[name] into ui elements
+    }
 }

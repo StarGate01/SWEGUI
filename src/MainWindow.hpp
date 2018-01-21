@@ -72,6 +72,7 @@ namespace swegui
             Gtk::Menu* contextmenu_probelist = nullptr;
             Gtk::Button* button_probe_add = nullptr;
             //Its context menu
+            Gtk::MenuItem* menuitem_probelist_open = nullptr;
             Gtk::MenuItem* menuitem_probelist_edit = nullptr;
             Gtk::MenuItem* menuitem_probelist_remove = nullptr;
             //SFML control
@@ -116,6 +117,8 @@ namespace swegui
             Gtk::TreeStore::iterator search_probelist(std::string name);
             void prepare_add_edit(bool clear);
             void handle_add_edit();
+            void update_probe_ui(string name);
+            void open_probe_ui();
 
     };
 
