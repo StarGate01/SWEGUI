@@ -17,6 +17,7 @@ namespace probe
 
             DataProbe();
             DataProbe(float px, float py);
+            ~DataProbe();
 
             float x = 0.f;
             float y = 0.f;

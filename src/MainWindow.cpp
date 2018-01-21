@@ -212,7 +212,7 @@ void MainWindow::on_action_about()
 void MainWindow::on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column)
 {
     probe::ProbeDetailsWindow** window = &(data_renderer->probes[data_renderer->active_probe_name].window);
-    if(*window == nullptr) *window = probe::ProbeDetailsWindow::create(this);
+    if(*window == nullptr) *window = probe::ProbeDetailsWindow::create(this, data_renderer->active_probe_name);
     (*window)->show();
 }
 
@@ -250,7 +250,10 @@ void MainWindow::on_probe_remove()
     if(iter)
     {
         Gtk::TreeModel::Row row = *iter;
-        data_renderer->probes.erase(row[probelist_columns.col_name]);
+        string name = row[probelist_columns.col_name];
+        probe::ProbeDetailsWindow* window = data_renderer->probes[name].window;
+        if(window != nullptr) window->hide();
+        data_renderer->probes.erase();
         probelist_store->erase(iter);
         data_renderer->invalidate();
     }

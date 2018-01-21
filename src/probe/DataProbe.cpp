@@ -14,6 +14,11 @@ DataProbe::DataProbe(float px, float py)
     sprite.setOrigin(16.f, 16.f);
 }
 
+DataProbe::~DataProbe()
+{
+    if(window != nullptr) delete window;
+}
+
 sf::Sprite& DataProbe::getSprite()
 {
     return sprite;
