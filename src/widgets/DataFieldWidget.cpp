@@ -28,7 +28,6 @@ void DataFieldWidget::update_ui()
 {
     if(name != "")
     {
-        cout << "probe WIDGET: " << name << " updates ui" << endl;
         //put data from parent->data_renderer->probes[name] into ui elements
         //use coordinates from probe
         //sample data with parent->data_renderer->sample

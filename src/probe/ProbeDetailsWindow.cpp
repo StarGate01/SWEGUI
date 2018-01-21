@@ -30,6 +30,5 @@ void ProbeDetailsWindow::setup_gui_elements()
 
 void ProbeDetailsWindow::update_ui()
 {
-    cout << "probe WIN: " << name << " updates ui" << endl;
     probedata->update_ui();
 }
