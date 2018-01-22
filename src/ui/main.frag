@@ -15,11 +15,8 @@ uniform sampler2D hu_tex; ///< The horizontal flux texture
 uniform sampler2D hv_tex; ///< The vertical flux texture
 uniform vec2 screensize; ///< The screen size in pixels
 uniform vec2 padding; ///< Padding for aspect ratio
-uniform vec4[NUM_LERP_POINTS] b_colors; ///< The color map for the bathymetry
-uniform vec4[NUM_LERP_POINTS] h_colors; ///< The color map for the water height
-uniform vec4[NUM_LERP_POINTS] hu_colors; ///< The color map for the horizontal flux
-uniform vec4[NUM_LERP_POINTS] hv_colors; ///< The color map for the vertical flux
-uniform vec4[NUM_LERP_POINTS] hx_colors; ///< The color map for the total flux
+uniform sampler2D lut_bw; ///< LUT for black and white
+uniform sampler2D lut_br; //< LUT for blue to red
 uniform vec2 b_clip; ///< The value clipping for the bathymetry
 uniform vec2 h_clip; ///< The value clipping for the water height
 uniform vec2 hu_clip; ///< The value clipping for the horizontal flux
@@ -53,46 +50,18 @@ void recombine(in vec4 col, out float val)
 }
 
 /**
- * @brief Lerps the color of a relative value by iterating a color map
- *
- * @param[in] val The relative value
- * @param[in] colors The color map
- * @param[out] col The computed color
- */
-void multi_lerp(in float val, in vec4[NUM_LERP_POINTS] colors, out vec3 col)
-{
-    int si = 0, ei = NUM_LERP_POINTS - 1;
-    bool ei_found = false;
-    for(int i=1; i<NUM_LERP_POINTS - 1; i++)
-    {
-        if(colors[i].w <= val) si = i;
-        if(!ei_found && colors[i].w >= val) 
-        {
-            ei = i;
-            ei_found = true;
-        }
-    }
-    if(colors[ei].w - colors[si].w < EPSILON) col = colors[si].xyz;
-    else
-    {
-        col = mix(colors[si].xyz, colors[ei].xyz, 
-            (val  - colors[si].w) / (colors[ei].w - colors[si].w));
-    }
-}
-
-/**
  * @brief Computes the color of a sampled value based on a color map
  *
  * @param[in] sval The sampled value
- * @param[in] colors The color map
+ * @param[in] lut The color lookup table
  * qparam[in] clip The clipping range
  * @param[out] pmacol The computed color
  * @param[out] tval The computed relative value
  */
-void compute_color(in vec4 sval, in vec4[NUM_LERP_POINTS] colors, in vec2 clip, out vec3 pmacol, out float tval)
+void compute_color(in vec4 sval, in sampler2D lut, in vec2 clip, out vec3 pmacol, out float tval)
 {
     recombine(sval, tval);
-    multi_lerp(smoothstep(clip.x, clip.y, tval), colors, pmacol);
+    pmacol = texture2D(lut, vec2(smoothstep(clip.x, clip.y, tval), 0.5)).rgb;
 }
 
 /**
@@ -113,18 +82,18 @@ void main()
 
         float bt, ht, hut, hvt;
         vec3 b, h, hu, hv, hx;
-        compute_color(texture2D(b_tex, pos), b_colors, b_clip, b, bt);
-        compute_color(texture2D(h_tex, pos), h_colors, h_clip, h, ht);
-        compute_color(texture2D(hu_tex, pos), hu_colors, hu_clip, hu, hut);
-        compute_color(texture2D(hv_tex, pos), hv_colors, hv_clip, hv, hvt);
-        multi_lerp(smoothstep(hx_clip.x, hx_clip.y, ((hut * hut) + (hvt * hvt)) / 2.0), hx_colors, hx);
+        compute_color(texture2D(b_tex, pos), lut_bw, b_clip, b, bt);
+        compute_color(texture2D(h_tex, pos), lut_br, h_clip, h, ht);
+        compute_color(texture2D(hu_tex, pos), lut_br, hu_clip, hu, hut);
+        compute_color(texture2D(hv_tex, pos), lut_br, hv_clip, hv, hvt);
+        //multi_lerp(smoothstep(hx_clip.x, hx_clip.y, ((hut * hut) + (hvt * hvt)) / 2.0), hx_colors, hx);
 
         vec3 sum = vec3(0.0, 0.0, 0.0);
         if(enable_layers[0]) sum += b * factor;
         if(enable_layers[1]) sum += h * factor;
         if(enable_layers[2]) sum += hu * factor;
         if(enable_layers[3]) sum += hv * factor;
-        if(enable_layers[4]) sum += hx * factor;
+        //if(enable_layers[4]) sum += hx * factor;
 
         gl_FragColor = vec4(sum, 1.0);
     }

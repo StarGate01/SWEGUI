@@ -18,7 +18,6 @@ namespace renderer
 
         std::string name;
         int index;
-        sf::Color colors[NUM_LERP_POINTS] = { };
         bool clip = false;
         float clip_min = -1.f, clip_max = 1.f;
         bool enable = false;
@@ -26,7 +25,7 @@ namespace renderer
         sf::Texture texture;
         sf::Shader* shader = nullptr;
 
-        Layer();
+        Layer() { }
         void update_shader(bool use_tex = false);
         
     };

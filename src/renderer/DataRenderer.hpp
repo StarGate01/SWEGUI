@@ -54,7 +54,7 @@ namespace renderer
       float pad_v = 0.f, pad_h = 0.f;
       int current_timestamp = -1;
 
-      sf::Texture crosshair_tex, crosshair_active_tex;
+      sf::Texture crosshair_tex, crosshair_active_tex, lut_bw, lut_br;
 
       void draw();
       // void animate();

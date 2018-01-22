@@ -16,9 +16,6 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
     b.enable = true;
     h.enable = true;
     h.clip = true;
-    b.colors[0] = sf::Color::Black;
-    b.colors[0].a = 0;
-    for(int i=2; i<8; i++) b.colors[i] = sf::Color::White;
     //end test
 
     if (!sf::Shader::isAvailable()) perror("Shaders are not available on this GPU");
@@ -35,6 +32,13 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
         resources::ResourceHelper::global_get_size(PATH_TO_CROSSHAIR_TEX));
     crosshair_active_tex.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_CROSSHAIR_ACTIVE_TEX),
         resources::ResourceHelper::global_get_size(PATH_TO_CROSSHAIR_ACTIVE_TEX));
+
+    lut_bw.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_LUT_BW),
+        resources::ResourceHelper::global_get_size(PATH_TO_LUT_BW));
+    shader.setParameter("lut_bw", lut_bw);
+    lut_br.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_LUT_BR),
+        resources::ResourceHelper::global_get_size(PATH_TO_LUT_BR));
+    shader.setParameter("lut_br", lut_br);
 
     update_padding();
 

@@ -22,8 +22,9 @@ void* ResourceHelper::global_to_memory(const std::string& path)
     if(res)
     {
         unsigned long size = ResourceHelper::global_get_size(path);
-        char* buffer = new char[size];
+        char* buffer = new char[size + 1];
         res->read((void*)buffer, size);
+        buffer[size] = '\0';
         return (void*)buffer;
     }
     return nullptr;
