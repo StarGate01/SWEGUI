@@ -117,7 +117,7 @@ void main()
         compute_color(texture2D(h_tex, pos), h_colors, h_clip, h, ht);
         compute_color(texture2D(hu_tex, pos), hu_colors, hu_clip, hu, hut);
         compute_color(texture2D(hv_tex, pos), hv_colors, hv_clip, hv, hvt);
-        multi_lerp(smoothstep(hx_clip.x, hx_clip.y, (hut + hvt) / 2.0), hx_colors, hx);
+        multi_lerp(smoothstep(hx_clip.x, hx_clip.y, ((hut * hut) + (hvt * hvt)) / 2.0), hx_colors, hx);
 
         vec3 sum = vec3(0.0, 0.0, 0.0);
         if(enable_layers[0]) sum += b * factor;
