@@ -20,7 +20,6 @@ namespace swegui
 
     class MainWindow : public Gtk::ApplicationWindow
     {
-
         public:
 
             MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
@@ -44,6 +43,7 @@ namespace swegui
             Gtk::MenuItem* mb_simulation_goto_start = nullptr;
             Gtk::SpinButton* mb_spin_timestamp = nullptr;
             Glib::RefPtr<Gtk::Adjustment> adjustment_timestamp;
+            Gtk::Label* lbl_realtime = nullptr;
             Gtk::MenuItem* mb_simulation_play = nullptr;
             Gtk::MenuItem* mb_simulation_next = nullptr;
             Gtk::MenuItem* mb_simulation_prev = nullptr;         
