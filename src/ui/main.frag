@@ -86,14 +86,14 @@ void main()
         compute_color(texture2D(h_tex, pos), lut_br, h_clip, h, ht);
         compute_color(texture2D(hu_tex, pos), lut_br, hu_clip, hu, hut);
         compute_color(texture2D(hv_tex, pos), lut_br, hv_clip, hv, hvt);
-        //multi_lerp(smoothstep(hx_clip.x, hx_clip.y, ((hut * hut) + (hvt * hvt)) / 2.0), hx_colors, hx);
+        hx = texture2D(lut_br, vec2(smoothstep(hx_clip.x, hx_clip.y, ((hut * hut) + (hvt * hvt)) / 2.0), 0.5)).rgb;
 
         vec3 sum = vec3(0.0, 0.0, 0.0);
         if(enable_layers[0]) sum += b * factor;
         if(enable_layers[1]) sum += h * factor;
         if(enable_layers[2]) sum += hu * factor;
         if(enable_layers[3]) sum += hv * factor;
-        //if(enable_layers[4]) sum += hx * factor;
+        if(enable_layers[4]) sum += hx * factor;
 
         gl_FragColor = vec4(sum, 1.0);
     }
