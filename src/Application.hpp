@@ -4,7 +4,6 @@
 #include <iostream>
 #include <gtkmm.h>
 #include "MainWindow.hpp"
-#include "GuiEnums.hpp"
 
 namespace swegui
 {
@@ -13,22 +12,17 @@ namespace swegui
     {
 
         public:
-
             static Glib::RefPtr<Application> create(); 
 
           
         protected:
-
             Application();
             void on_activate() override;
             void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
 
         private:
-
             MainWindow* create_appwindow();
             void on_hide_window(Gtk::Window* window);
-            void on_window_action(Signal signal);
-
     };
 
 }
