@@ -43,12 +43,13 @@ bool NetCdfImageStream::select(Variable var, uint32_t index)
 float NetCdfImageStream::sample(Variable var, float x, float y, int timestamp)
 {
     if(reader == nullptr || !reader->success) return 0.f;
-    int xindex = round(((x - meta_info.originx) / meta_info.ax()) * meta_info.nx);
-	int yindex = round(((y - meta_info.originy) / meta_info.ay()) * meta_info.ny);
+    int xindex = round(((x - meta_info.xmin) / meta_info.ax()) * meta_info.nx);
+	int yindex = round(((y - meta_info.ymin) / meta_info.ay()) * meta_info.ny);
     switch(var)
     {
-        case B: return reader->getCellValue(reader->bVar, xindex, yindex, timestamp);
-        case H: return reader->getCellValue(reader->hVar, xindex, yindex, timestamp);
+        case B: return reader->getCellValue(reader->bVar, xindex, yindex, 0);
+        case H:  return reader->getCellValue(reader->hVar, xindex, yindex, timestamp)
+            + reader->getCellValue(reader->bVar, xindex, yindex, 0);
         case Hu: return reader->getCellValue(reader->huVar, xindex, yindex, timestamp);
         case Hv: return reader->getCellValue(reader->hvVar, xindex, yindex, timestamp);
     }
@@ -62,6 +63,10 @@ bool NetCdfImageStream::generate_meta()
     meta_info.ny = reader->getGlobalIntAttribute("ny");
     meta_info.dx = reader->getGlobalFloatAttribute("dx");
     meta_info.dy = reader->getGlobalFloatAttribute("dy");
+    meta_info.xmin = reader->xMin;
+    meta_info.xmax = reader->xMax;
+    meta_info.ymin = reader->yMin;
+    meta_info.ymax = reader->yMax;
     meta_info.originx = reader->getGlobalFloatAttribute("originx");
     meta_info.originy = reader->getGlobalFloatAttribute("originy");
     meta_info.timestamps = (int)reader->timeLength;

@@ -58,7 +58,7 @@ int DataRenderer::open(std::string filename)
 {
     bool ret = netcdf_stream.open(filename);
     if(!ret) return ERROR_FILE;
-    int res = select_timestamp(3);
+    int res = select_timestamp(0);
     if(res != ERROR_SUCCESS) return res;
     update_padding();
     update_shader();
@@ -170,20 +170,22 @@ sf::Vector2f DataRenderer::screen_to_data(sf::Vector2f coord)
 {
     float screen_width = widget.renderWindow.getSize().x;
     float screen_height = widget.renderWindow.getSize().y;
-    return sf::Vector2f((((coord.x - pad_h) / (screen_width - (pad_h * 2.0))) * meta_info->ax()) + meta_info->originx,
-        (((coord.y - pad_v) / (screen_height - (pad_v * 2.0))) * meta_info->ay()) + meta_info->originy);
+    return sf::Vector2f((((coord.x - pad_h) / (screen_width - (pad_h * 2.0))) * meta_info->ax()) + meta_info->xmin,
+        ((((screen_height - coord.y) - pad_v) / (screen_height - (pad_v * 2.0))) * meta_info->ay()) + meta_info->ymin);
 }
 
 sf::Vector2f DataRenderer::data_to_screen(sf::Vector2f coord)
 {
     float screen_width = widget.renderWindow.getSize().x;
     float screen_height = widget.renderWindow.getSize().y;
-    return sf::Vector2f((((coord.x - meta_info->originx) / meta_info->ax()) * (screen_width - (pad_h * 2.0))) + pad_h,
-        (((coord.y - meta_info->originy) / meta_info->ay()) * (screen_height - (pad_v * 2.0))) + pad_v);
+    return sf::Vector2f((((coord.x - meta_info->xmin) / meta_info->ax()) * (screen_width - (pad_h * 2.0))) + pad_h,
+        screen_height - ((((coord.y - meta_info->ymin) / meta_info->ay()) * (screen_height - (pad_v * 2.0))) + pad_v));
 }
 
 bool DataRenderer::on_button_press_event(GdkEventButton *event)
 {
+    if(event->x < pad_h || event->x > (widget.renderWindow.getSize().x - pad_h)
+        || event->y < pad_v || event->y > (widget.renderWindow.getSize().y - pad_v)) return true;
     if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1))
     {
         sf::Vector2f s2d = screen_to_data(sf::Vector2f(event->x, event->y));
@@ -198,8 +200,6 @@ bool DataRenderer::on_button_press_event(GdkEventButton *event)
     }
     if((event->type == GDK_BUTTON_PRESS) && (event->button == 1))
     {
-        if(event->x < pad_h || event->x > (widget.renderWindow.getSize().x - pad_h)
-            || event->y < pad_v || event->y > (widget.renderWindow.getSize().y - pad_v)) return true;
         for(auto& probe: probes)
         {
             float dx = probe.second.getSprite().getPosition().x - event->x;

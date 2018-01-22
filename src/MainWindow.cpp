@@ -300,10 +300,8 @@ void MainWindow::on_action_button_probe_add()
 
 void MainWindow::prepare_add_edit(bool clear)
 {
-    dialog_probe_edit->set_min_max(data_renderer->meta_info->originx, 
-        data_renderer->meta_info->originx + data_renderer->meta_info->ax(), 
-        data_renderer->meta_info->originy, 
-        data_renderer->meta_info->originy + data_renderer->meta_info->ay());
+    dialog_probe_edit->set_min_max(data_renderer->meta_info->xmin, data_renderer->meta_info->xmax, 
+        data_renderer->meta_info->ymin, data_renderer->meta_info->ymax);
     if(!clear)
     {
         Gtk::TreeModel::iterator iter = probelist->get_selection()->get_selected();

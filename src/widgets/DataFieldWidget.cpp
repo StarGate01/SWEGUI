@@ -38,13 +38,13 @@ void DataFieldWidget::update_ui()
     if(name != "")
     {
         probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
+        
+        for(int i=0; i<4; i++)
+            labels[i]->set_text(std::to_string(parent->data_renderer->sample((renderer::NetCdfImageStream::Variable)i, probe->x, probe->y)));
+
         //Compute hx
         float hx = std::abs(std::sqrt(std::pow(parent->data_renderer->sample(renderer::NetCdfImageStream::Variable::Hu, probe->x, probe->y), 2)
             + std::pow(parent->data_renderer->sample(renderer::NetCdfImageStream::Variable::Hu, probe->x, probe->y), 2)));
-        labels[0]->set_text(std::to_string(parent->data_renderer->sample(renderer::NetCdfImageStream::Variable::B, probe->x, probe->y)));
-        labels[1]->set_text(std::to_string(parent->data_renderer->sample(renderer::NetCdfImageStream::Variable::H, probe->x, probe->y)));
-        labels[2]->set_text(std::to_string(parent->data_renderer->sample(renderer::NetCdfImageStream::Variable::Hu, probe->x, probe->y)));
-        labels[3]->set_text(std::to_string(parent->data_renderer->sample(renderer::NetCdfImageStream::Variable::Hv, probe->x, probe->y)));
         labels[4]->set_text(std::to_string(hx));
     }
 }
