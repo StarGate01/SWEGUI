@@ -17,7 +17,7 @@ Depends(res, ui_res)
 # List sources
 sourceFiles_prog = ['main.cpp', 'Application.cpp', 'resources/ResourceHelper.cpp']
 sourceFiles_prog += ['widgets/SFMLWidget.cpp', 'widgets/DataFieldWidget.cpp']
-sourceFiles_prog += ['MainWindow.cpp', 'LayerWindow.cpp', 'EditProbeDialog.cpp']
+sourceFiles_prog += ['MainWindow.cpp', 'MainWindowActions.cpp', 'MainWindowProbe.cpp', 'LayerWindow.cpp', 'EditProbeDialog.cpp']
 sourceFiles_prog += ['probe/DataProbe.cpp', 'probe/ProbeColumns.cpp', 'probe/ProbeDetailsWindow.cpp']
 sourceFiles_prog += ['renderer/DataRenderer.cpp', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp']
 sourceFiles_prog += [res_code]
