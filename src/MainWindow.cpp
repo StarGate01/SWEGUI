@@ -131,7 +131,7 @@ void MainWindow::setup_gui_elements()
     
 void MainWindow::initialize_gui_elements()
 {
-    
+
 }
 
 void MainWindow::on_action_fileopen()
@@ -143,7 +143,7 @@ void MainWindow::on_action_fileopen()
         std::string filename = dialog_open->get_filename();
         int res = data_renderer->open(filename);
         //Show message box if opening file fails
-        if(res !as= 0)
+        if(res != 0)
         {
             Gtk::MessageDialog d(*this, "Ooooops! Opening this file failed. Sorry!");
             d.run();
