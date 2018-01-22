@@ -148,7 +148,7 @@ void MainWindow::on_action_fileopen()
         }
         cout << "Open result: " << res << endl;
         adjustment_timestamp->set_upper(data_renderer->meta_info->timestamps - 1);    //Set max frame of spin_timestamp
-        lbl_realtime->set_text(std::to_string(data_renderer->get_current_time()));       //TODO: Enter real value and move line to own method
+        lbl_realtime->set_text(std::to_string(data_renderer->get_current_time()));
         window_layers->update_ui();
     }
     dialog_open->hide();
