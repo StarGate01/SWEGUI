@@ -148,7 +148,7 @@ void MainWindow::on_action_fileopen()
         }
         cout << "Open result: " << res << endl;
         adjustment_timestamp->set_upper(data_renderer->meta_info->timestamps - 1);    //Set max frame of spin_timestamp
-        lbl_realtime->set_text("0 sekunden");       //TODO: Enter real value and move line to own method
+        lbl_realtime->set_text(std::to_string(data_renderer->get_current_time()));       //TODO: Enter real value and move line to own method
         window_layers->update_ui();
     }
     dialog_open->hide();
@@ -201,7 +201,7 @@ void MainWindow::on_action_simulation_next()
     if(current_ts < data_renderer->meta_info->timestamps)
     {
         mb_spin_timestamp->set_value(current_ts + 1);
-        handle_timestamp_change();;
+        handle_timestamp_change();
     }   
 }
 
@@ -214,7 +214,7 @@ void MainWindow::handle_timestamp_change()
         if(probe.second.window != nullptr) probe.second.window->update_ui();
     }
     data_renderer->update_shader();
-    lbl_realtime->set_text("x sekunden");       //TODO: Enter real value
+    lbl_realtime->set_text(std::to_string(data_renderer->get_current_time());       //TODO: Enter real value
 }
 
 void MainWindow::on_action_layer()
