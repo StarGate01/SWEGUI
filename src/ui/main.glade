@@ -315,19 +315,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="tbtn_simulation_prev">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Prev frame</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">media-seek-backward</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkToolItem" id="tbtn_custom">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -368,19 +355,6 @@
                 <property name="label" translatable="yes">Play</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">media-playback-start</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolButton" id="tbtn_simulation_next">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Next frame</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">media-seek-forward</property>
               </object>
               <packing>
                 <property name="expand">False</property>

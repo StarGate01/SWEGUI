@@ -54,9 +54,7 @@ namespace swegui
             Gtk::Toolbar* toolbar_main = nullptr;
             Gtk::ToolButton* tb_openfile = nullptr;
             Gtk::ToolButton* tb_simulation_goto_start = nullptr;
-            Gtk::ToolButton* tb_simulation_prev = nullptr;
-            Gtk::ToolButton* tb_simulation_play = nullptr;
-            Gtk::ToolButton* tb_simulation_next = nullptr;            
+            Gtk::ToolButton* tb_simulation_play = nullptr;      
             Gtk::ToolButton* tb_layer = nullptr;
             Gtk::ToolButton* tb_zoom_out = nullptr;
             Gtk::ToolButton* tb_zoom_reset = nullptr;

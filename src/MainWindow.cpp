@@ -48,9 +48,7 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("main_toolbar", toolbar_main);
     m_refBuilder->get_widget("tbtn_open", tb_openfile);
     m_refBuilder->get_widget("tbtn_simulation_goto_start", tb_simulation_goto_start);
-    m_refBuilder->get_widget("tbtn_simulation_prev", tb_simulation_prev);
     m_refBuilder->get_widget("tbtn_simulation_play", tb_simulation_play);
-    m_refBuilder->get_widget("tbtn_simulation_next", tb_simulation_next);
     m_refBuilder->get_widget("tbtn_layer", tb_layer);
     m_refBuilder->get_widget("tbtn_zoom_out", tb_zoom_out);
     m_refBuilder->get_widget("tbtn_zoom_reset", tb_zoom_reset);
@@ -101,9 +99,7 @@ void MainWindow::setup_gui_elements()
     //Event handlers for toolbar
     tb_openfile->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_fileopen));
     tb_simulation_goto_start->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_goto_start));
-    tb_simulation_prev->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_prev));
     tb_simulation_play->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_play));
-    tb_simulation_next->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_next));
     tb_layer->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_layer));
     tb_zoom_out->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_zoom_out));
     tb_zoom_reset->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_zoom_reset));
