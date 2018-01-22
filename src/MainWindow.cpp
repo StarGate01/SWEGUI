@@ -214,7 +214,7 @@ void MainWindow::handle_timestamp_change()
         if(probe.second.window != nullptr) probe.second.window->update_ui();
     }
     data_renderer->update_shader();
-    lbl_realtime->set_text(std::to_string(data_renderer->get_current_time());       //TODO: Enter real value
+    lbl_realtime->set_text(std::to_string(data_renderer->get_current_time()));
 }
 
 void MainWindow::on_action_layer()
