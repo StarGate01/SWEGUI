@@ -192,8 +192,12 @@ void MainWindow::on_action_simulation_next()
 
 void MainWindow::handle_timestamp_change()
 {
-
-    data_renderer->invalidate();
+    probedata->update_ui();
+    for (auto const& probe : data_renderer->probes)
+    {
+        if(probe.second.window != nullptr) probe.second.window->update_ui();
+    }
+    data_renderer->update_shader();
 }
 
 void MainWindow::on_action_layer()

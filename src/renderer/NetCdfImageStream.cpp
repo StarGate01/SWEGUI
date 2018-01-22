@@ -18,6 +18,7 @@ bool NetCdfImageStream::open(std::string filename)
 
 bool NetCdfImageStream::select(Variable var, uint32_t index)
 {
+    if(reader == nullptr || !reader->success) return false;
     add_bathymetry = false;
     switch(var)
     {
