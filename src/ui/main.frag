@@ -46,7 +46,7 @@ void blend_factor(out float factor)
  */
 void recombine(in vec4 col, out float val)
 {
-    val = col.b + (col.g / 100.0) + (col.r / 10000.0);
+    val = col.b + (col.g / 255.0) + (col.r / (255.0 * 255.0));
 }
 
 /**

@@ -135,14 +135,12 @@ sf::Int64 NetCdfImageStream::read(void* data, sf::Int64 size)
         if(add_bathymetry) fdata += reader->bData[data_pos / 3];
         fdata = (fdata - meta_info.min) / diff;
         float intp = 0.f;
-
         for(int i=0; i<=(int)(data_pos % 3); i++)
         {
-            fdata *= 100.f;
+            fdata *= 255.f;
             fdata = modf(fdata, &intp);
         }
-        ((uint8_t*)data)[ri] = intp * 2.55f;
-        //((uint8_t*)data)[ri] = fdata * 255.0f;
+        ((uint8_t*)data)[ri] = intp;
         stream_pos++;
         ri++;
     }
