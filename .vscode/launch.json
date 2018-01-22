@@ -5,6 +5,7 @@
             "name": "Attach GDB Linux Native",
             "type": "cppdbg",
             "request": "attach",
+            "program": "${workspaceRoot}/build/build_swegui/swegui",
             "processId": "${command:pickProcess}",
             "linux": {
                 "MIMode": "gdb",
