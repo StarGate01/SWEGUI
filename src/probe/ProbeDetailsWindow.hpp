@@ -40,8 +40,6 @@ namespace probe
             widgets::DataFieldWidget* probedata = nullptr;
 
             void setup_gui_elements();
-
-
     };
 
 }

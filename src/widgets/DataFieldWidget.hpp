@@ -25,6 +25,7 @@ namespace widgets
       static DataFieldWidget* create(swegui::MainWindow* pa, std::string na);
 
       void update_ui();
+      void reset_gui();
       std::string name;
 
     protected:

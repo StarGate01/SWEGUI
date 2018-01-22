@@ -2,6 +2,7 @@
 #define GUI_APPLICATION_WINDOW_H
 
 #include <gtkmm.h>
+#include <gtkmm/adjustment.h>
 #include <iostream>
 #include <stdexcept>
 #include <stdlib.h>
@@ -40,7 +41,9 @@ namespace swegui
             Gtk::MenuItem* mb_view_zoom_in = nullptr;
             Gtk::MenuItem* mb_view_zoom_out = nullptr;
             Gtk::MenuItem* mb_view_reset = nullptr;
-            Gtk::MenuItem* mb_simulation_goto_start = nullptr;                     
+            Gtk::MenuItem* mb_simulation_goto_start = nullptr;
+            Gtk::SpinButton* mb_spin_timestamp = nullptr;
+            Glib::RefPtr<Gtk::Adjustment> adjustment_timestamp;
             Gtk::MenuItem* mb_simulation_play = nullptr;
             Gtk::MenuItem* mb_simulation_next = nullptr;
             Gtk::MenuItem* mb_simulation_prev = nullptr;         
@@ -62,7 +65,6 @@ namespace swegui
             Gtk::ToolButton* tb_crosssection = nullptr;
             
             //Raw data field
-            // Gtk::Label* lbl_raw_data = nullptr;
             Gtk::Alignment* alignment_frame_probedata = nullptr;
             widgets::DataFieldWidget* probedata = nullptr;
             //Probelist
@@ -95,6 +97,7 @@ namespace swegui
             void on_action_simulation_prev();
             void on_action_simulation_play();
             void on_action_simulation_next();
+            void on_action_simulation_set_timestamp();
             void on_action_layer();
             void on_action_zoom_out();
             void on_action_zoom_reset();
@@ -120,6 +123,7 @@ namespace swegui
             void update_probe_ui(string name);
             void open_probe_ui();
             void handle_timestamp_change();
+            void reset_probes();
 
     };
 

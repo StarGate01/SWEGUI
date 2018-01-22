@@ -47,4 +47,14 @@ void DataFieldWidget::update_ui()
         labels[3]->set_text(std::to_string(parent->data_renderer->sample(renderer::NetCdfImageStream::Variable::Hv, probe->x, probe->y)));
         labels[4]->set_text(std::to_string(hx));
     }
+    else
+    {
+        reset_gui();
+    }
+}
+
+void DataFieldWidget::reset_gui()
+{
+    for(auto label : labels)
+        label->set_text("n/a");
 }
