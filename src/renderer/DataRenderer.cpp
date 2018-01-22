@@ -75,12 +75,20 @@ int DataRenderer::select_timestamp(int timestamp)
     if(res != ERROR_SUCCESS) return res;
     res = select_load(NetCdfImageStream::Variable::Hv, timestamp, hv);
     if(res != ERROR_SUCCESS) return res;
+    current_timestamp = timestamp;
     return ERROR_SUCCESS;
 }
 
-float DataRenderer::sample(NetCdfImageStream::Variable var, float x, float y)
+int DataRenderer::get_current_timestamp()
 {
-    return netcdf_stream.sample(var, x, y);
+    return current_timestamp;
+}
+
+float DataRenderer::sample(NetCdfImageStream::Variable var, float x, float y, int timestamp)
+{
+    if(timestamp == -1) timestamp = current_timestamp;
+    if(timestamp == -1) return 0.f;
+    return netcdf_stream.sample(var, x, y, timestamp);
 }
 
 int DataRenderer::select_load(NetCdfImageStream::Variable variable, int index, Layer& lay)
