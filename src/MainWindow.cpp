@@ -38,6 +38,7 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("mb_simulation_prev", mb_simulation_prev);
     m_refBuilder->get_widget("spin_timestamp", mb_spin_timestamp);
     adjustment_timestamp = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(m_refBuilder->get_object("adjustment_timestamp"));
+    m_refBuilder->get_widget("lbl_realtime", lbl_realtime);
     m_refBuilder->get_widget("mb_simulation_play", mb_simulation_play);
     m_refBuilder->get_widget("mb_simulation_next", mb_simulation_next); 
     m_refBuilder->get_widget("mb_tools_shoreanalysis", mb_tool_cda);
@@ -47,9 +48,7 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("main_toolbar", toolbar_main);
     m_refBuilder->get_widget("tbtn_open", tb_openfile);
     m_refBuilder->get_widget("tbtn_simulation_goto_start", tb_simulation_goto_start);
-    m_refBuilder->get_widget("tbtn_simulation_prev", tb_simulation_prev);
     m_refBuilder->get_widget("tbtn_simulation_play", tb_simulation_play);
-    m_refBuilder->get_widget("tbtn_simulation_next", tb_simulation_next);
     m_refBuilder->get_widget("tbtn_layer", tb_layer);
     m_refBuilder->get_widget("tbtn_zoom_out", tb_zoom_out);
     m_refBuilder->get_widget("tbtn_zoom_reset", tb_zoom_reset);
@@ -100,9 +99,7 @@ void MainWindow::setup_gui_elements()
     //Event handlers for toolbar
     tb_openfile->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_fileopen));
     tb_simulation_goto_start->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_goto_start));
-    tb_simulation_prev->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_prev));
     tb_simulation_play->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_play));
-    tb_simulation_next->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_next));
     tb_layer->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_layer));
     tb_zoom_out->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_zoom_out));
     tb_zoom_reset->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_zoom_reset));
@@ -130,10 +127,7 @@ void MainWindow::setup_gui_elements()
     
 void MainWindow::initialize_gui_elements()
 {
-    //TESTING: Change label of textfield
-    //TODO: Remove the following line after proof of concept
-    // lbl_raw_data->set_width_chars(30);
-    // lbl_raw_data->set_text("Hello world");
+
 }
 
 void MainWindow::on_action_fileopen()
@@ -144,9 +138,17 @@ void MainWindow::on_action_fileopen()
         reset_probes();
         std::string filename = dialog_open->get_filename();
         int res = data_renderer->open(filename);
+        //Show message box if opening file fails
+        if(res != 0)
+        {
+            Gtk::MessageDialog d(*this, "Ooooops! Opening this file failed. Sorry!");
+            d.run();
+            dialog_open->hide();
+            return;
+        }
         cout << "Open result: " << res << endl;
-        //TODO: Show message box if opening file fails
-        adjustment_timestamp->set_upper(data_renderer->meta_info->timestamps-1);    //Set max frame of spin_timestamp
+        adjustment_timestamp->set_upper(data_renderer->meta_info->timestamps - 1);    //Set max frame of spin_timestamp
+        lbl_realtime->set_text("0 sekunden");       //TODO: Enter real value and move line to own method
         window_layers->update_ui();
     }
     dialog_open->hide();
@@ -167,7 +169,7 @@ void MainWindow::on_action_simulation_goto_start()
     int current_ts = data_renderer->get_current_timestamp();
     if(current_ts != 0)
     {
-        data_renderer->select_timestamp(0);
+        mb_spin_timestamp->set_value(0);
         handle_timestamp_change();
     }
 }
@@ -177,14 +179,15 @@ void MainWindow::on_action_simulation_prev()
     int current_ts = data_renderer->get_current_timestamp();
     if(current_ts > 0)
     {
-        data_renderer->select_timestamp(current_ts - 1);
+        mb_spin_timestamp->set_value(current_ts - 1);
         handle_timestamp_change();
     }
 }
 
+//Main handler for timestamp change
 void MainWindow::on_action_simulation_set_timestamp()
 {
-    std::cout << "Set frame to " << mb_spin_timestamp->get_value() << std::endl;
+    handle_timestamp_change();
 }
 
 void MainWindow::on_action_simulation_play()
@@ -197,19 +200,21 @@ void MainWindow::on_action_simulation_next()
     int current_ts = data_renderer->get_current_timestamp();
     if(current_ts < data_renderer->meta_info->timestamps)
     {
-        data_renderer->select_timestamp(current_ts + 1);
-        handle_timestamp_change();
-    }
+        mb_spin_timestamp->set_value(current_ts + 1);
+        handle_timestamp_change();;
+    }   
 }
 
 void MainWindow::handle_timestamp_change()
 {
+    data_renderer->select_timestamp(mb_spin_timestamp->get_value());
     probedata->update_ui();
     for (auto const& probe : data_renderer->probes)
     {
         if(probe.second.window != nullptr) probe.second.window->update_ui();
     }
     data_renderer->update_shader();
+    lbl_realtime->set_text("x sekunden");       //TODO: Enter real value
 }
 
 void MainWindow::on_action_layer()
