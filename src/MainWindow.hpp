@@ -87,7 +87,6 @@ namespace swegui
 
             //Handlers
             void setup_gui_elements();
-            void initialize_gui_elements();     //Called by setup_gui_elements
             //Actual event handlers
             void on_action_fileopen();
             void on_action_quit();

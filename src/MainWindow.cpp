@@ -120,15 +120,4 @@ void MainWindow::setup_gui_elements()
     //Event handlers for sfml widget
     data_renderer->signal_update().connect(sigc::mem_fun(this, &MainWindow::on_probe_update));
     data_renderer->signal_select().connect(sigc::mem_fun(this, &MainWindow::on_probe_select));
-
-    //Initialize gui elements
-    initialize_gui_elements();
 }
-    
-void MainWindow::initialize_gui_elements()
-{
-
-}
-
-
-
