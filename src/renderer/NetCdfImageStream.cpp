@@ -56,6 +56,12 @@ float NetCdfImageStream::sample(Variable var, float x, float y, int timestamp)
     return 0.f;
 }
 
+float NetCdfImageStream::get_time(int timestamp)
+{
+    if(reader == nullptr || !reader->success) return 0.f;
+    return reader->timeData[timestamp];
+}
+
 bool NetCdfImageStream::generate_meta()
 {
     if(reader == nullptr || !reader->success) return false;

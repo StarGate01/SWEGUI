@@ -84,6 +84,11 @@ int DataRenderer::get_current_timestamp()
     return current_timestamp;
 }
 
+float DataRenderer::get_current_time()
+{
+    return netcdf_stream.get_time(current_timestamp);
+}
+
 float DataRenderer::sample(NetCdfImageStream::Variable var, float x, float y, int timestamp)
 {
     if(timestamp == -1) timestamp = current_timestamp;

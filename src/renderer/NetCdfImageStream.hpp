@@ -41,6 +41,7 @@ namespace renderer
             bool select(Variable var, uint32_t index);
             float sample(Variable var, float x, float y, int timestamp);
             int get_num_timestamps();
+            float get_time(int timestamp);
 
             sf::Int64 read(void* data, sf::Int64 size);
             sf::Int64 seek(sf::Int64 position);

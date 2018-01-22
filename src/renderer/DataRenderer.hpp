@@ -33,6 +33,7 @@ namespace renderer
       void invalidate();
       float sample(NetCdfImageStream::Variable var, float x, float y, int timestamp = -1);
       int get_current_timestamp();
+      float get_current_time();
 
       typedef sigc::signal<void, bool> type_signal_update;
       type_signal_update signal_update();
