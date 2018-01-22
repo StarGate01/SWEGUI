@@ -34,7 +34,9 @@ namespace widgets
     private:
 
       swegui::MainWindow* parent = nullptr;
-
+      std::string layer_names[5] = { "b", "h", "hu", "hv", "hx" };
+      Gtk::Label* labels[5];
+      Gtk::ComboBox* cb_layer = nullptr;
       void setup_gui_elements();
       
   };

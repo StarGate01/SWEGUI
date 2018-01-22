@@ -15,10 +15,10 @@ namespace renderer
 
             enum Variable: int
             {
-                H = 0,
-                Hu = 1,
-                Hv = 2,
-                B = 3
+                B = 0,
+                H = 1,
+                Hu = 2,
+                Hv = 3
             };
 
             struct Meta
