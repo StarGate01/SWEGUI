@@ -26,6 +26,7 @@ namespace renderer
                 int nx = 1, ny = 1;
                 float min = -1.f, max = 1.f;
                 float dx = 2.f, dy = 1.f, originx = 0.f, originy = 0.f;
+                int timestamps = 0;
                 float ax() { return dx * nx; }
                 float ay() { return dy * ny; }
             };
@@ -37,6 +38,7 @@ namespace renderer
             bool open(std::string filename);
             bool select(Variable var, uint32_t index);
             float sample(Variable var, float x, float y, int timestamp);
+            int get_num_timestamps();
 
             sf::Int64 read(void* data, sf::Int64 size);
             sf::Int64 seek(sf::Int64 position);

@@ -63,6 +63,7 @@ bool NetCdfImageStream::generate_meta()
     meta_info.dy = reader->getGlobalFloatAttribute("dy");
     meta_info.originx = reader->getGlobalFloatAttribute("originx");
     meta_info.originy = reader->getGlobalFloatAttribute("originy");
+    meta_info.timestamps = (int)reader->timeLength;
     //BMP Header
     header[BMP_OFFSET_BF_TYPE] = BMP_MAGIC_1;
     header[BMP_OFFSET_BF_TYPE + 1] = BMP_MAGIC_2;

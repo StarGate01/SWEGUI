@@ -119,6 +119,7 @@ namespace swegui
             void handle_add_edit();
             void update_probe_ui(string name);
             void open_probe_ui();
+            void handle_timestamp_change();
 
     };
 

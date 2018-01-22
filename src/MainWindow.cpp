@@ -157,12 +157,22 @@ void MainWindow::on_action_quit()
 
 void MainWindow::on_action_simulation_goto_start()
 {
-    std::cout << "Clicked simulation_goto_start" << std::endl;
+    int current_ts = data_renderer->get_current_timestamp();
+    if(current_ts != 0)
+    {
+        data_renderer->select_timestamp(0);
+        handle_timestamp_change();
+    }
 }
 
 void MainWindow::on_action_simulation_prev()
 {
-    std::cout << "Clicked simulation prev" << std::endl;
+    int current_ts = data_renderer->get_current_timestamp();
+    if(current_ts > 0)
+    {
+        data_renderer->select_timestamp(current_ts - 1);
+        handle_timestamp_change();
+    }
 }
 
 void MainWindow::on_action_simulation_play()
@@ -172,7 +182,17 @@ void MainWindow::on_action_simulation_play()
 
 void MainWindow::on_action_simulation_next()
 {
-    std::cout << "Clicked simulation next" << std::endl;
+    int current_ts = data_renderer->get_current_timestamp();
+    if(current_ts < data_renderer->meta_info->timestamps)
+    {
+        data_renderer->select_timestamp(current_ts + 1);
+        handle_timestamp_change();
+    }
+}
+
+void handle_timestamp_change()
+{
+    std::cout << "Handle timestep change" << std::endl;
 }
 
 void MainWindow::on_action_layer()
