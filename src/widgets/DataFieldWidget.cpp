@@ -35,7 +35,6 @@ void DataFieldWidget::setup_gui_elements()
 
 void DataFieldWidget::update_ui()
 {
-    std::cout << "Updating ui" << std::endl;
     if(name != "")
     {
         probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
