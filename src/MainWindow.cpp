@@ -190,9 +190,10 @@ void MainWindow::on_action_simulation_next()
     }
 }
 
-void handle_timestamp_change()
+void MainWindow::handle_timestamp_change()
 {
-    std::cout << "Handle timestep change" << std::endl;
+
+    data_renderer->invalidate();
 }
 
 void MainWindow::on_action_layer()
