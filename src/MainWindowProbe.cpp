@@ -107,16 +107,19 @@ void MainWindow::update_probe_ui(string name)
 
 void MainWindow::reset_probes()
 {
+    //Reset active probe
+    data_renderer->active_probe_name = "";
+
     //For each probe
     for(auto const& probe : data_renderer->probes)
         //Close probe window
         if(probe.second.window != nullptr)
+        {
             probe.second.window->close();
+        }
 
-    data_renderer->probes.clear();
-
-    //Update probelist
     probelist_store->clear();
+    data_renderer->probes.clear();
     //Update raw data window
     probedata->reset_gui();
 }
