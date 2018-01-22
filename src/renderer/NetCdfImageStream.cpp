@@ -39,9 +39,19 @@ bool NetCdfImageStream::select(Variable var, uint32_t index)
     return find_minmax();
 }
 
-float NetCdfImageStream::sample(Variable var, float x, float y)
+float NetCdfImageStream::sample(Variable var, float x, float y, int timestamp)
 {
-    return 0.f; //todo
+    if(reader == nullptr || !reader->success) return 0.f;
+    int xindex = round(((x - meta_info.originx) / meta_info.ax()) * meta_info.nx);
+	int yindex = round(((y - meta_info.originy) / meta_info.ay()) * meta_info.ny);
+    switch(var)
+    {
+        case B: return reader->getCellValue(reader->bVar, xindex, yindex, timestamp);
+        case H: return reader->getCellValue(reader->hVar, xindex, yindex, timestamp);
+        case Hu: return reader->getCellValue(reader->huVar, xindex, yindex, timestamp);
+        case Hv: return reader->getCellValue(reader->hvVar, xindex, yindex, timestamp);
+    }
+    return 0.f;
 }
 
 bool NetCdfImageStream::generate_meta()

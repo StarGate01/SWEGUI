@@ -31,7 +31,8 @@ namespace renderer
       int select_timestamp(int timestamp);
       void update_shader();
       void invalidate();
-      float sample(NetCdfImageStream::Variable var, float x, float y);
+      float sample(NetCdfImageStream::Variable var, float x, float y, int timestamp = -1);
+      int get_current_timestamp();
 
       typedef sigc::signal<void, bool> type_signal_update;
       type_signal_update signal_update();
@@ -50,6 +51,7 @@ namespace renderer
       sf::RectangleShape background;
       sf::Shader shader;
       float pad_v = 0.f, pad_h = 0.f;
+      int current_timestamp = -1;
 
       sf::Texture crosshair_tex, crosshair_active_tex;
 
