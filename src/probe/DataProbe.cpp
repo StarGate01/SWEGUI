@@ -34,8 +34,7 @@ void DataProbe::fill_row(const Gtk::TreeRow& row)
 
 void DataProbe::fill_data(renderer::DataRenderer* data_renderer)
 {
-    if(data_renderer == nullptr || data_renderer->meta_info == nullptr)
-        return;
+    if(data_renderer == nullptr || data_renderer->meta_info == nullptr) return;
 
     int nr_timestamps = data_renderer->meta_info->timestamps;
     data = new float*[nr_timestamps];
@@ -60,28 +59,17 @@ bool DataProbe::has_data()
 
 std::vector<float> DataProbe::get_all_data(int layer)
 {
-    if(!has_data())
-        return vector<float>();
-
-    if(layer < 0 || layer >= 5)
-        throw std::invalid_argument("invalid layer");
-    
+    if(!has_data()) return vector<float>();
+    if(layer < 0 || layer >= 5) return vector<float>(); 
     std::vector<float> vec;
-    for(int i = 0; i < timestamps; i++)
-        vec.push_back(data[i][layer]);
+    for(int i = 0; i < timestamps; i++) vec.push_back(data[i][layer]);
     return vec;
 }
 
 float DataProbe::get_data(int timestamp, int layer)
 {
-    if(!has_data())
-        return 0;
-
-    if(timestamp < 0 || timestamp >= timestamps)
-        throw std::invalid_argument("timestamp out of range");
-    
-    if(layer < 0 || layer >= 5)
-        throw std::invalid_argument("invalid layer");
-
+    if(!has_data()) return 0.f;
+    if(timestamp < 0 || timestamp >= timestamps) return 0.f;
+    if(layer < 0 || layer >= 5) return 0.f;
     return data[timestamp][layer];
 }
