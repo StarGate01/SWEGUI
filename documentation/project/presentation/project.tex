@@ -105,7 +105,6 @@
 	\begin{document}
 		\maketitle
 		
-%TODO change pictures		
 		
 \begin{frame}{Overview}
 	\begin{figure}
@@ -127,29 +126,39 @@
 
 \begin{frame}[fragile]{UI}
 	\begin{figure}
-		\includegraphics[clip, width=\linewidth]{img/dummy_image.jpg}
+		\includegraphics[clip, width=\linewidth]{img/screenshot_1.png}
 	\end{figure}
 \end{frame}
 
 \begin{frame}[fragile]{Toolbar}
 	\begin{figure}
-		\includegraphics[clip, width=80mm]{img/dummy_image.jpg}
+		\includegraphics[clip, width=60mm]{img/toolbar.png}
 	\end{figure}
 	\begin{itemize}
 		\item Open new files (NetCDF)
-		\item Control the simulation time and speed
-		\item Change the displayed section
-		\item Screen shots can be exported
+		\item Control the simulation step
+		\item Open layer selection
 	\end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Rendered view}
+\begin{frame}[fragile]{Data visualisation}
 	\begin{figure}
-		\includegraphics[clip, width=80mm]{img/dummy_image.jpg}
+		\includegraphics[clip, width=80mm]{img/datavis.png}
 	\end{figure}
 	\begin{itemize}
 		\item Color shading is chosen according to the max/min values
-		\item Selected points are highlighted 
+		\item Probes are shown as crosshaires
+		\item Different data sets can be displayed
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Layer selection}
+	\begin{figure}
+		\includegraphics[clip, width=80mm]{img/layerselect.png}
+	\end{figure}
+	\begin{itemize}
+		\item Choose between data sets
+		\item Clip displayed range to visualize small changes
 	\end{itemize}
 \end{frame}
 
@@ -158,15 +167,29 @@
 		\includegraphics[clip, width=80mm]{img/Buoy.jpg}
 	\end{figure}
 	\begin{itemize}
-		\item Select a point in the rendered view and it is saved on the sidebar
+		\item Select a point in the data visualization or create one with its coordinates
 		\item Points can be selected and their information is shown
+		\item Custom naming for probes
 	\end{itemize}
 	\vfill
 	\flushleft
 	{\fontsize{5}{5} \selectfont \url{http://axystechnologies.com/wp-content/uploads/2013/09/HydroLevel-Mini-Buoy-IT.jpg}}
 \end{frame}
 
-\begin{frame}[fragile]{Graphs}
+\begin{frame}[fragile]{Data display}
+%TODO graph picture
+	\begin{figure}
+		\includegraphics[clip, width=80mm]{img/datadisplay.png}
+	\end{figure}
+	\begin{itemize}
+		\item Displays probe data
+		\item Optional extra windows to monitor multiple probes
+		\item Dedicated values or graph over time 
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Cross Section}
 	\begin{figure}
 		\includegraphics[clip, width=80mm]{img/dummy_image.jpg}
 	\end{figure}
@@ -177,14 +200,7 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Shader implementation}
-	\textbf{Overview}
-	\begin{itemize}
-		\item Stuff
-	\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{UI implementation}
+\begin{frame}[fragile]{UI implementation - toolset}
 	\begin{figure}
 		\includegraphics[clip, width=20mm]{img/GTK_logo.png}
 	\end{figure}
@@ -200,7 +216,7 @@
 	{\fontsize{5}{5} \selectfont \url{https://de.wikipedia.org/wiki/Gtkmm#/media/File:GTK2B_logo.svg}}
 \end{frame}
 	
-\begin{frame}[fragile]{UI implementation}
+\begin{frame}[fragile]{UI implementation - toolset}
 	\begin{figure}
 		\includegraphics[clip, width=75mm]{img/glade.png}
 	\end{figure}
@@ -212,7 +228,7 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{UI implementation}
+\begin{frame}[fragile]{Shader implementation - toolset}
 	\begin{figure}
 		\includegraphics[clip, width=50mm]{img/sfml.png}
 	\end{figure}
@@ -226,9 +242,23 @@
 	{\fontsize{5}{5} \selectfont \url{https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/SFML2.svg/230px-SFML2.svg.png}}
 \end{frame}
 
+\begin{frame}[fragile]{Shader implementation - transport encoding}
+	\begin{figure}
+		\includegraphics[clip, width=50mm]{img/transport_encoding.jpg}
+	\end{figure}
+	\begin{itemize}
+		\item Encode float to RGB double for renderer
+	\end{itemize}
+\end{frame}
+
 
 \begin{frame}[fragile]{Code Structure}
-bla
+\textbf{Three major classes:}\\
+\begin{itemize}
+		\item GUI
+		\item Renderer
+		\item Probes
+	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Demonstration}
