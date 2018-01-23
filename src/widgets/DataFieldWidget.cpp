@@ -32,8 +32,14 @@ void DataFieldWidget::setup_gui_elements()
     m_refBuilder->get_widget("drawingarea_chart", drawingarea_chart);
 
     drawingarea_chart->signal_draw().connect(sigc::mem_fun(this, &DataFieldWidget::on_chart_draw));
+    //todo bind combobox change event
 
     update_ui();
+}
+
+void DataFieldWidget::populate_data()
+{
+    //todo fill presampled array thingy
 }
 
 void DataFieldWidget::update_ui()
@@ -64,5 +70,7 @@ void DataFieldWidget::reset_gui()
 
 bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
-    std::cout << "draw" << std::endl;
+    //todo use cr to draw graph, but only if data array is filled
+    //based on what is selected in combobox
+    return true;
 }

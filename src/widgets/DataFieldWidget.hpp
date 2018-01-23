@@ -39,7 +39,10 @@ namespace widgets
       Gtk::Label* labels[5];
       Gtk::ComboBox* cb_layer = nullptr;
       Gtk::DrawingArea* drawingarea_chart = nullptr;
+      //todo find convenient data structure for sampled values over all t and layers for this position
+
       void setup_gui_elements();
+      void populate_data();
 
       bool on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr);
       
