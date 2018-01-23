@@ -40,7 +40,6 @@ namespace widgets
       std::string layer_names[5] = { "b", "h", "hu", "hv", "hx" };
       Gtk::Label* labels[5];
       Gtk::ComboBox* cb_layer = nullptr;
-      Gtk::ListStore* cb_layer_model = nullptr;
       Gtk::DrawingArea* drawingarea_chart = nullptr;
 
       void setup_gui_elements();
@@ -49,9 +48,8 @@ namespace widgets
       void on_dataset_change(void);
       bool on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr);
 
-      int cb_get_selected_layer();
       float calculate_graph_height(float data, float max, float scale, int graph_height);
-      float calculate_graph_width(int timestep, int timesteps, int graph_width);
+      float calculate_graph_width(int timestep, int timesteps_total, int graph_width);
   };
 
 }
