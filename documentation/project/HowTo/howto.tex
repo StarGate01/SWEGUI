@@ -22,7 +22,7 @@
 	\section{Overview}
 		This is a graphical user interface to interactively visualize the output of the SWE tsunami simulation and provide basic analysis functions. It takes pre-calculated data sets as NetCDF and displays these. 
 		
-Once you open the program you can see that the UI is divided in to different parts. At the top is the toolbar which can be used to open new files, control the simulation speed and open the layer view. Below this to the left is the data visualization where the simulation data can be observed in a colored 2D birds eye view. It can be double clicked to place probes which let you observe the data of a point in more detail.
+Once you open the program you can see that the UI is divided in to different parts. At the top is the toolbar which can be used to open new files, control the simulation speed and open the layer view. Below this to the left is the data visualization where the simulation data can be observed in a colored 2D birds eye view. It can be double clicked to place probes which let you observe the data of a point in more detail via dedicated values or graphing this point over time.
 To the top right is the data display where information on the currently selected probe is shown. Below this is a list of probe points witch can be added, changed or deleted.
 		
 	\section{UI elements}
@@ -42,7 +42,7 @@ To the top right is the data display where information on the currently selected
 		\subsection{Data visualization}
 		This fills most of the UI and is located on the lower left side. Here the data of the simulation is displayed with a color heightmap. The display can be altered via the layer selection. The color map is chosen automatically to cover the range from the lowest point to the highest point (per default). 
 		
-		Probe points are shown as cross hairs. New ones can be created by double-clicking a point or via the probes list. The currently selected probe is highlighted with a box around it. You can select one of the probes with a single left click on it. Then the values are displayed in the data display to the right. Below the data visualization you can find the current time of the simulation
+		Probe points are shown as cross hairs. New ones can be created by double-clicking a point or via the probes list. The currently selected probe is highlighted with a box around it. You can select one of the probes with a single left click on it. Then the values are displayed in the data display tomain the right. Below the data visualization you can find the current time of the simulation
 		\subsection{Layer selection}
 		This is opened via the tool bar. Here you can change what data is rendered. You can select between five different data sets to display by using the toggles to the right of the names of the data sets: bathymetry, water height, horizontal flux, vertical flux and total flux. 
 		
@@ -54,7 +54,7 @@ To the top right is the data display where information on the currently selected
 		
 		To monitor the data of more than one point you can right click on a point in the list and choose the display option from the drop down menu. A new window will open and allow you to monitor the probes data independently. You can close this window at any point, this will not delete the probe.
 		\subsection{Data display}
-		Above the probes on the right. Here thee data of the chosen probe is shown. The active probe can be changed by clicking on one in the list or in the rendered view.
-		\subsection{Graphs}
+		Above the probes on the right or in an extra window if opened by using the drop down menu of a probe. Here the data of the chosen probe is shown. The active probe can be changed by clicking on one in the list or in the rendered view. At the top you can select between displaying the current data as numbers or to graph the data from the probes point. The graph will draw the data from the probe point over the simulation time.
+		\subsection{Cross section}
 		By choosing the button in the tool bar two points can be selected on the render view. The cross section of the values between these two points in a line is then shown in an extra window. Close this window to return to the main program.
 \end{document}
