@@ -12,7 +12,6 @@
     <file>src/ui/icon_32.png</file>
     <file>src/ui/icon_fancy.png</file>
     <file>src/ui/main.frag</file>
-    <file>src/ui/lut_bw.png</file>
-    <file>src/ui/lut_br.png</file>
+    <file>src/ui/lut.png</file>
   </gresource>
 </gresources>

@@ -9,14 +9,12 @@ using namespace renderer;
 
 DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
 {
-    b.name = "b"; h.name = "h"; hu.name = "hu"; hv.name = "hv"; hx.name = "hx"; hx.computed = true;
-    meta_info = &netcdf_stream.meta_info;
-
-    //test
+    hx.computed = true;
     b.enable = true;
     h.enable = true;
     h.clip = true;
-    //end test
+
+    meta_info = &netcdf_stream.meta_info;
 
     if (!sf::Shader::isAvailable()) perror("Shaders are not available on this GPU");
     string shader_src = resources::ResourceHelper::global_to_string(PATH_TO_FRAG_SHADER);
@@ -33,19 +31,17 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
     crosshair_active_tex.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_CROSSHAIR_ACTIVE_TEX),
         resources::ResourceHelper::global_get_size(PATH_TO_CROSSHAIR_ACTIVE_TEX));
 
-    lut_bw.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_LUT_BW),
-        resources::ResourceHelper::global_get_size(PATH_TO_LUT_BW));
-    shader.setParameter("lut_bw", lut_bw);
-    lut_br.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_LUT_BR),
-        resources::ResourceHelper::global_get_size(PATH_TO_LUT_BR));
-    shader.setParameter("lut_br", lut_br);
+    lut.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_LUT),
+        resources::ResourceHelper::global_get_size(PATH_TO_LUT));
+    shader.setParameter("lut", lut);
 
-    update_padding();
+    update_transform();
 
     widget.signal_draw().connect(sigc::bind_return(sigc::hide(sigc::mem_fun(this, &DataRenderer::draw)), true));
     widget.signal_size_allocate().connect(sigc::hide(sigc::mem_fun(this, &DataRenderer::resize_view)));
-    widget.add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
+    widget.add_events(Gdk::EventMask::BUTTON_PRESS_MASK | Gdk::EventMask::SCROLL_MASK);
     widget.signal_button_press_event().connect(sigc::mem_fun(this, &DataRenderer::on_button_press_event));
+    widget.signal_scroll_event().connect(sigc::mem_fun(this, &DataRenderer::on_scroll_event));
 }
 
 DataRenderer::type_signal_update DataRenderer::signal_update()
@@ -64,7 +60,7 @@ int DataRenderer::open(std::string filename)
     if(!ret) return ERROR_FILE;
     int res = select_timestamp(0);
     if(res != ERROR_SUCCESS) return res;
-    update_padding();
+    update_transform();
     update_shader();
     return ERROR_SUCCESS;
 }
@@ -134,7 +130,8 @@ void DataRenderer::draw()
     widget.renderWindow.draw(background, &shader);
     for(auto& probe: probes) 
     {
-        sf::Vector2f d2s = data_to_screen(sf::Vector2f(probe.second.x, probe.second.y));
+        sf::Vector2f d2s = screen_to_tex.getInverse() * 
+            (tex_to_data.getInverse() * sf::Vector2f(probe.second.x, probe.second.y));
         probe.second.getSprite().setPosition(d2s.x, d2s.y);
         if(probe.first == active_probe_name) probe.second.getSprite().setTexture(crosshair_active_tex);
         else probe.second.getSprite().setTexture(crosshair_tex);
@@ -145,59 +142,41 @@ void DataRenderer::draw()
 
 void DataRenderer::resize_view()
 {
-    update_padding();
+    update_transform();
     sf::Vector2f lower_right(widget.renderWindow.getSize().x, widget.renderWindow.getSize().y);
     sf::View view(lower_right * 0.5f, lower_right);
     widget.renderWindow.setView(view);
 }
 
-void DataRenderer::update_padding()
+void DataRenderer::update_transform()
 {
-    float screen_width = widget.renderWindow.getSize().x;
-    float screen_height = widget.renderWindow.getSize().y;
-    background.setSize(sf::Vector2f(screen_width, screen_height));
-    shader.setParameter("screensize", sf::Vector2f(screen_width, screen_height));
-    float asp_screen = screen_width / screen_height;
-    float asp_data = meta_info->ax() / meta_info->ay();
-    if(asp_data > asp_screen)
-    {
-        float newheight = meta_info->ay() * (screen_width / meta_info->ax());
-        pad_v = (screen_height - newheight) / 2.f;
-        pad_h = 0.f;
-    }
-    else
-    {
-        float newwidth = meta_info->ax() * (screen_height / meta_info->ay());
-        pad_h = (screen_width - newwidth) / 2.f;
-        pad_v = 0.f;
-    }
-    shader.setParameter("padding", sf::Vector2f(pad_h, pad_v));
-}
+    sf::Vector2f ss = (sf::Vector2f)widget.renderWindow.getSize();
+    background.setSize(ss);
 
+    float dasp = meta_info->ax() / meta_info->ay(); 
+    sf::Vector2f psize = ss;
+    if(dasp > (ss.x / ss.y)) psize.y = ss.x / dasp;
+    else psize.x = ss.y * dasp;
 
-sf::Vector2f DataRenderer::screen_to_data(sf::Vector2f coord)
-{
-    float screen_width = widget.renderWindow.getSize().x;
-    float screen_height = widget.renderWindow.getSize().y;
-    return sf::Vector2f((((coord.x - pad_h) / (screen_width - (pad_h * 2.0))) * meta_info->ax()) + meta_info->xmin,
-        ((((screen_height - coord.y) - pad_v) / (screen_height - (pad_v * 2.0))) * meta_info->ay()) + meta_info->ymin);
-}
+    screen_to_tex = sf::Transform::Identity;
+    screen_to_tex.scale(1.f / psize.x, 1.f / psize.y);
+    screen_to_tex.translate((ss - psize) / (-2.f));
 
-sf::Vector2f DataRenderer::data_to_screen(sf::Vector2f coord)
-{
-    float screen_width = widget.renderWindow.getSize().x;
-    float screen_height = widget.renderWindow.getSize().y;
-    return sf::Vector2f((((coord.x - meta_info->xmin) / meta_info->ax()) * (screen_width - (pad_h * 2.0))) + pad_h,
-        screen_height - ((((coord.y - meta_info->ymin) / meta_info->ay()) * (screen_height - (pad_v * 2.0))) + pad_v));
+    tex_to_data = sf::Transform::Identity;
+    tex_to_data.translate(meta_info->xmin, meta_info->ymin);
+    tex_to_data.scale(meta_info->ax(), -meta_info->ay());
+    tex_to_data.translate(0, -1);
+
+    shader.setParameter("transform", screen_to_tex);
 }
 
 bool DataRenderer::on_button_press_event(GdkEventButton *event)
 {
-    if(event->x < pad_h || event->x > (widget.renderWindow.getSize().x - pad_h)
-        || event->y < pad_v || event->y > (widget.renderWindow.getSize().y - pad_v)) return true;
+    sf::Vector2f tp = screen_to_tex * sf::Vector2f(event->x, event->y);
+    if(tp.x < 0 || tp.x > 1 || tp.y < 0 || tp.y > 1) return true;
     if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1))
     {
-        sf::Vector2f s2d = screen_to_data(sf::Vector2f(event->x, event->y));
+        sf::Vector2f s2d = tex_to_data * (screen_to_tex * sf::Vector2f(event->x, event->y));
         string name = unique_name();
         probe::DataProbe probe(s2d.x, s2d.y);
         probes[name] = probe;
@@ -224,6 +203,12 @@ bool DataRenderer::on_button_press_event(GdkEventButton *event)
         return true;
     }
     return false;
+}
+
+bool DataRenderer::on_scroll_event(GdkEventScroll *event)
+{
+    std::cout << "scrll" <<std::endl;
+    return true;
 }
 
 string DataRenderer::unique_name()

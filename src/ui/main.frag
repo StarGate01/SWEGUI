@@ -5,24 +5,21 @@
  * @class MainShader
  */
 
-#define NUM_LERP_POINTS 8  ///< How many points there are in a color map
-#define EPSILON         0.0001  ///< Where two color stops are considered the same
-#define SQRT2           1.41421356237
+#define NUM_LAYERS      5       ///< The number of layers
+#define NUM_TEXTURES    4       ///< The number of textures (non-computed layers)
+#define LUT_BW_I        0.25    ///< The y in the LUT for black and white
+#define LUT_BLR_I       0.75    ///< The y in the LUT for blue and red
+#define B_I             0       ///< Index of the bathymetry layer
+#define H_I             1       ///< Index of the water height layer
+#define HU_I            2       ///< Index of the horizontal flux layer
+#define HV_I            3       ///< Index of the vertical flux layer
+#define HX_I            4       ///< Index of the total flux layer
 
-uniform sampler2D b_tex; ///< The bathymetry texture
-uniform sampler2D h_tex; ///< The water height texture
-uniform sampler2D hu_tex; ///< The horizontal flux texture
-uniform sampler2D hv_tex; ///< The vertical flux texture
-uniform vec2 screensize; ///< The screen size in pixels
-uniform vec2 padding; ///< Padding for aspect ratio
-uniform sampler2D lut_bw; ///< LUT for black and white
-uniform sampler2D lut_br; //< LUT for blue to red
-uniform vec2 b_clip; ///< The value clipping for the bathymetry
-uniform vec2 h_clip; ///< The value clipping for the water height
-uniform vec2 hu_clip; ///< The value clipping for the horizontal flux
-uniform vec2 hv_clip; ///< The value clipping for the vertical flux
-uniform vec2 hx_clip; ///< The value clipping for the total flux
-uniform bool[5] enable_layers; ///< What layers to enable
+uniform sampler2D[NUM_TEXTURES] tex;    ///< The data textures
+uniform mat4 transform;                 ///< Screen space to data space transformation
+uniform sampler2D lut;                  ///< The color lookup tables
+uniform vec2[NUM_LAYERS] clip;          ///< The clipping values
+uniform bool[NUM_LAYERS] enable;        ///< What layers to enable
 
 /**
  * @brief Computes the blending factor needed based on the number of active layers
@@ -32,7 +29,7 @@ uniform bool[5] enable_layers; ///< What layers to enable
 void blend_factor(out float factor)
 {
     float num = 0.0;
-    for(int i=0; i<5; i++) if(enable_layers[i]) num += 1.0;
+    for(int i=0; i<NUM_LAYERS; i++) if(enable[i]) num += 1.0;
     factor = 1.0 / num;
 }
 
@@ -52,16 +49,14 @@ void recombine(in vec4 col, out float val)
 /**
  * @brief Computes the color of a sampled value based on a color map
  *
- * @param[in] sval The sampled value
- * @param[in] lut The color lookup table
- * qparam[in] clip The clipping range
+ * @param[in] tval The relative value
+ * @param[in] luty The color lookup table y offset
+ * @param[in] clip The clipping range
  * @param[out] pmacol The computed color
- * @param[out] tval The computed relative value
  */
-void compute_color(in vec4 sval, in sampler2D lut, in vec2 clip, out vec3 pmacol, out float tval)
+void compute_color(in float tval, in float luty, in vec2 clip, out vec3 pmacol)
 {
-    recombine(sval, tval);
-    pmacol = texture2D(lut, vec2(smoothstep(clip.x, clip.y, tval), 0.5)).rgb;
+    pmacol = texture2D(lut, vec2(smoothstep(clip.x, clip.y, tval), luty)).rgb;
 }
 
 /**
@@ -69,32 +64,44 @@ void compute_color(in vec4 sval, in sampler2D lut, in vec2 clip, out vec3 pmacol
  */
 void main()
 {
-    if(gl_FragCoord.x < padding.x || gl_FragCoord.x > (screensize.x - padding.x)
-        || gl_FragCoord.y < padding.y || gl_FragCoord.y > (screensize.y - padding.y))
+    //apply screen - texture affine transformation
+    vec2 pos = (transform * vec4(gl_FragCoord.x, gl_FragCoord.y, 1.0, 1.0)).xy;
+
+    //test for out of bounds
+    if(pos.x < 0.0 || pos.x > 1.0 || pos.y < 0.0 || pos.y > 1.0)
     {
         gl_FragColor = vec4(0.5, 0.5, 0.5, 1.0);
     }
     else
     {
-        vec2 pos = vec2((gl_FragCoord.x - padding.x) / (screensize.x - (padding.x * 2.0)), 
-            (gl_FragCoord.y - padding.y) / (screensize.y - (padding.y * 2.0)));
-        float factor; blend_factor(factor);
+        //compute blend factor
+        float factor; 
+        blend_factor(factor);
 
-        float bt, ht, hut, hvt;
-        vec3 b, h, hu, hv, hx;
-        compute_color(texture2D(b_tex, pos), lut_bw, b_clip, b, bt);
-        compute_color(texture2D(h_tex, pos), lut_br, h_clip, h, ht);
-        compute_color(texture2D(hu_tex, pos), lut_br, hu_clip, hu, hut);
-        compute_color(texture2D(hv_tex, pos), lut_br, hv_clip, hv, hvt);
-        hx = texture2D(lut_br, vec2(smoothstep(hx_clip.x, hx_clip.y, ((hut * hut) + (hvt * hvt)) / 2.0), 0.5)).rgb;
+        //set up lut - layer association
+        float[NUM_LAYERS] lutmap;
+        lutmap[B_I] = LUT_BW_I; lutmap[H_I] = LUT_BLR_I; lutmap[HU_I] = LUT_BLR_I; 
+        lutmap[HV_I] = LUT_BLR_I; lutmap[HX_I] = LUT_BLR_I;
 
+        //declare values and colors
+        float[NUM_LAYERS] values_real;
+        vec3[NUM_LAYERS] values_color;
         vec3 sum = vec3(0.0, 0.0, 0.0);
-        if(enable_layers[0]) sum += b * factor;
-        if(enable_layers[1]) sum += h * factor;
-        if(enable_layers[2]) sum += hu * factor;
-        if(enable_layers[3]) sum += hv * factor;
-        if(enable_layers[4]) sum += hx * factor;
 
+        //unpack pixel data to actual values
+        #define RECOM(TI) recombine(texture2D(tex[TI], pos), values_real[TI])
+        RECOM(B_I); RECOM(H_I); RECOM(HU_I); RECOM(HV_I);
+
+        //compute total flux 0.5 * (hu^2 + hv^2)
+        values_real[HX_I] = ((values_real[HU_I] * values_real[HU_I]) + (values_real[HV_I] *  values_real[HV_I])) / 2.0;
+
+        //compute and enable pixel color
+        for(int i=0; i<NUM_LAYERS; i++)
+        {
+            compute_color(values_real[i], lutmap[i], clip[i], values_color[i]);
+            if(enable[i]) sum += values_color[i] * factor;
+        }
+        
         gl_FragColor = vec4(sum, 1.0);
     }
 }

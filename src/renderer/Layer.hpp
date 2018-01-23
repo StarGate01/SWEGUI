@@ -16,7 +16,6 @@ namespace renderer
 
         NetCdfImageStream::Meta meta_info;
 
-        std::string name;
         int index;
         bool clip = false;
         float clip_min = -1.f, clip_max = 1.f;

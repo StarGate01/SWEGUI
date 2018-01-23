@@ -51,19 +51,20 @@ namespace renderer
       NetCdfImageStream netcdf_stream;
       sf::RectangleShape background;
       sf::Shader shader;
-      float pad_v = 0.f, pad_h = 0.f;
-      int current_timestamp = -1;
 
-      sf::Texture crosshair_tex, crosshair_active_tex, lut_bw, lut_br;
+      int current_timestamp = -1;
+      sf::Transform screen_to_tex, tex_to_data;
+      float zoom = 1.f, pan_x = 0.f, pan_y = 0.f;
+
+      sf::Texture crosshair_tex, crosshair_active_tex, lut;
 
       void draw();
       // void animate();
       void resize_view();
-      void update_padding();
-      sf::Vector2f screen_to_data(sf::Vector2f coord);
-      sf::Vector2f data_to_screen(sf::Vector2f coord);
+      void update_transform();
       int select_load(NetCdfImageStream::Variable variable, int index, Layer& lay);
       bool on_button_press_event(GdkEventButton *event);
+      bool on_scroll_event (GdkEventScroll *event);
       string unique_name();
 
   };
