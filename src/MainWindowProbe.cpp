@@ -86,23 +86,21 @@ void MainWindow::on_probe_update(bool added)
     }
 }
 
-void MainWindow::on_probe_select()
-{
-    Gtk::TreeStore::iterator iter = search_probelist(data_renderer->active_probe_name);
-    if(iter)
-    {
-        Glib::RefPtr<Gtk::TreeSelection> selection = probelist->get_selection();
-        selection->select(iter);
-        update_probe_ui(data_renderer->active_probe_name);
-    }
-}
-
 void MainWindow::update_probe_ui(string name)
 {
     probedata->name = name;
     probedata->update_ui();
     probe::ProbeDetailsWindow* window = data_renderer->probes[name].window;
     if(window != nullptr) window->update_ui();
+}
+
+
+void MainWindow::open_probe_ui()
+{
+    probe::ProbeDetailsWindow** window = &(data_renderer->probes[data_renderer->active_probe_name].window);
+    if(*window == nullptr) *window = probe::ProbeDetailsWindow::create(this, data_renderer->active_probe_name);
+    (*window)->update_ui();
+    (*window)->show();
 }
 
 void MainWindow::reset_probes()
