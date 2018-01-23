@@ -1,5 +1,6 @@
 /**
- * Main GUI-Window
+ * @file MainWindow.hpp
+ * @brief Main GUI-Window of the application
 */
 
 #ifndef GUI_APPLICATION_WINDOW_H

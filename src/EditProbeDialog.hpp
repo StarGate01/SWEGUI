@@ -1,4 +1,7 @@
-//TODO: Add file header
+/**
+ * @file EditProbeDialog.hpp
+ * @brief Editing dialog for probes
+*/
 
 
 #ifndef EDIT_PROBE_DIALOG_H

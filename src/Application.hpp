@@ -1,6 +1,6 @@
 /**
+ * @file Application.hpp
  * @brief Main class of the SWEGUI application
- * 
 */
 
 

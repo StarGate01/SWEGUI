@@ -1,4 +1,7 @@
-//TODO: Add file header
+/**
+ * @file LayerWindow.hpp
+ * @brief Window to toggle and configure the rendered layers
+*/
 
 #ifndef LAYER_WINDOW_H
 #define LAYER_WINDOW_H
