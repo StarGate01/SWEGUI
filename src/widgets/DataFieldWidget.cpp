@@ -1,3 +1,4 @@
+#include <iostream>
 #include <sstream>
 #include <math.h>
 #include "DataFieldWidget.hpp"
@@ -27,8 +28,10 @@ void DataFieldWidget::setup_gui_elements()
     for(int i = 0; i < 5; i++)
         m_refBuilder->get_widget("lbl_"+layer_names[i], labels[i]);
     
-    //Graph tab
     m_refBuilder->get_widget("cb_layer", cb_layer);
+    m_refBuilder->get_widget("drawingarea_chart", drawingarea_chart);
+
+    drawingarea_chart->signal_draw().connect(sigc::mem_fun(this, &DataFieldWidget::on_chart_draw));
 
     update_ui();
 }
@@ -57,4 +60,9 @@ void DataFieldWidget::reset_gui()
 {
     for(auto label : labels)
         label->set_text("n/a");
+}
+
+bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
+{
+    std::cout << "draw" << std::endl;
 }

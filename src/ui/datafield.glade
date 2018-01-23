@@ -231,11 +231,9 @@
           </packing>
         </child>
         <child>
-          <object class="GtkImage" id="image1">
+          <object class="GtkDrawingArea" id="drawingarea_chart">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="vexpand">True</property>
-            <property name="stock">gtk-missing-image</property>
           </object>
           <packing>
             <property name="expand">False</property>
