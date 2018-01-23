@@ -20,6 +20,27 @@
             }
         },
         {
+            "name": "Launch GDB Linux Native",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/build_swegui/swegui",
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}/build/build_swegui",
+            "environment": [],
+            "externalConsole": true,
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb",
+                "setupCommands": [
+                    {
+                        "description": "Enable pretty-printing for gdb",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    }
+                ]
+            }
+        },
+        {
             "name": "Attach GDB WSL",
             "type": "cppdbg",
             "request": "attach",
@@ -80,37 +101,6 @@
                 "/usr": "c:/lxss_ro/rootfs/usr",
                 "/mnt/c": "c:/"
             }
-        },
-        {
-            "name": "Launch Tests GDB WSL",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/build/build_swegui/SWEGUITests",
-            "args": [ ],
-            "stopAtEntry": false,
-            "cwd": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWEGUI/build/build_swegui",
-            "environment": [],
-            "externalConsole": true,
-            "windows": {
-                "MIMode": "gdb",
-                "setupCommands": [
-                    {
-                        "description": "Enable pretty-printing for gdb",
-                        "text": "-enable-pretty-printing",
-                        "ignoreFailures": true
-                    }
-                ]
-            }, 
-            "pipeTransport": {
-                "pipeCwd": "",
-                "pipeProgram": "c:/windows/sysnative/bash.exe",
-                "pipeArgs": ["-c"],
-                "debuggerPath": "/usr/bin/gdb"
-            },
-            "sourceFileMap": {
-                "/usr": "c:/lxss_ro/rootfs/usr",
-                "/mnt/c": "c:/"
-            }
-        },
+        }
     ]
 }
