@@ -26,6 +26,7 @@ void MainWindow::on_action_fileopen()
     dialog_open->hide();
 }
 
+//TODO: Remove method
 void MainWindow::open_file_view(const Glib::RefPtr<Gio::File>& file)
 {
     //data_renderer->open(file->get_path());
@@ -130,14 +131,6 @@ void MainWindow::on_action_probelist_activate(const Gtk::TreeModel::Path& path, 
     open_probe_ui();
 }
 
-void MainWindow::open_probe_ui()
-{
-    probe::ProbeDetailsWindow** window = &(data_renderer->probes[data_renderer->active_probe_name].window);
-    if(*window == nullptr) *window = probe::ProbeDetailsWindow::create(this, data_renderer->active_probe_name);
-    (*window)->update_ui();
-    (*window)->show();
-}
-
 void MainWindow::on_action_probelist_button_press(GdkEventButton *event)
 {
     if((event->type == GDK_BUTTON_PRESS) && (event->button == 3)
@@ -185,4 +178,15 @@ void MainWindow::on_action_button_probe_add()
     prepare_add_edit(true);
     if(dialog_probe_edit->run() == Gtk::RESPONSE_OK) handle_add_edit();
     dialog_probe_edit->hide();
+}
+
+void MainWindow::on_probe_select()
+{
+    Gtk::TreeStore::iterator iter = search_probelist(data_renderer->active_probe_name);
+    if(iter)
+    {
+        Glib::RefPtr<Gtk::TreeSelection> selection = probelist->get_selection();
+        selection->select(iter);
+        update_probe_ui(data_renderer->active_probe_name);
+    }
 }
