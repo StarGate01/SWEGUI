@@ -178,7 +178,7 @@ bool DataRenderer::on_button_press_event(GdkEventButton *event)
     {
         sf::Vector2f s2d = tex_to_data * (screen_to_tex * sf::Vector2f(event->x, event->y));
         string name = unique_name();
-        probe::DataProbe probe(s2d.x, s2d.y);
+        probe::DataProbe probe(s2d.x, s2d.y, this);
         probes[name] = probe;
         active_probe_name = name;
         invalidate();

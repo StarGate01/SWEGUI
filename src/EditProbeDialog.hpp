@@ -101,7 +101,7 @@ namespace swegui
             Gtk::SpinButton* spin_x = nullptr, *spin_y = nullptr;       ///<Pointer to the Gtk::SpinButton elements of the GUI
             Gtk::Button* button_okay = nullptr;                         ///<Pointer to the confirmation button of the GUI
 
-            void setup_gui_elements();                                  ///<Initiliazes the individual elements of the GUI
+            void setup_gui_elements();                                  ///<Inititializes the individual elements of the GUI
 
     };
 
