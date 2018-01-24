@@ -50,6 +50,7 @@ namespace swegui
             Gtk::Switch* switch_probes = nullptr;
             Gtk::Switch* switch_names = nullptr;
             Gtk::Switch* switch_indicators = nullptr;
+            Gtk::Switch* switch_coordinates = nullptr;
             Gtk::Switch* switch_info = nullptr;
         
             void setup_gui_elements();                                              ///<Extracts GUI elements from glade file and initializes them  

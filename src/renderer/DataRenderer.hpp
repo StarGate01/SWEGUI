@@ -41,6 +41,7 @@ namespace renderer
       bool render_probes = true;
       bool render_probe_names = true;
       bool render_probe_arrows = true;
+      bool render_coordinates = true;
 
       sf::Vector2f pan = sf::Vector2f(0.f, 0.f);
       float zoom = 1.f;

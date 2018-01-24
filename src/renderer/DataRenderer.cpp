@@ -233,6 +233,7 @@ void DataRenderer::update_transform()
     ss << "Zoom:        " << zoom << "\n";
     ss << "Window size: " << ssz.x << " px * " << ssz.y << " px\n\n";
     ss << "Map size:    " << meta_info->ax() << " * " << meta_info->ay() << "\n";
+    ss << "Map cells:   " << meta_info->nx << " * " << meta_info->ny << "\n";
     ss << "Map range:   [" << meta_info->xmin << ", " << meta_info->xmax << "]\n";
     ss << "             [" << meta_info->ymin << ", " << meta_info->ymax << "]";
     info_text.setString(ss.str());
