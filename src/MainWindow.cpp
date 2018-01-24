@@ -54,6 +54,7 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("tbtn_zoompan_reset", tb_zoompan_reset);
     m_refBuilder->get_widget("tbtn_tool_cda", tb_tool_cda);
     m_refBuilder->get_widget("tbtn_tool_crosssection", tb_crosssection);
+    m_refBuilder->get_widget("tbtn_screenshot", tb_screenshot);
     //Get raw data label
     //m_refBuilder->get_widget("lbl_info", lbl_raw_data);
     m_refBuilder->get_widget("alignment_frame_probedata", alignment_frame_probedata);
@@ -103,6 +104,7 @@ void MainWindow::setup_gui_elements()
     tb_renderer->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));
     tb_zoompan_reset->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_zoompan_reset));
     tb_tool_cda->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_cda));
+    tb_screenshot->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_screenshot));
     tb_crosssection->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_crosssection));
     
     //Event handlers probe list

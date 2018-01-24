@@ -118,6 +118,11 @@ void MainWindow::on_action_crosssection()
     std::cout << "Clicked crossection" << std::endl;
 }
 
+void MainWindow::on_action_screenshot()
+{
+    std::cout << "Clicked screenshot export button" << std::endl;
+}
+
 void MainWindow::on_action_about()
 {
     dialog_about->run();

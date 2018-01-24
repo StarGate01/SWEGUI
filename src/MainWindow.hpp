@@ -80,6 +80,7 @@ namespace swegui
             Gtk::ToolButton* tb_zoompan_reset = nullptr;            ///<Object pointer to zoom and pan reset button in toolbar
             Gtk::ToolButton* tb_tool_cda = nullptr;                 ///<Object pointer to coastal damage analysis tool button in toolbar
             Gtk::ToolButton* tb_crosssection = nullptr;             ///<Object pointer to crosssection tool button in toolbar
+            Gtk::ToolButton* tb_screenshot = nullptr;               ///<Object pointer to screenshot export button in toolbar
             //Raw data field
             Gtk::Alignment* alignment_frame_probedata = nullptr;    ///<Object pointer to frame of raw-data-field
             widgets::DataFieldWidget* probedata = nullptr;          ///<Object pointer to widgets::DataFieldWidget of raw-data-field
@@ -121,6 +122,7 @@ namespace swegui
             void on_action_zoompan_reset();                         ///<Event handler to reset zoom and pan
             void on_action_cda();                                   ///<Event handler to execute the coastal damage analysis tool
             void on_action_crosssection();                          ///<Event handler to execute the crosssection tool
+            void on_action_screenshot();                            ///<Event handler to export a screenshot
             void on_action_about();                                 ///<Event handler to open the about window
             //TODO: Implement documentation here
             /**

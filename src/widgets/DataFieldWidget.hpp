@@ -3,10 +3,17 @@
 
 #include <string>
 #include <gtkmm.h>
+#include <pangomm/attrlist.h>   //Set attributes for labels
 #include <cairomm/context.h>
 
 #define PATH_TO_DATAFIELD_GUI "/main/src/ui/datafield.glade"
+
 #define GRAPH_SCALE 0.7
+#define COLOR_BATHY "#ff9933"
+#define COLOR_WATER "#005ce6"
+#define COLOR_SPEED "#009900"
+#define COLOR_DEFAULT "#d3d3d3"
+#define LEGEND_FONT_SIZE 8
 
 namespace swegui
 {
@@ -17,7 +24,6 @@ namespace swegui
 
 namespace widgets
 {
-
   class DataFieldWidget : public Gtk::Notebook
   {
 
@@ -48,7 +54,7 @@ namespace widgets
       void on_dataset_change(void);
       bool on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr);
 
-      float calculate_graph_height(float data, float max, float scale, int graph_height);
+      float calculate_graph_height(float data, float min, float max, float scale, int graph_height);
       float calculate_graph_width(int timestep, int timesteps_total, int graph_width);
   };
 

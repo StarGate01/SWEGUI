@@ -50,8 +50,16 @@ void DataFieldWidget::update_ui()
     {
         probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
         
-        //Access layer data
-        for(int i=0; i<4; i++)
+        //Set labels
+        float bathy = parent->data_renderer->sample((renderer::NetCdfImageStream::Variable)0, probe->x, probe->y);
+        labels[0]->set_text(std::to_string(bathy));
+        //Set background for bathymetry
+        if(bathy > 0)
+            labels[0]->override_color (Gdk::RGBA("red"), Gtk::STATE_FLAG_NORMAL);
+        else
+            labels[0]->override_color (Gdk::RGBA("black"), Gtk::STATE_FLAG_NORMAL);
+
+        for(int i=1; i<4; i++)
             labels[i]->set_text(std::to_string(
                 parent->data_renderer->sample((renderer::NetCdfImageStream::Variable)i, probe->x, probe->y)));
 
@@ -61,6 +69,10 @@ void DataFieldWidget::update_ui()
             + std::pow(parent->data_renderer->sample(
                 renderer::NetCdfImageStream::Variable::Hv, probe->x, probe->y), 2)));
         labels[4]->set_text(std::to_string(hx));
+
+        //Update graph
+        std::cout << " < update_ui() >  graph update" << std::endl;
+        on_dataset_change();
     }
     else reset_gui();
 }
@@ -72,60 +84,95 @@ void DataFieldWidget::reset_gui()
 
 void DataFieldWidget::on_dataset_change(void)
 {
-    //TODO: Call DataFieldWidet::on_chart_draw
-    std::cout << "Selected " << cb_layer->get_active_row_number() << std::endl;
+    if(drawingarea_chart == nullptr || !drawingarea_chart->get_window())
+        return;
+    on_chart_draw(drawingarea_chart->get_window()->create_cairo_context());
 }
 
 bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
-{ 
+{
+    std::cout << "Enter on chart draw" << std::endl;
+
     probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
 
     //Check if dataset is filled
     if(!probe->has_data()) return true;
-    
-    //TODO: Calculate graph width and height
-    Gtk::Allocation allocation = cb_layer->get_allocation();
+    int layer = cb_layer->get_active_row_number() + 1;
+    std::vector<float> data = probe->get_all_data(layer);
+    if(data.size() <= 0) return false;
+    float max_value = *std::max_element(data.begin(), data.end());
+    float min_value = *std::min_element(data.begin(), data.end());
+
+    //Setup rendering
+    Gtk::Allocation allocation = drawingarea_chart->get_allocation();
     const int width = allocation.get_width();
     const int height = allocation.get_height();
-    int layer = cb_layer->get_active_row_number();
-    std::vector<float> data = probe->get_all_data(layer);
-    if(data.size() <= 0) return true;
+    
+    //------------- Start drawing -------------//
+    //Draw background
+    cr->set_source_rgb(0.0, 0.0, 0.0);
+    cr->paint();
 
-    //Get maximum element
-    float max_value = std::numeric_limits<float>::min();
-    for(auto const& val : data) if(max_value < val) max_value = val;
-
-    if(data.size() == 1)
+    //Set drawing color based on selected layer
+    Gdk::Color color(COLOR_DEFAULT);
+    switch(layer)
     {
-        cr->move_to(
-            calculate_graph_width(0, (int)data.size(), width), 
-            height / 2);
-        cr->line_to(width, height/2);
-        return true;
+        case 1:         //Water height
+            color = Gdk::Color(COLOR_WATER);
+            break;
+        case 2:         //H flux
+            color = Gdk::Color(COLOR_SPEED);
+            break;
+        case 3:         //v flux
+            color = Gdk::Color(COLOR_SPEED);
+            break;
+        case 4:         //T flux
+            color = Gdk::Color(COLOR_SPEED);
+            break;
+    }
+    cr->set_source_rgb(color.get_red(), color.get_green(), color.get_blue());
+    
+    //Move to lower left corner
+    cr->move_to(0, height);
+
+    //Iterate though items
+    for(int t = 0; t < (int)data.size(); t++)
+    {
+        cr->line_to(
+            calculate_graph_width(t, (int) data.size(), width), 
+            calculate_graph_height(data[t], min_value, max_value, GRAPH_SCALE, height));
     }
 
-    cr->move_to(
-        calculate_graph_width(0, (int)data.size(), width), 
-        calculate_graph_height(data[0], max_value, GRAPH_SCALE, height));
-    
-    //remove first item from dataset
-    data.erase(data.begin());
+    //Close path
+    double c_x, c_y;
+    cr->get_current_point(c_x, c_y);
+    cr->line_to(c_x, height);
+    cr->close_path();
+    cr->fill();
 
-    //Iterate though remaining items
-    for(int t = 0; t < (int)data.size(); t++)
-        cr->line_to(
-            calculate_graph_width(t, (int)data.size() + 1, width), 
-            calculate_graph_height(data[t], max_value, GRAPH_SCALE, height));
-    
+    //Draw timestamp line
+    cr->set_source_rgb(1.0, 0.0, 0.0);
+    float x = calculate_graph_width(parent->data_renderer->get_current_timestamp(), (int) data.size(), width);
+    cr->move_to(x, height);
+    cr->line_to(x, 0);
+    cr->stroke();
+
+    //Draw legend
+    cr->set_source_rgb(1.0, 1.0, 1.0);
+    cr->set_font_size(LEGEND_FONT_SIZE);
+    cr->move_to(0, (float) LEGEND_FONT_SIZE * 1.05);
+    cr->show_text(std::to_string(max_value));
+    cr->move_to(0, height);
+    cr->show_text(std::to_string(min_value));
     return true;
 }
 
-float DataFieldWidget::calculate_graph_height(float data, float max, float scale, int graph_height)
+float DataFieldWidget::calculate_graph_height(float data, float min, float max, float scale, int graph_height)
 {
-    return (data / max) * scale * (float)graph_height;
+    return graph_height - ((data-min) / (max - min)) * scale * (float) graph_height;
 }
 
 float DataFieldWidget::calculate_graph_width(int timestep, int timesteps_total, int graph_width)
 {
-    return ((float) timestep / (float)timesteps_total) * (float)graph_width;
+    return ((float) timestep / ((float)timesteps_total - 1)) * (float)graph_width;
 }

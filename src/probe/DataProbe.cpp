@@ -41,10 +41,10 @@ void DataProbe::fill_data(renderer::DataRenderer* data_renderer)
     for(int ts = 0; ts < nr_timestamps; ts++)
     {
         data[ts] = new float[5];
-        data[ts][0] = data_renderer->sample(renderer::NetCdfImageStream::Variable::B, x, y);
-        data[ts][1] = data_renderer->sample(renderer::NetCdfImageStream::Variable::H, x, y);
-        float hu = data_renderer->sample(renderer::NetCdfImageStream::Variable::Hu, x, y);
-        float hv = data_renderer->sample(renderer::NetCdfImageStream::Variable::Hv, x, y);
+        data[ts][0] = data_renderer->sample(renderer::NetCdfImageStream::Variable::B, x, y, ts);
+        data[ts][1] = data_renderer->sample(renderer::NetCdfImageStream::Variable::H, x, y, ts);
+        float hu = data_renderer->sample(renderer::NetCdfImageStream::Variable::Hu, x, y, ts);
+        float hv = data_renderer->sample(renderer::NetCdfImageStream::Variable::Hv, x, y, ts);
         data[ts][2] = hu;
         data[ts][3] = hv;
         data[ts][4] = sqrtf(std::pow(hu, 2) + std::pow(hv, 2));
