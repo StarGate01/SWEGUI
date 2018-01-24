@@ -127,7 +127,6 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
             cr->set_source_rgb(140.0/255.0, 255.0/255.0, 102.0/255.0);
             break;
     }
-    //cr->set_source_rgb(color.get_red(), color.get_green(), color.get_blue());
     
     //Move to lower left corner
     cr->move_to(0, height);
@@ -148,7 +147,6 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->fill();
 
     //Draw horizonal lines
-    color = Gdk::Color("#ffffff");
     cr->set_source_rgba(0.8, 0.8, 0.8, 0.2);
     for(int i = 1; i < LEGEND_H_DEVISION; i++)
     {
