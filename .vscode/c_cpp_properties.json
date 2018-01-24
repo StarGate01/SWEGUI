@@ -19,7 +19,8 @@
                 "/usr/include/gtk-3.0",
                 "/usr/include/gtkmm-3.0",
                 "/usr/include/glibmm-2.4",
-                "/usr/include/sigc++-2.0"
+                "/usr/include/sigc++-2.0",
+                "/usr/include/cairomm-1.0"
             ],
             "defines": [
                 "__linux__",
@@ -44,7 +45,8 @@
                     "/usr/include/gtk-3.0",
                     "/usr/include/gtkmm-3.0",
                     "/usr/include/glibmm-2.4",
-                    "/usr/include/sigc++-2.0"
+                    "/usr/include/sigc++-2.0",
+                    "/usr/include/cairomm-1.0"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
@@ -69,7 +71,8 @@
                 "C:/lxss_ro/rootfs/usr/include/gtk-3.0",
                 "C:/lxss_ro/rootfs/usr/include/gtkmm-3.0",
                 "C:/lxss_ro/rootfs/usr/include/glibmm-2.4",
-                "C:/lxss_ro/rootfs/usr/include/sigc++-2.0"
+                "C:/lxss_ro/rootfs/usr/include/sigc++-2.0",
+                "C:/lxss_ro/rootfs/usr/include/cairomm-1.0"
             ],
             "defines": [
                 "__linux__",
@@ -94,7 +97,8 @@
                     "C:/lxss_ro/rootfs/usr/include/gtk-3.0",
                     "C:/lxss_ro/rootfs/usr/include/gtkmm-3.0",
                     "C:/lxss_ro/rootfs/usr/include/glibmm-2.4",
-                    "C:/lxss_ro/rootfs/usr/include/sigc++-2.0"
+                    "C:/lxss_ro/rootfs/usr/include/sigc++-2.0",
+                    "C:/lxss_ro/rootfs/usr/include/cairomm-1.0"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""

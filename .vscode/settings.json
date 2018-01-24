@@ -10,11 +10,11 @@
         "*.vstemplate": "xml",
         "SConstruct": "python",
         "SConscript": "python",
-        "*.glsl": "glsl",
-        "iosfwd": "cpp",
-        "*.glade": "xml",
-        "array": "cpp",
         "*.tcc": "cpp",
+        "*.glsl": "glsl",
+        "*.glade": "xml",
+        "iosfwd": "cpp",
+        "array": "cpp",
         "cctype": "cpp",
         "chrono": "cpp",
         "clocale": "cpp",
@@ -51,5 +51,10 @@
         "utility": "cpp",
         "valarray": "cpp",
         "vector": "cpp"
-    }
+    },
+    "typescript.tsc.autoDetect": "off",
+    "jake.autoDetect": "off",
+    "grunt.autoDetect": "off",
+    "npm.autoDetect": "off",
+    "gulp.autoDetect": "off"
 }

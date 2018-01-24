@@ -2,18 +2,21 @@
 
 import os
 import sys
+import re
 
 # Set possible variables
 vars = Variables()
 # Read parameters from a file if given
 vars.AddVariables(
-  PathVariable('buildVariablesFile', 'location of the python file, which contains the build variables', None, PathVariable.PathIsFile)
+  PathVariable('buildVariablesFile', 
+    'location of the python file, which contains the build variables', 
+    None, PathVariable.PathIsFile)
 )
 env = Environment(variables=vars)
 if 'buildVariablesFile' in env:
     vars = Variables(env['buildVariablesFile'])
 
-# SWE specific variables
+# Specific variables
 vars.AddVariables(
     PathVariable('buildDir', 'Where to build the code', 'build', PathVariable.PathIsDirCreate),
     EnumVariable('compileMode', 'Mode of the compilation', 'release',
@@ -21,17 +24,23 @@ vars.AddVariables(
     )
 )
 
-# External variables
-vars.AddVariables(
-    PathVariable('netCDFDir', 'location of netCDF', None)
-)
-
 # Set environment
 env = Environment(ENV = {'PATH': os.environ['PATH']}, variables=vars, tools = ['default', 'cxxtest'])
 
 # GTK resource builder
-gtkresbld = Builder(action = 'glib-compile-resources --target=$TARGET --generate-source $SOURCE')
-env.Append(BUILDERS = {'GtkResBld': gtkresbld})
+gtkresbld = Builder(action = 'glib-compile-resources --target=$TARGET --generate-source $SOURCE', 
+    suffix = '.c', src_suffix = '.xml')
+env.Append(BUILDERS = {'GtkResBld': gtkresbld })
+
+# GTK resource dependency finder
+include_gtkre = re.compile(r'<file.*>(.+)<\/file>', re.M)
+def gtkres_scan(node, env, path):
+    contents = node.get_contents()
+    includes = include_gtkre.findall(contents)
+    return ['#' + s for s in includes]
+
+gtkresscan = Scanner(function = gtkres_scan, skeys = ['.xml'])
+env.Append(SCANNERS = gtkresscan)
 
 # All required libraries
 libs = ['gtkmm-3.0', 'sfml-system', 'sfml-graphics', 'netcdf']

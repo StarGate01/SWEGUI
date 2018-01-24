@@ -10,6 +10,8 @@
 #include "Layer.hpp"
 #include "../probe/DataProbe.hpp"
 
+#define PATH_TO_FONT  "/main/src/ui/courier_prime.ttf"   
+
 namespace renderer
 {
 
@@ -51,20 +53,27 @@ namespace renderer
       NetCdfImageStream netcdf_stream;
       sf::RectangleShape background;
       sf::Shader shader;
-
-      int current_timestamp = -1;
-      sf::Transform screen_to_tex, tex_to_data;
-      float zoom = 1.f, pan_x = 0.f, pan_y = 0.f;
-
       sf::Texture crosshair_tex, crosshair_active_tex, lut;
+      sf::Font font;
+      sf::Text info_text;
+      sf::RectangleShape info_rect;
+      int current_timestamp = -1;
+
+      sf::Transform tm_screen_to_tex, tm_screen_to_data;
+      float zoom = 1.f;
+      sf::Vector2i last_mouse;
+      bool pan_active = false;
+      sf::Vector2f pan = sf::Vector2f(0.f, 0.f);
 
       void draw();
       // void animate();
       void resize_view();
       void update_transform();
       int select_load(NetCdfImageStream::Variable variable, int index, Layer& lay);
-      bool on_button_press_event(GdkEventButton *event);
-      bool on_scroll_event (GdkEventScroll *event);
+      bool on_button_press_event(GdkEventButton* event);
+      bool on_button_release_event(GdkEventButton* event);
+      bool on_scroll_event (GdkEventScroll* event);
+      bool on_motion_notify_event(GdkEventMotion* event);
       string unique_name();
 
   };

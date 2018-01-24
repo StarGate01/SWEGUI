@@ -67,14 +67,10 @@ bool NetCdfImageStream::generate_meta()
     if(reader == nullptr || !reader->success) return false;
     meta_info.nx = reader->getGlobalIntAttribute("nx");
     meta_info.ny = reader->getGlobalIntAttribute("ny");
-    meta_info.dx = reader->getGlobalFloatAttribute("dx");
-    meta_info.dy = reader->getGlobalFloatAttribute("dy");
     meta_info.xmin = reader->xMin;
     meta_info.xmax = reader->xMax;
     meta_info.ymin = reader->yMin;
     meta_info.ymax = reader->yMax;
-    meta_info.originx = reader->getGlobalFloatAttribute("originx");
-    meta_info.originy = reader->getGlobalFloatAttribute("originy");
     meta_info.timestamps = (int)reader->timeLength;
     //BMP Header
     header[BMP_OFFSET_BF_TYPE] = BMP_MAGIC_1;

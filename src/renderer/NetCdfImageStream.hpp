@@ -25,9 +25,7 @@ namespace renderer
             {
                 int nx = 1, ny = 1;
                 float min = -1.f, max = 1.f;
-                float dx = 2.f, dy = 1.f;
-                float xmin = -1.f, xmax = 1.f, ymin = -0.5, ymax = 0.5;
-                float originx = 0.f, originy = 0.f;
+                float xmin = -1.f, xmax = 1.f, ymin = -0.5f, ymax = 0.5f;
                 int timestamps = 0;
                 float ax() { return xmax - xmin; }
                 float ay() { return ymax - ymin; }

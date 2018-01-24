@@ -1,30 +1,15 @@
 # This file tells scons what files make up SWEGUI
 
-import sys
-import os
-
 Import('env')
 
-# List resources
-ui_res = ['ui/main.glade', 'ui/probe.glade', 'ui/layers.glade', 'ui/datafield.glade', 'ui/sfml.glade', 'ui/probe_detail.glade']
-ui_res += ['ui/crosshair.png', 'ui/crosshair_active.png', 'ui/icon_32.png', 'ui/icon_fancy.png']
-ui_res += ['ui/main.frag']
-res_code = '#'+env['buildDir']+'/'+env['buildDir']+'_'+env.program_name+'/ui/resources_main.c'
-res_xml = 'ui/main.gresource.xml'
-res = env.GtkResBld(res_code, res_xml)
-Depends(res, ui_res)
+# Glob sources
+for s in ['.', 'resources', 'widgets', 'probe', 'renderer' ]: 
+    env.src_files += [Glob(s + '/*.cpp')]
+env.src_files += ['reader/NetCdfReader.cpp']
+# Add resources
+env.src_files += env.GtkResBld('ui/main.gresource.xml')
 
-# List sources
-sourceFiles_prog = ['main.cpp', 'Application.cpp', 'resources/ResourceHelper.cpp']
-sourceFiles_prog += ['widgets/SFMLWidget.cpp', 'widgets/DataFieldWidget.cpp']
-sourceFiles_prog += ['MainWindow.cpp', 'MainWindowActions.cpp', 'MainWindowProbe.cpp', 'LayerWindow.cpp', 'EditProbeDialog.cpp']
-sourceFiles_prog += ['probe/DataProbe.cpp', 'probe/ProbeColumns.cpp', 'probe/ProbeDetailsWindow.cpp']
-sourceFiles_prog += ['renderer/DataRenderer.cpp', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp']
-sourceFiles_prog += [res_code]
-env.src_files = []
-for i in sourceFiles_prog: env.src_files.append(env.Object(i))
-
-# Add search path for swe
+# Add search path for swe datareader
 Repository('#submodules/swe')
 env.Append(CPPPATH=['#submodules/swe/src'])
 
@@ -32,4 +17,4 @@ env.Append(CPPPATH=['#submodules/swe/src'])
 prog = env.Program(env.program_name, env.src_files)
 
 # Define tests
-env.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp'])
+# env.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp'])

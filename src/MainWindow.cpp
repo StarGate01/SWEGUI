@@ -20,7 +20,8 @@ MainWindow* MainWindow::create()
     auto refBuilder = Gtk::Builder::create_from_resource(PATH_TO_MAIN_GUI);
     MainWindow* window = nullptr;
     refBuilder->get_widget_derived("window_main", window);
-    window->add_events(Gdk::EventMask::BUTTON_PRESS_MASK | Gdk::EventMask::SCROLL_MASK);
+    window->add_events(Gdk::EventMask::BUTTON_PRESS_MASK | Gdk::EventMask::BUTTON_RELEASE_MASK
+        | Gdk::EventMask::BUTTON2_MOTION_MASK | Gdk::EventMask::BUTTON3_MOTION_MASK | Gdk::EventMask::SCROLL_MASK);
     return window;
 }
 

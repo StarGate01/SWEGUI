@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "DataRenderer.hpp"
 #include "../resources/ResourceHelper.hpp"
 #include "Errors.hpp"
@@ -30,6 +31,15 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
         resources::ResourceHelper::global_get_size(PATH_TO_CROSSHAIR_TEX));
     crosshair_active_tex.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_CROSSHAIR_ACTIVE_TEX),
         resources::ResourceHelper::global_get_size(PATH_TO_CROSSHAIR_ACTIVE_TEX));
+    
+    font.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_FONT),
+        resources::ResourceHelper::global_get_size(PATH_TO_FONT));
+    info_text.setCharacterSize(14);
+    info_text.setFont(font);
+    info_text.setColor(sf::Color::White);
+    info_text.setPosition(10.f, 5.f);
+    info_rect.setFillColor(sf::Color(0, 0, 0, 70));
+    info_rect.setPosition(5.f, 5.f);
 
     lut.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_LUT),
         resources::ResourceHelper::global_get_size(PATH_TO_LUT));
@@ -39,9 +49,12 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
 
     widget.signal_draw().connect(sigc::bind_return(sigc::hide(sigc::mem_fun(this, &DataRenderer::draw)), true));
     widget.signal_size_allocate().connect(sigc::hide(sigc::mem_fun(this, &DataRenderer::resize_view)));
-    widget.add_events(Gdk::EventMask::BUTTON_PRESS_MASK | Gdk::EventMask::SCROLL_MASK);
+    widget.add_events(Gdk::EventMask::BUTTON_PRESS_MASK | Gdk::EventMask::BUTTON_RELEASE_MASK
+        | Gdk::EventMask::BUTTON2_MOTION_MASK | Gdk::EventMask::BUTTON3_MOTION_MASK | Gdk::EventMask::SCROLL_MASK);
     widget.signal_button_press_event().connect(sigc::mem_fun(this, &DataRenderer::on_button_press_event));
+    widget.signal_button_release_event().connect(sigc::mem_fun(this, &DataRenderer::on_button_release_event));
     widget.signal_scroll_event().connect(sigc::mem_fun(this, &DataRenderer::on_scroll_event));
+    widget.signal_motion_notify_event().connect(sigc::mem_fun(this, &DataRenderer::on_motion_notify_event));
 }
 
 DataRenderer::type_signal_update DataRenderer::signal_update()
@@ -60,6 +73,8 @@ int DataRenderer::open(std::string filename)
     if(!ret) return ERROR_FILE;
     int res = select_timestamp(0);
     if(res != ERROR_SUCCESS) return res;
+    zoom = 1.f;
+    pan = sf::Vector2f(0.f, 0.f);
     update_transform();
     update_shader();
     return ERROR_SUCCESS;
@@ -87,6 +102,19 @@ int DataRenderer::get_current_timestamp()
 float DataRenderer::get_current_time()
 {
     return netcdf_stream.get_time(current_timestamp);
+}
+
+string DataRenderer::unique_name()
+{
+    int index = 0;
+    while(true)
+    {
+        stringstream ss;
+        ss << "probe_" << index;
+        string name = ss.str();
+        if(probes.find(name) == probes.end()) return name;
+        index++;
+    }
 }
 
 float DataRenderer::sample(NetCdfImageStream::Variable var, float x, float y, int timestamp)
@@ -130,13 +158,14 @@ void DataRenderer::draw()
     widget.renderWindow.draw(background, &shader);
     for(auto& probe: probes) 
     {
-        sf::Vector2f d2s = screen_to_tex.getInverse() * 
-            (tex_to_data.getInverse() * sf::Vector2f(probe.second.x, probe.second.y));
+        sf::Vector2f d2s = tm_screen_to_data.getInverse() * sf::Vector2f(probe.second.x, probe.second.y);
         probe.second.getSprite().setPosition(d2s.x, d2s.y);
         if(probe.first == active_probe_name) probe.second.getSprite().setTexture(crosshair_active_tex);
         else probe.second.getSprite().setTexture(crosshair_tex);
         widget.renderWindow.draw(probe.second.getSprite());
     }
+    widget.renderWindow.draw(info_rect);
+    widget.renderWindow.draw(info_text);
     widget.display();
 }
 
@@ -150,33 +179,55 @@ void DataRenderer::resize_view()
 
 void DataRenderer::update_transform()
 {
-    sf::Vector2f ss = (sf::Vector2f)widget.renderWindow.getSize();
-    background.setSize(ss);
+    sf::Vector2f ssz = (sf::Vector2f)widget.renderWindow.getSize();
+    background.setSize(ssz);
 
     float dasp = meta_info->ax() / meta_info->ay(); 
-    sf::Vector2f psize = ss;
-    if(dasp > (ss.x / ss.y)) psize.y = ss.x / dasp;
-    else psize.x = ss.y * dasp;
+    sf::Vector2f psize = ssz;
+    if(dasp > (ssz.x / ssz.y)) psize.y = ssz.x / dasp;
+    else psize.x = ssz.y * dasp;
 
-    screen_to_tex = sf::Transform::Identity;
-    screen_to_tex.scale(1.f / psize.x, 1.f / psize.y);
-    screen_to_tex.translate((ss - psize) / (-2.f));
+    sf::Transform tm_prep_zoom = sf::Transform::Identity;
+    tm_prep_zoom.translate((ssz - psize) / (-2.f));
+    tm_prep_zoom.translate(ssz * 0.5f);
+    tm_prep_zoom.scale(zoom, zoom);
+    tm_prep_zoom.translate(ssz * (-0.5f));
 
-    tex_to_data = sf::Transform::Identity;
-    tex_to_data.translate(meta_info->xmin, meta_info->ymin);
-    tex_to_data.scale(meta_info->ax(), -meta_info->ay());
-    tex_to_data.translate(0, -1);
+    tm_screen_to_tex = sf::Transform::Identity;
+    tm_screen_to_tex.scale(1.f / psize.x, 1.f / psize.y);
+    tm_screen_to_tex.translate(pan.x, -pan.y);
+    tm_screen_to_tex.combine(tm_prep_zoom);
 
-    shader.setParameter("transform", screen_to_tex);
+    tm_screen_to_data = sf::Transform::Identity;
+    tm_screen_to_data.translate(meta_info->xmin, meta_info->ymin);
+    tm_screen_to_data.scale(meta_info->ax(), -meta_info->ay());
+    tm_screen_to_data.translate(0.f, -1.f);
+    tm_screen_to_data.scale(1.f / psize.x, 1.f / psize.y);
+    tm_screen_to_data.translate(pan.x, pan.y);
+    tm_screen_to_data.combine(tm_prep_zoom);
+
+    stringstream ss;
+    ss << "Panning:     " << pan.x << " px, " << pan.y << " px\n";
+    ss << "Zoom:        " << zoom << "\n";
+    ss << "Window size: " << ssz.x << " px * " << ssz.y << " px\n\n";
+    ss << "Map size:    " << meta_info->ax() << " * " << meta_info->ay() << "\n";
+    ss << "Map range:   [" << meta_info->xmin << ", " << meta_info->xmax << "]\n";
+    ss << "             [" << meta_info->ymin << ", " << meta_info->ymax << "]";
+    info_text.setString(ss.str());
+    sf::FloatRect text_bounds = info_text.getGlobalBounds();
+    info_rect.setSize(sf::Vector2f(text_bounds.width + 10.f, text_bounds.height + 10.f));
+
+    shader.setParameter("transform", tm_screen_to_tex);
 }
 
-bool DataRenderer::on_button_press_event(GdkEventButton *event)
+bool DataRenderer::on_button_press_event(GdkEventButton* event)
 {
-    sf::Vector2f tp = screen_to_tex * sf::Vector2f(event->x, event->y);
-    if(tp.x < 0 || tp.x > 1 || tp.y < 0 || tp.y > 1) return true;
+    sf::Vector2f ssz = (sf::Vector2f)widget.renderWindow.getSize();
+    sf::Vector2f tp = tm_screen_to_tex * sf::Vector2f(event->x, ssz.y - event->y);
+    if(tp.x < 0 || tp.x > 1 || tp.y < 0 || tp.y > 1) return false;
     if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1))
     {
-        sf::Vector2f s2d = tex_to_data * (screen_to_tex * sf::Vector2f(event->x, event->y));
+        sf::Vector2f s2d = tm_screen_to_data * sf::Vector2f(event->x, event->y);
         string name = unique_name();
         probe::DataProbe probe(s2d.x, s2d.y, this);
         probes[name] = probe;
@@ -200,26 +251,49 @@ bool DataRenderer::on_button_press_event(GdkEventButton *event)
                 return true;
             }
         }
-        return true;
+        return false;
     }
     return false;
 }
 
-bool DataRenderer::on_scroll_event(GdkEventScroll *event)
+bool DataRenderer::on_scroll_event(GdkEventScroll* event)
 {
-    std::cout << "scrll" <<std::endl;
+    if(event->direction == GdkScrollDirection::GDK_SCROLL_DOWN) 
+    {
+        if(!(zoom * 1.05f > 1.5f)) zoom *= 1.05f;
+    }
+    else if(event->direction == GdkScrollDirection::GDK_SCROLL_UP)
+    {
+        zoom *= 0.95;
+    } 
+    update_transform();
+    invalidate();
     return true;
 }
 
-string DataRenderer::unique_name()
+bool DataRenderer::on_motion_notify_event(GdkEventMotion* event)
 {
-    int index = 0;
-    while(true)
+    if((event->type == GDK_MOTION_NOTIFY) 
+        && (event->state & GDK_BUTTON2_MASK || event->state & GDK_BUTTON3_MASK))
     {
-        stringstream ss;
-        ss << "probe_" << index;
-        string name = ss.str();
-        if(probes.find(name) == probes.end()) return name;
-        index++;
+        sf::Vector2i delta = sf::Vector2i(0, 0);
+        sf::Vector2i now = sf::Vector2i(event->x, event->y);
+        if(!pan_active) pan_active = true;
+        else delta = last_mouse - now;
+        last_mouse = now;
+        pan += ((sf::Vector2f)delta * zoom);
+        update_transform();
+        invalidate();
     }
+    return false;
+}
+
+bool DataRenderer::on_button_release_event(GdkEventButton* event)
+{
+    if((event->type == GDK_BUTTON_RELEASE) 
+        && (event->button == 2 || event->button == 3))
+    {
+        pan_active = false;
+    }
+    return true;
 }
