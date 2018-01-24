@@ -71,7 +71,6 @@ void DataFieldWidget::update_ui()
         labels[4]->set_text(std::to_string(hx));
 
         //Update graph
-        std::cout << " < update_ui() >  graph update" << std::endl;
         on_dataset_change();
     }
     else reset_gui();
@@ -91,15 +90,13 @@ void DataFieldWidget::on_dataset_change(void)
 
 bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
-    std::cout << "Enter on chart draw" << std::endl;
-
     probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
 
-    //Check if dataset is filled
-    if(!probe->has_data()) return true;
-    int layer = cb_layer->get_active_row_number() + 1;
-    std::vector<float> data = probe->get_all_data(layer);
-    if(data.size() <= 0) return false;
+    if(!probe->has_data()) return true;                         //Check if data is available
+    int layer = cb_layer->get_active_row_number() + 1;          //Skip bathymetry layer
+    std::vector<float> data = probe->get_all_data(layer);       //Get data
+    if(data.size() <= 0) return false;                          //Return if data is empty
+    //Set rendering constraints
     float max_value = *std::max_element(data.begin(), data.end());
     float min_value = *std::min_element(data.begin(), data.end());
 
@@ -107,6 +104,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     Gtk::Allocation allocation = drawingarea_chart->get_allocation();
     const int width = allocation.get_width();
     const int height = allocation.get_height();
+    Gdk::Color color(COLOR_DEFAULT);
     
     //------------- Start drawing -------------//
     //Draw background
@@ -114,23 +112,22 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->paint();
 
     //Set drawing color based on selected layer
-    Gdk::Color color(COLOR_DEFAULT);
     switch(layer)
     {
         case 1:         //Water height
-            color = Gdk::Color(COLOR_WATER);
+            cr->set_source_rgb(51.0/255.0, 204.0/255.0, 255.0/255.0);
             break;
         case 2:         //H flux
-            color = Gdk::Color(COLOR_SPEED);
+            cr->set_source_rgb(204.0/255.0, 255.0/255.0, 102.0/255.0);
             break;
         case 3:         //v flux
-            color = Gdk::Color(COLOR_SPEED);
+            cr->set_source_rgb(179.0/255.0, 255.0/255.0, 102.0/255.0);
             break;
         case 4:         //T flux
-            color = Gdk::Color(COLOR_SPEED);
+            cr->set_source_rgb(140.0/255.0, 255.0/255.0, 102.0/255.0);
             break;
     }
-    cr->set_source_rgb(color.get_red(), color.get_green(), color.get_blue());
+    //cr->set_source_rgb(color.get_red(), color.get_green(), color.get_blue());
     
     //Move to lower left corner
     cr->move_to(0, height);
@@ -149,6 +146,24 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->line_to(c_x, height);
     cr->close_path();
     cr->fill();
+
+    //Draw horizonal lines
+    color = Gdk::Color("#ffffff");
+    cr->set_source_rgba(0.8, 0.8, 0.8, 0.2);
+    for(int i = 1; i < LEGEND_H_DEVISION; i++)
+    {
+        cr->move_to(0, (height/LEGEND_H_DEVISION) * i);
+        cr->line_to(width, (height/LEGEND_H_DEVISION) * i);
+    }
+    
+    //Draw vertical lines
+    int vlines = std::min(LEGEND_V_MAX_DEVISION, (int) data.size());
+    for(int i = 1; i < vlines; i++)
+    {
+        cr->move_to((width/vlines) * i, 0);
+        cr->line_to((width/vlines) * i, height);
+    }
+    cr->stroke();
 
     //Draw timestamp line
     cr->set_source_rgb(1.0, 0.0, 0.0);

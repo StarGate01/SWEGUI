@@ -9,11 +9,14 @@
 #define PATH_TO_DATAFIELD_GUI "/main/src/ui/datafield.glade"
 
 #define GRAPH_SCALE 0.7
-#define COLOR_BATHY "#ff9933"
 #define COLOR_WATER "#005ce6"
-#define COLOR_SPEED "#009900"
+#define COLOR_SPEED1 "#bbff99"
+#define COLOR_SPEED2 "#aaff80"
+#define COLOR_SPEED3 "#99ff66"
 #define COLOR_DEFAULT "#d3d3d3"
-#define LEGEND_FONT_SIZE 8
+#define LEGEND_FONT_SIZE 10
+#define LEGEND_H_DEVISION 6
+#define LEGEND_V_MAX_DEVISION 10
 
 namespace swegui
 {
