@@ -1,4 +1,5 @@
 #include <string>
+#include <cmath>
 #include "Layer.hpp"
 
 using namespace renderer;
