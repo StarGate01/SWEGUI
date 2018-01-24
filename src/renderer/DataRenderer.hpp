@@ -37,6 +37,11 @@ namespace renderer
       int get_current_timestamp();
       float get_current_time();
 
+      bool render_info = true;
+      bool render_probes = true;
+      bool render_probe_names = true;
+      bool render_probe_arrows = true;
+
       typedef sigc::signal<void, bool> type_signal_update;
       type_signal_update signal_update();
       typedef sigc::signal<void> type_signal_select;
@@ -55,8 +60,8 @@ namespace renderer
       sf::Shader shader;
       sf::Texture crosshair_tex, crosshair_active_tex, lut;
       sf::Font font;
-      sf::Text info_text;
-      sf::RectangleShape info_rect;
+      sf::Text info_text, probe_text;
+      sf::RectangleShape info_rect, probe_rect;
       int current_timestamp = -1;
 
       sf::Transform tm_screen_to_tex, tm_screen_to_data;

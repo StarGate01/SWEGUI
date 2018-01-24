@@ -40,6 +40,10 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
     info_text.setPosition(10.f, 5.f);
     info_rect.setFillColor(sf::Color(0, 0, 0, 70));
     info_rect.setPosition(5.f, 5.f);
+    probe_text.setFont(font);
+    probe_text.setCharacterSize(12);
+    probe_text.setColor(sf::Color::White);
+    probe_rect.setFillColor(sf::Color(0, 0, 0, 70));
 
     lut.loadFromMemory(resources::ResourceHelper::global_to_memory(PATH_TO_LUT),
         resources::ResourceHelper::global_get_size(PATH_TO_LUT));
@@ -156,16 +160,34 @@ void DataRenderer::draw()
 {
     widget.renderWindow.clear(sf::Color(128, 128, 128, 255));
     widget.renderWindow.draw(background, &shader);
-    for(auto& probe: probes) 
+    if(render_probes)
     {
-        sf::Vector2f d2s = tm_screen_to_data.getInverse() * sf::Vector2f(probe.second.x, probe.second.y);
-        probe.second.getSprite().setPosition(d2s.x, d2s.y);
-        if(probe.first == active_probe_name) probe.second.getSprite().setTexture(crosshair_active_tex);
-        else probe.second.getSprite().setTexture(crosshair_tex);
-        widget.renderWindow.draw(probe.second.getSprite());
+        for(auto& probe: probes) 
+        {
+            sf::Vector2f d2s = tm_screen_to_data.getInverse() * sf::Vector2f(probe.second.x, probe.second.y);
+            probe.second.getSprite().setPosition(d2s.x, d2s.y);
+            if(probe.first == active_probe_name) probe.second.getSprite().setTexture(crosshair_active_tex);
+            else probe.second.getSprite().setTexture(crosshair_tex);
+            widget.renderWindow.draw(probe.second.getSprite());
+            if(render_probe_names)
+            {
+                probe_text.setString(probe.first);
+                sf::FloatRect text_bounds = probe_text.getGlobalBounds();
+                probe_text.setOrigin(text_bounds.width / 2.0f, 0.f);
+                probe_text.setPosition(d2s.x, d2s.y + 20.0f);
+                probe_rect.setSize(sf::Vector2f(text_bounds.width + 6.f, text_bounds.height + 6.f));
+                probe_rect.setOrigin(((text_bounds.width +6.0f) / 2.0f), 0.f);
+                probe_rect.setPosition(d2s.x, d2s.y + 20.0f);
+                widget.renderWindow.draw(probe_rect);
+                widget.renderWindow.draw(probe_text);
+            }
+        }
     }
-    widget.renderWindow.draw(info_rect);
-    widget.renderWindow.draw(info_text);
+    if(render_info)
+    {
+        widget.renderWindow.draw(info_rect);
+        widget.renderWindow.draw(info_text);
+    }
     widget.display();
 }
 
