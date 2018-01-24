@@ -42,6 +42,10 @@ namespace renderer
       bool render_probe_names = true;
       bool render_probe_arrows = true;
 
+      sf::Vector2f pan = sf::Vector2f(0.f, 0.f);
+      float zoom = 1.f;
+      void update_transform();
+
       typedef sigc::signal<void, bool> type_signal_update;
       type_signal_update signal_update();
       typedef sigc::signal<void> type_signal_select;
@@ -65,15 +69,11 @@ namespace renderer
       int current_timestamp = -1;
 
       sf::Transform tm_screen_to_tex, tm_screen_to_data;
-      float zoom = 1.f;
       sf::Vector2i last_mouse;
       bool pan_active = false;
-      sf::Vector2f pan = sf::Vector2f(0.f, 0.f);
 
       void draw();
-      // void animate();
       void resize_view();
-      void update_transform();
       int select_load(NetCdfImageStream::Variable variable, int index, Layer& lay);
       bool on_button_press_event(GdkEventButton* event);
       bool on_button_release_event(GdkEventButton* event);

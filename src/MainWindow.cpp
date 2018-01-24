@@ -32,8 +32,7 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("mb_file_open", mb_file_open);
     m_refBuilder->get_widget("mb_file_quit", mb_file_quit);
     m_refBuilder->get_widget("mb_view_layer", mb_view_layer);
-    m_refBuilder->get_widget("mb_view_zoom_in", mb_view_zoom_in);
-    m_refBuilder->get_widget("mb_view_zoom_out", mb_view_zoom_out);
+    m_refBuilder->get_widget("mb_view_renderer", mb_view_renderer);
     m_refBuilder->get_widget("mb_view_reset", mb_view_reset);
     m_refBuilder->get_widget("mb_simulation_goto_start", mb_simulation_goto_start);
     m_refBuilder->get_widget("mb_simulation_prev", mb_simulation_prev);
@@ -51,9 +50,8 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("tbtn_simulation_goto_start", tb_simulation_goto_start);
     m_refBuilder->get_widget("tbtn_simulation_play", tb_simulation_play);
     m_refBuilder->get_widget("tbtn_layer", tb_layer);
-    m_refBuilder->get_widget("tbtn_zoom_out", tb_zoom_out);
-    m_refBuilder->get_widget("tbtn_zoom_reset", tb_zoom_reset);
-    m_refBuilder->get_widget("tbtn_zoom_in", tb_zoom_in);
+    m_refBuilder->get_widget("tbtn_renderer", tb_renderer);
+    m_refBuilder->get_widget("tbtn_zoompan_reset", tb_zoompan_reset);
     m_refBuilder->get_widget("tbtn_tool_cda", tb_tool_cda);
     m_refBuilder->get_widget("tbtn_tool_crosssection", tb_crosssection);
     //Get raw data label
@@ -81,14 +79,14 @@ void MainWindow::setup_gui_elements()
     dialog_probe_edit = EditProbeDialog::create(this);
     //Windows
     window_layers = LayerWindow::create(this);
+    window_renderer = RendererWindow::create(this);
 
     //Event handlers for menubar
     mb_file_open->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_fileopen));
     mb_file_quit->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_quit));
     mb_view_layer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_layer));
-    mb_view_zoom_in->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_zoom_in));
-    mb_view_zoom_out->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_zoom_out));
-    mb_view_reset->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_zoom_reset));
+    mb_view_renderer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));
+    mb_view_reset->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_zoompan_reset));
     mb_simulation_goto_start->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_goto_start));
     mb_simulation_prev->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_prev));
     mb_spin_timestamp->signal_value_changed().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_set_timestamp));
@@ -102,9 +100,8 @@ void MainWindow::setup_gui_elements()
     tb_simulation_goto_start->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_goto_start));
     tb_simulation_play->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_play));
     tb_layer->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_layer));
-    tb_zoom_out->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_zoom_out));
-    tb_zoom_reset->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_zoom_reset));
-    tb_zoom_in->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_zoom_in));
+    tb_renderer->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));
+    tb_zoompan_reset->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_zoompan_reset));
     tb_tool_cda->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_cda));
     tb_crosssection->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_crosssection));
     

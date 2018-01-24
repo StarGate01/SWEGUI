@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include <stdlib.h>
 #include "LayerWindow.hpp"
+#include "RendererWindow.hpp"
 #include "EditProbeDialog.hpp"
 #include "widgets/SFMLWidget.hpp"
 #include "renderer/DataRenderer.hpp"
@@ -56,6 +57,7 @@ namespace swegui
             Gtk::MenuItem* mb_file_open = nullptr;                  ///<Object pointer to file open button in menubar
             Gtk::MenuItem* mb_file_quit = nullptr;                  ///<Object pointer to quit button in menubar
             Gtk::MenuItem* mb_view_layer = nullptr;                 ///<Object pointer to layer button in menubar
+            Gtk::MenuItem* mb_view_renderer = nullptr;              ///<Object pointer to renderer button in menubar
             Gtk::MenuItem* mb_view_zoom_in = nullptr;               ///<Object pointer to zoom in button in menubar
             Gtk::MenuItem* mb_view_zoom_out = nullptr;              ///<Object pointer to zoom out button in menubar
             Gtk::MenuItem* mb_view_reset = nullptr;                 ///<Object pointer to reset button in menubar
@@ -74,9 +76,8 @@ namespace swegui
             Gtk::ToolButton* tb_simulation_goto_start = nullptr;    ///<Object pointer to simulation go to start button in toolbar
             Gtk::ToolButton* tb_simulation_play = nullptr;          ///<Object pointer to play button in toolbar
             Gtk::ToolButton* tb_layer = nullptr;                    ///<Object pointer to layer selection button in toolbar
-            Gtk::ToolButton* tb_zoom_out = nullptr;                 ///<Object pointer to zoom out button in toolbar
-            Gtk::ToolButton* tb_zoom_reset = nullptr;               ///<Object pointer to zoom reset button in toolbar
-            Gtk::ToolButton* tb_zoom_in = nullptr;                  ///<Object pointer to zoom in button in toolbar
+            Gtk::ToolButton* tb_renderer = nullptr;                 ///<Object pointer to renderer button in toolbar
+            Gtk::ToolButton* tb_zoompan_reset = nullptr;            ///<Object pointer to zoom and pan reset button in toolbar
             Gtk::ToolButton* tb_tool_cda = nullptr;                 ///<Object pointer to coastal damage analysis tool button in toolbar
             Gtk::ToolButton* tb_crosssection = nullptr;             ///<Object pointer to crosssection tool button in toolbar
             //Raw data field
@@ -103,6 +104,7 @@ namespace swegui
             EditProbeDialog* dialog_probe_edit = nullptr;           ///<Object pointer to the probe edit dialog
             //Additional windows
             LayerWindow* window_layers = nullptr;                   ///<Object pointer to the layer window
+            RendererWindow* window_renderer = nullptr;              ///<Object pointer to the renderer window
 
             //Handlers
             void setup_gui_elements();                              ///<Grabs all objects from PATH_TO_MAIN_GUI and initilizes event handler 
@@ -114,10 +116,9 @@ namespace swegui
             void on_action_simulation_play();                       ///<Event handler to run the simulation
             void on_action_simulation_next();                       ///<Event handler to increase the rendered timestamp by 1
             void on_action_simulation_set_timestamp();              ///<Event handler to set the rendered timestamp to the value specified in data_renderer::get_current_timestamp()
-            void on_action_layer();                                 ///<Event handler to decrease the rendered timestamp by 1
-            void on_action_zoom_out();                              ///<Event handler to zoom out by one step
-            void on_action_zoom_reset();                            ///<Event handler to reset zoom
-            void on_action_zoom_in();                               ///<Event handler to zoom in by one step
+            void on_action_layer();                                 ///<Event handler to open the layer window
+            void on_action_renderer();                              ///<Event handler to open the renderer window
+            void on_action_zoompan_reset();                         ///<Event handler to reset zoom and pan
             void on_action_cda();                                   ///<Event handler to execute the coastal damage analysis tool
             void on_action_crosssection();                          ///<Event handler to execute the crosssection tool
             void on_action_about();                                 ///<Event handler to open the about window

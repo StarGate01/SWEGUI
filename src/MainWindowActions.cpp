@@ -95,19 +95,17 @@ void MainWindow::on_action_layer()
     window_layers->show();
 }
 
-void MainWindow::on_action_zoom_out()
+void MainWindow::on_action_renderer()
 {
-    std::cout << "Clicked zoom out" << std::endl;
+    window_renderer->show();
 }
 
-void MainWindow::on_action_zoom_reset()
+void MainWindow::on_action_zoompan_reset()
 {
-    std::cout << "Clicked zoom reset" << std::endl;
-}
-
-void MainWindow::on_action_zoom_in()
-{
-    std::cout << "Clicked zoom in" << std::endl;
+    data_renderer->zoom = 1.f;
+    data_renderer->pan = sf::Vector2f(0.f, 0.f);
+    data_renderer->update_transform();
+    data_renderer->invalidate();
 }
 
 void MainWindow::on_action_cda()

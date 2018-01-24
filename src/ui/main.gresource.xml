@@ -7,6 +7,7 @@
     <file compressed="true" preprocess="xml-stripblanks">src/ui/datafield.glade</file>
     <file compressed="true" preprocess="xml-stripblanks">src/ui/sfml.glade</file>
     <file compressed="true" preprocess="xml-stripblanks">src/ui/probe_detail.glade</file>
+    <file compressed="true" preprocess="xml-stripblanks">src/ui/renderer.glade</file>
     <file compressed="true">src/ui/crosshair.png</file>
     <file compressed="true">src/ui/crosshair_active.png</file>
     <file compressed="true">src/ui/icon_32.png</file>

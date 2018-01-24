@@ -133,25 +133,17 @@
                       </object>
                     </child>
                     <child>
+                      <object class="GtkMenuItem" id="mb_view_renderer">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Renderer</property>
+                        <property name="use_underline">True</property>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkSeparatorMenuItem" id="seperator_v">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkMenuItem" id="mb_view_zoom_in">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Zoom in</property>
-                        <property name="use_underline">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkMenuItem" id="mb_view_zoom_out">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Zoom out</property>
-                        <property name="use_underline">True</property>
                       </object>
                     </child>
                     <child>
@@ -361,7 +353,7 @@
                 <property name="can_focus">True</property>
                 <property name="label" translatable="yes">Layer</property>
                 <property name="use_underline">True</property>
-                <property name="icon_name">emblem-photos</property>
+                <property name="icon_name">video-display</property>
                 <signal name="clicked" handler="app.test1" swapped="no"/>
               </object>
               <packing>
@@ -370,12 +362,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="tbtn_zoom_out">
+              <object class="GtkToolButton" id="tbtn_renderer">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Zoom out</property>
+                <property name="label" translatable="yes">Renderer</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-zoom-out</property>
+                <property name="icon_name">gtk-select-color</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -383,25 +375,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="tbtn_zoom_reset">
+              <object class="GtkToolButton" id="tbtn_zoompan_reset">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Zoom 1:1</property>
+                <property name="label" translatable="yes">Reset view</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">zoom-original</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolButton" id="tbtn_zoom_in">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Zoom in</property>
-                <property name="use_underline">True</property>
-                <property name="stock_id">gtk-zoom-in</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -736,6 +715,8 @@
     <property name="authors">Christoph Honal
 Felix Wieser
 George Bellamy</property>
+    <property name="artists">Font "Courier Prime" by Quote-Unquote Apps
+Released under the SIL Open Font License</property>
     <property name="logo">icon_fancy.png</property>
     <property name="license_type">gpl-3-0</property>
     <child internal-child="vbox">
