@@ -143,11 +143,8 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
         cr->line_to(
             calculate_graph_width(t, (int) data.size(), width), 
             calculate_graph_height(data[t], min_value, max_value, GRAPH_SCALE, height));
-
-        if(min_value == data[t])
-            min_t = t;
-        else if(max_value == data[t])
-            max_t = t;
+        if(min_value == data[t]) min_t = t;
+        else if(max_value == data[t]) max_t = t;
     }
 
     //Close path
@@ -161,27 +158,28 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     if(max_t >= 0)
     {
         std::cout << "Min t: " << max_t  << " (max value: " << max_value << ")" << std::endl;
-        cr->set_source_rgb(1,0,0);
+        cr->set_source_rgb(0,0,0);
         cr->move_to(
             calculate_graph_width(max_t, (int) data.size(), width), 
             calculate_graph_height(data[max_t], min_value, max_value, GRAPH_SCALE, height));
         cr->line_to(
             calculate_graph_width(max_t, (int) data.size(), width),
             height);
+        cr->stroke();
     }
-
     //Draw min line
     if(min_t >= 0)
     {
         std::cout << "Max t: " << min_t << " (min value: " << min_value << ")" << std::endl;
         std::cout << "Min t: " << min_t << std::endl;
-        cr->set_source_rgb(0,1,0);
+        cr->set_source_rgb(0,0,0);
         cr->move_to(
             calculate_graph_width(min_t, (int) data.size(), width), 
             calculate_graph_height(data[min_t], min_value, max_value, GRAPH_SCALE, height));
         cr->line_to(
             calculate_graph_width(min_t, (int) data.size(), width),
             height);
+        cr->stroke();
     }
     
     //Draw horizonal lines
