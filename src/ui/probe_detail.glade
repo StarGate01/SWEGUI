@@ -7,7 +7,6 @@
     <property name="height_request">200</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Probe Details</property>
-    <property name="resizable">False</property>
     <property name="window_position">center-on-parent</property>
     <property name="icon_name">applications-system</property>
     <child>
