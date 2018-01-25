@@ -10,11 +10,11 @@
         "*.vstemplate": "xml",
         "SConstruct": "python",
         "SConscript": "python",
-        "*.tcc": "cpp",
         "*.glsl": "glsl",
-        "*.glade": "xml",
         "iosfwd": "cpp",
+        "*.glade": "xml",
         "array": "cpp",
+        "*.tcc": "cpp",
         "cctype": "cpp",
         "chrono": "cpp",
         "clocale": "cpp",
@@ -50,7 +50,8 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "valarray": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "map": "cpp"
     },
     "typescript.tsc.autoDetect": "off",
     "jake.autoDetect": "off",
