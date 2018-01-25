@@ -17,6 +17,7 @@
 #define LEGEND_FONT_SIZE 10
 #define LEGEND_H_DEVISION 6
 #define LEGEND_V_MAX_DEVISION 10
+#define MIN_OFFSET 0.15
 
 namespace swegui
 {
