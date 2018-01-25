@@ -22,25 +22,21 @@ RendererWindow* RendererWindow::create(MainWindow* pa)
 
 void RendererWindow::setup_gui_elements()
 {
-    m_refBuilder->get_widget("switch_probes", switch_probes);
-    m_refBuilder->get_widget("switch_names", switch_names);
-    m_refBuilder->get_widget("switch_indicators", switch_indicators);
-    m_refBuilder->get_widget("switch_coordinates", switch_coordinates);
-    m_refBuilder->get_widget("switch_info", switch_info);
-
-    switch_probes->property_active().signal_changed().connect(sigc::mem_fun(this, &RendererWindow::on_action_switch));
-    switch_names->property_active().signal_changed().connect(sigc::mem_fun(this, &RendererWindow::on_action_switch));
-    switch_indicators->property_active().signal_changed().connect(sigc::mem_fun(this, &RendererWindow::on_action_switch));
-    switch_coordinates->property_active().signal_changed().connect(sigc::mem_fun(this, &RendererWindow::on_action_switch));
-    switch_info->property_active().signal_changed().connect(sigc::mem_fun(this, &RendererWindow::on_action_switch));
+    for(int i=0; i<7; i++) 
+    {
+        m_refBuilder->get_widget("switch_" + switch_names[i], switches[i]);
+        switches[i]->property_active().signal_changed().connect(sigc::mem_fun(this, &RendererWindow::on_action_switch));
+    }
 }
 
 void RendererWindow::on_action_switch()
 {
-    parent->data_renderer->render_probes = switch_probes->get_active();
-    parent->data_renderer->render_probe_names = switch_names->get_active();
-    parent->data_renderer->render_probe_arrows = switch_indicators->get_active();
-    parent->data_renderer->render_coordinates = switch_coordinates->get_active();
-    parent->data_renderer->render_info = switch_info->get_active();
+    parent->data_renderer->settings.probes = switches[0]->get_active();
+    parent->data_renderer->settings.probe_names = switches[1]->get_active();
+    parent->data_renderer->settings.probe_indicators = switches[2]->get_active();
+    parent->data_renderer->settings.coordinates = switches[3]->get_active();
+    parent->data_renderer->settings.gizmo = switches[4]->get_active();
+    parent->data_renderer->settings.scales = switches[5]->get_active();
+    parent->data_renderer->settings.info = switches[6]->get_active();
     parent->data_renderer->invalidate();
 }

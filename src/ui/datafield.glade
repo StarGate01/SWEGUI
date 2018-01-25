@@ -172,6 +172,9 @@
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">0</property>
             <property name="xalign">0</property>
+            <attributes>
+              <attribute name="font-desc" value="Courier 10"/>
+            </attributes>
           </object>
           <packing>
             <property name="left_attach">1</property>

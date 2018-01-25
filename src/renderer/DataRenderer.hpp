@@ -20,12 +20,26 @@ namespace renderer
 
     public:
 
+      struct Settings
+      {
+
+        bool info = true;
+        bool probes = true;
+        bool probe_names = true;
+        bool probe_indicators = true;
+        bool coordinates = true;
+        bool gizmo = true;
+        bool scales = true;
+
+      };
+
       NetCdfImageStream::Meta* meta_info = nullptr;
 
       Layer b, h, hu, hv, hx;
       Layer* layers[5] = { &b, &h, &hu, &hv, &hx };
       map<std::string, probe::DataProbe> probes;
       std::string active_probe_name;
+      Settings settings;
 
       DataRenderer(widgets::SFMLWidget &widget);
 
@@ -36,12 +50,6 @@ namespace renderer
       float sample(NetCdfImageStream::Variable var, float x, float y, int timestamp = -1);
       int get_current_timestamp();
       float get_current_time();
-
-      bool render_info = true;
-      bool render_probes = true;
-      bool render_probe_names = true;
-      bool render_probe_arrows = true;
-      bool render_coordinates = true;
 
       sf::Vector2f pan = sf::Vector2f(0.f, 0.f);
       float zoom = 1.f;

@@ -160,7 +160,7 @@ void DataRenderer::draw()
 {
     widget.renderWindow.clear(sf::Color(128, 128, 128, 255));
     widget.renderWindow.draw(background, &shader);
-    if(render_probes)
+    if(settings.probes)
     {
         for(auto& probe: probes) 
         {
@@ -169,7 +169,7 @@ void DataRenderer::draw()
             if(probe.first == active_probe_name) probe.second.getSprite().setTexture(crosshair_active_tex);
             else probe.second.getSprite().setTexture(crosshair_tex);
             widget.renderWindow.draw(probe.second.getSprite());
-            if(render_probe_names)
+            if(settings.probe_names)
             {
                 probe_text.setString(probe.first);
                 sf::FloatRect text_bounds = probe_text.getGlobalBounds();
@@ -183,7 +183,7 @@ void DataRenderer::draw()
             }
         }
     }
-    if(render_info)
+    if(settings.info)
     {
         widget.renderWindow.draw(info_rect);
         widget.renderWindow.draw(info_text);
@@ -281,14 +281,8 @@ bool DataRenderer::on_button_press_event(GdkEventButton* event)
 
 bool DataRenderer::on_scroll_event(GdkEventScroll* event)
 {
-    if(event->direction == GdkScrollDirection::GDK_SCROLL_DOWN) 
-    {
-        if(!(zoom * 1.05f > 1.5f)) zoom *= 1.05f;
-    }
-    else if(event->direction == GdkScrollDirection::GDK_SCROLL_UP)
-    {
-        zoom *= 0.95;
-    } 
+    if(event->direction == GdkScrollDirection::GDK_SCROLL_DOWN && zoom < 1.5f) zoom *= 1.05f;
+    else if(event->direction == GdkScrollDirection::GDK_SCROLL_UP) zoom *= 0.95;
     update_transform();
     invalidate();
     return true;
@@ -314,9 +308,6 @@ bool DataRenderer::on_motion_notify_event(GdkEventMotion* event)
 bool DataRenderer::on_button_release_event(GdkEventButton* event)
 {
     if((event->type == GDK_BUTTON_RELEASE) 
-        && (event->button == 2 || event->button == 3))
-    {
-        pan_active = false;
-    }
+        && (event->button == 2 || event->button == 3)) pan_active = false;
     return true;
 }

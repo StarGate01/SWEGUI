@@ -46,12 +46,10 @@ namespace swegui
 
         private:
 
-            MainWindow* parent;                                                     ///<Pointer to parent MainWindow
-            Gtk::Switch* switch_probes = nullptr;
-            Gtk::Switch* switch_names = nullptr;
-            Gtk::Switch* switch_indicators = nullptr;
-            Gtk::Switch* switch_coordinates = nullptr;
-            Gtk::Switch* switch_info = nullptr;
+            MainWindow* parent;                                                                 ///<Pointer to parent MainWindow
+            
+            std::string switch_names[7] = { "probes", "names", "indicators", "coordinates", "gizmo", "scales", "info" };                                      
+            Gtk::Switch* switches[7];
         
             void setup_gui_elements();                                              ///<Extracts GUI elements from glade file and initializes them  
             void on_action_switch();
