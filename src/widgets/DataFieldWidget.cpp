@@ -91,7 +91,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
 
     if(!probe->has_data()) return true;                     //Check if data is available
-    int layer = cb_layer->get_active_row_number();          //Skip bathymetry layer
+    int layer = cb_layer->get_active_row_number();          //Get current layer
     std::vector<float> data = probe->get_all_data(layer);   //Get data
     if(data.size() <= 0) return false;                      //Return if data is empty
 
@@ -104,11 +104,24 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     const int width = allocation.get_width();
     const int height = allocation.get_height();
     Gdk::Color color(COLOR_DEFAULT);
-    
+
+    int min_t = -1;
+    int max_t = -1;
+
     //------------- Start drawing -------------//
     //Draw background
     cr->set_source_rgba(1.0, 1.0, 1.0, 1.0);
     cr->paint();
+
+    //Do not draw graph if bathymetry > 0
+    if(probe->get_data(0, 0) > 0)
+    {
+        cr->set_source_rgb(0.5,0,0);
+        cr->move_to(width / 3.5, height / 2.2);
+        cr->set_font_size(height / 3);
+        cr->show_text("DRY CELL");
+        return true;
+    }
 
     cr->set_line_width(1.0);
 
@@ -130,6 +143,11 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
         cr->line_to(
             calculate_graph_width(t, (int) data.size(), width), 
             calculate_graph_height(data[t], min_value, max_value, GRAPH_SCALE, height));
+
+        if(min_value == data[t])
+            min_t = t;
+        else if(max_value == data[t])
+            max_t = t;
     }
 
     //Close path
@@ -139,6 +157,33 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->close_path();
     cr->fill();
 
+    //Draw max_value
+    if(max_t >= 0)
+    {
+        std::cout << "Min t: " << max_t  << " (max value: " << max_value << ")" << std::endl;
+        cr->set_source_rgb(1,0,0);
+        cr->move_to(
+            calculate_graph_width(max_t, (int) data.size(), width), 
+            calculate_graph_height(data[max_t], min_value, max_value, GRAPH_SCALE, height));
+        cr->line_to(
+            calculate_graph_width(max_t, (int) data.size(), width),
+            height);
+    }
+
+    //Draw min line
+    if(min_t >= 0)
+    {
+        std::cout << "Max t: " << min_t << " (min value: " << min_value << ")" << std::endl;
+        std::cout << "Min t: " << min_t << std::endl;
+        cr->set_source_rgb(0,1,0);
+        cr->move_to(
+            calculate_graph_width(min_t, (int) data.size(), width), 
+            calculate_graph_height(data[min_t], min_value, max_value, GRAPH_SCALE, height));
+        cr->line_to(
+            calculate_graph_width(min_t, (int) data.size(), width),
+            height);
+    }
+    
     //Draw horizonal lines
     cr->set_source_rgba(0.5, 0.5, 0.5, 0.8);
     for(int i = 1; i < LEGEND_H_DEVISION; i++)
@@ -190,7 +235,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
 float DataFieldWidget::calculate_graph_height(float data, float min, float max, float scale, int graph_height)
 {
-    return graph_height - ((data-min) / (max - min)) * scale * (float) graph_height;
+    return graph_height - MIN_OFFSET * graph_height - ((data-min) / (max - min)) * scale * (float) graph_height;
 }
 
 float DataFieldWidget::calculate_graph_width(int timestep, int timesteps_total, int graph_width)
