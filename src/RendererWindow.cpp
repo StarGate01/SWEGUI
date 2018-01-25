@@ -22,7 +22,7 @@ RendererWindow* RendererWindow::create(MainWindow* pa)
 
 void RendererWindow::setup_gui_elements()
 {
-    for(int i=0; i<7; i++) 
+    for(int i=0; i<8; i++) 
     {
         m_refBuilder->get_widget("switch_" + switch_names[i], switches[i]);
         switches[i]->property_active().signal_changed().connect(sigc::mem_fun(this, &RendererWindow::on_action_switch));
@@ -35,8 +35,9 @@ void RendererWindow::on_action_switch()
     parent->data_renderer->settings.probe_names = switches[1]->get_active();
     parent->data_renderer->settings.probe_indicators = switches[2]->get_active();
     parent->data_renderer->settings.coordinates = switches[3]->get_active();
-    parent->data_renderer->settings.gizmo = switches[4]->get_active();
-    parent->data_renderer->settings.scales = switches[5]->get_active();
-    parent->data_renderer->settings.info = switches[6]->get_active();
+    parent->data_renderer->settings.zero = switches[4]->get_active();
+    parent->data_renderer->settings.gizmo = switches[5]->get_active();
+    parent->data_renderer->settings.scales = switches[6]->get_active();
+    parent->data_renderer->settings.info = switches[7]->get_active();
     parent->data_renderer->invalidate();
 }

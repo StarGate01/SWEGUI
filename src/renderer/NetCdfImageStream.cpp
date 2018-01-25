@@ -112,7 +112,7 @@ bool NetCdfImageStream::find_minmax()
     return true;
 }
 
-//format (color scale 0.0 - 1.0): blue * 100 + green * 100000 + red * 1000000, mapped between min and max
+//format (color scale 0.0 - 1.0): blue + green * 255 + red * 255^2, mapped between min and max
 sf::Int64 NetCdfImageStream::read(void* data, sf::Int64 size)
 {
     if(size < 0 || reader == nullptr || !reader->success || current_data == nullptr) return -1;

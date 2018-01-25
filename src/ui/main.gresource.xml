@@ -15,5 +15,7 @@
     <file compressed="true">src/ui/main.frag</file>
     <file compressed="true">src/ui/lut.png</file>
     <file compressed="true">src/ui/courier_prime.ttf</file>
+    <file compressed="true">src/ui/gizmo.png</file>
+    <file compressed="true">src/ui/zero.png</file>
   </gresource>
 </gresources>

@@ -6,11 +6,16 @@
 #include <map>
 #include "../widgets/SFMLWidget.hpp"
 #include "NetCdfImageStream.hpp"
-#include "ShaderConstants.hpp"
 #include "Layer.hpp"
 #include "../probe/DataProbe.hpp"
 
-#define PATH_TO_FONT  "/main/src/ui/courier_prime.ttf"   
+#define PATH_TO_FRAG_SHADER             "/main/src/ui/main.frag"
+#define PATH_TO_CROSSHAIR_TEX           "/main/src/ui/crosshair.png"
+#define PATH_TO_CROSSHAIR_ACTIVE_TEX    "/main/src/ui/crosshair_active.png"
+#define PATH_TO_LUT                     "/main/src/ui/lut.png"   
+#define PATH_TO_FONT                    "/main/src/ui/courier_prime.ttf"  
+#define PATH_TO_GIZMO_TEX               "/main/src/ui/gizmo.png"
+#define PATH_TO_ZERO_TEX                "/main/src/ui/zero.png"
 
 namespace renderer
 {
@@ -28,6 +33,7 @@ namespace renderer
         bool probe_names = true;
         bool probe_indicators = true;
         bool coordinates = true;
+        bool zero = true;
         bool gizmo = true;
         bool scales = true;
 
@@ -67,17 +73,26 @@ namespace renderer
 
     private:
 
+      struct CoordinateLabel
+      {
+        float value;
+        sf::Vector2f position;
+        int orientation;
+      };
+
       widgets::SFMLWidget &widget;
       NetCdfImageStream netcdf_stream;
       sf::RectangleShape background;
       sf::Shader shader;
-      sf::Texture crosshair_tex, crosshair_active_tex, lut;
+      sf::Texture crosshair_tex, crosshair_active_tex, lut, gizmo_tex, zero_tex;
       sf::Font font;
-      sf::Text info_text, probe_text;
-      sf::RectangleShape info_rect, probe_rect;
+      sf::Text info_text, probe_text, coordinate_text;
+      sf::RectangleShape info_rect, probe_rect, gizmo_rect, zero_rect;
+      sf::VertexArray coordinates;
+      vector<CoordinateLabel> coordinate_labels;
       int current_timestamp = -1;
 
-      sf::Transform tm_screen_to_tex, tm_screen_to_data;
+      sf::Transform tm_screen_to_tex, tm_screen_to_data, tm_data_to_screen;
       sf::Vector2i last_mouse;
       bool pan_active = false;
 
@@ -89,6 +104,9 @@ namespace renderer
       bool on_scroll_event (GdkEventScroll* event);
       bool on_motion_notify_event(GdkEventMotion* event);
       string unique_name();
+      void load_texture(std::string path, sf::Texture* tex);
+      void generate_coordinates();
+      string float_to_string(float value);
 
   };
 

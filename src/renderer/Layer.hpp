@@ -3,7 +3,6 @@
 
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "ShaderConstants.hpp"
 #include "NetCdfImageStream.hpp"
 
 namespace renderer
