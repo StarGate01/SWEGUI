@@ -53,11 +53,10 @@ void DataFieldWidget::update_ui()
         //Set labels
         float bathy = parent->data_renderer->sample((renderer::NetCdfImageStream::Variable)0, probe->x, probe->y);
         labels[0]->set_text(std::to_string(bathy));
+
         //Set background for bathymetry
-        if(bathy > 0)
-            labels[0]->override_color (Gdk::RGBA("red"), Gtk::STATE_FLAG_NORMAL);
-        else
-            labels[0]->override_color (Gdk::RGBA("black"), Gtk::STATE_FLAG_NORMAL);
+        if(bathy > 0) labels[0]->override_color (Gdk::RGBA("red"), Gtk::STATE_FLAG_NORMAL);
+        else labels[0]->override_color (Gdk::RGBA("black"), Gtk::STATE_FLAG_NORMAL);
 
         for(int i=1; i<4; i++)
             labels[i]->set_text(std::to_string(
@@ -83,8 +82,7 @@ void DataFieldWidget::reset_gui()
 
 void DataFieldWidget::on_dataset_change(void)
 {
-    if(drawingarea_chart == nullptr || !drawingarea_chart->get_window())
-        return;
+    if(drawingarea_chart == nullptr || !drawingarea_chart->get_window()) return;
     on_chart_draw(drawingarea_chart->get_window()->create_cairo_context());
 }
 
@@ -92,10 +90,11 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
     probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
 
-    if(!probe->has_data()) return true;                         //Check if data is available
-    int layer = cb_layer->get_active_row_number() + 1;          //Skip bathymetry layer
-    std::vector<float> data = probe->get_all_data(layer);       //Get data
-    if(data.size() <= 0) return false;                          //Return if data is empty
+    if(!probe->has_data()) return true;                     //Check if data is available
+    int layer = cb_layer->get_active_row_number();          //Skip bathymetry layer
+    std::vector<float> data = probe->get_all_data(layer);   //Get data
+    if(data.size() <= 0) return false;                      //Return if data is empty
+
     //Set rendering constraints
     float max_value = *std::max_element(data.begin(), data.end());
     float min_value = *std::min_element(data.begin(), data.end());
@@ -108,24 +107,18 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     
     //------------- Start drawing -------------//
     //Draw background
-    cr->set_source_rgb(0.0, 0.0, 0.0);
+    cr->set_source_rgba(1.0, 1.0, 1.0, 1.0);
     cr->paint();
+
+    cr->set_line_width(1.0);
 
     //Set drawing color based on selected layer
     switch(layer)
     {
-        case 1:         //Water height
-            cr->set_source_rgb(51.0/255.0, 204.0/255.0, 255.0/255.0);
-            break;
-        case 2:         //H flux
-            cr->set_source_rgb(204.0/255.0, 255.0/255.0, 102.0/255.0);
-            break;
-        case 3:         //v flux
-            cr->set_source_rgb(179.0/255.0, 255.0/255.0, 102.0/255.0);
-            break;
-        case 4:         //T flux
-            cr->set_source_rgb(140.0/255.0, 255.0/255.0, 102.0/255.0);
-            break;
+        case 0: cr->set_source_rgb(51.0/255.0, 204.0/255.0, 255.0/255.0); break; //Water height
+        case 1: cr->set_source_rgb(204.0/255.0, 255.0/255.0, 102.0/255.0); break; //H flux
+        case 2: cr->set_source_rgb(179.0/255.0, 255.0/255.0, 102.0/255.0); break; //V flux
+        case 3: cr->set_source_rgb(140.0/255.0, 255.0/255.0, 102.0/255.0); break; //T flux
     }
     
     //Move to lower left corner
@@ -147,7 +140,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->fill();
 
     //Draw horizonal lines
-    cr->set_source_rgba(0.8, 0.8, 0.8, 0.2);
+    cr->set_source_rgba(0.5, 0.5, 0.5, 0.8);
     for(int i = 1; i < LEGEND_H_DEVISION; i++)
     {
         cr->move_to(0, (height/LEGEND_H_DEVISION) * i);
@@ -163,6 +156,16 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     }
     cr->stroke();
 
+    float zero_height = calculate_graph_height(0, min_value, max_value, GRAPH_SCALE, height);
+    if(layer != 4)
+    {
+        //Draw zero line
+        cr->set_source_rgba(0.2, 0.2, 0.2, 1.0);
+        cr->move_to(0, zero_height);
+        cr->line_to(width, zero_height);
+        cr->stroke();
+    }
+
     //Draw timestamp line
     cr->set_source_rgb(1.0, 0.0, 0.0);
     float x = calculate_graph_width(parent->data_renderer->get_current_timestamp(), (int) data.size(), width);
@@ -171,11 +174,16 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->stroke();
 
     //Draw legend
-    cr->set_source_rgb(1.0, 1.0, 1.0);
+    cr->set_source_rgb(0.0, 0.0, 0.0);
     cr->set_font_size(LEGEND_FONT_SIZE);
-    cr->move_to(0, (float) LEGEND_FONT_SIZE * 1.05);
+    cr->move_to(5, LEGEND_FONT_SIZE * 1.05);
     cr->show_text(std::to_string(max_value));
-    cr->move_to(0, height);
+    if(layer != 4)
+    {
+        cr->move_to(5, zero_height - 3);
+        cr->show_text(std::to_string(0.0000));
+    }
+    cr->move_to(5, height - 3);
     cr->show_text(std::to_string(min_value));
     return true;
 }

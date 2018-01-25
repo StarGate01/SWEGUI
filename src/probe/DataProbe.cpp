@@ -40,14 +40,13 @@ void DataProbe::fill_data(renderer::DataRenderer* data_renderer)
     data = new float*[nr_timestamps];
     for(int ts = 0; ts < nr_timestamps; ts++)
     {
-        data[ts] = new float[5];
-        data[ts][0] = data_renderer->sample(renderer::NetCdfImageStream::Variable::B, x, y, ts);
-        data[ts][1] = data_renderer->sample(renderer::NetCdfImageStream::Variable::H, x, y, ts);
+        data[ts] = new float[4];
+        data[ts][0] = data_renderer->sample(renderer::NetCdfImageStream::Variable::H, x, y, ts);
         float hu = data_renderer->sample(renderer::NetCdfImageStream::Variable::Hu, x, y, ts);
         float hv = data_renderer->sample(renderer::NetCdfImageStream::Variable::Hv, x, y, ts);
-        data[ts][2] = hu;
-        data[ts][3] = hv;
-        data[ts][4] = sqrtf(std::pow(hu, 2) + std::pow(hv, 2));
+        data[ts][1] = hu;
+        data[ts][2] = hv;
+        data[ts][3] = sqrtf((hu * hu) + (hv * hv));
     }
     timestamps = nr_timestamps;
 }
@@ -60,7 +59,7 @@ bool DataProbe::has_data()
 std::vector<float> DataProbe::get_all_data(int layer)
 {
     if(!has_data()) return vector<float>();
-    if(layer < 0 || layer >= 5) return vector<float>(); 
+    if(layer < 0 || layer >= 4) return vector<float>(); 
     std::vector<float> vec;
     for(int i = 0; i < timestamps; i++) vec.push_back(data[i][layer]);
     return vec;
@@ -70,6 +69,6 @@ float DataProbe::get_data(int timestamp, int layer)
 {
     if(!has_data()) return 0.f;
     if(timestamp < 0 || timestamp >= timestamps) return 0.f;
-    if(layer < 0 || layer >= 5) return 0.f;
+    if(layer < 0 || layer >= 4) return 0.f;
     return data[timestamp][layer];
 }
