@@ -49,6 +49,23 @@
       <pattern>*.nc</pattern>
     </patterns>
   </object>
+  <object class="GtkFileFilter" id="filefilter_save_screenshot">
+    <mime-types>
+      <mime-type>image/jpeg</mime-type>
+      <mime-type>image/png</mime-type>
+      <mime-type>image/bmp</mime-type>
+      <mime-type>image/x-targa</mime-type>
+      <mime-type>image/x-tga</mime-type>
+    </mime-types>
+    <patterns>
+      <pattern>*.jpg</pattern>
+      <pattern>*.png</pattern>
+      <pattern>*.bmp</pattern>
+      <pattern>*.tga</pattern>
+      <pattern>*.jpeg</pattern>
+      <pattern>*.jpe</pattern>
+    </patterns>
+  </object>
   <object class="GtkListStore" id="liststore_probes">
     <columns>
       <!-- column-name Name -->
@@ -821,9 +838,12 @@ Released under the SIL Open Font License</property>
     <property name="title" translatable="yes">Save Screenshot</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
-    <property name="type_hint">dock</property>
+    <property name="icon_name">document-save</property>
+    <property name="type_hint">normal</property>
     <property name="transient_for">window_main</property>
+    <property name="action">save</property>
     <property name="create_folders">False</property>
+    <property name="filter">filefilter_save_screenshot</property>
     <property name="preview_widget_active">False</property>
     <property name="use_preview_label">False</property>
     <child internal-child="vbox">
@@ -840,6 +860,7 @@ Released under the SIL Open Font License</property>
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="can_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>
@@ -854,6 +875,8 @@ Released under the SIL Open Font License</property>
                 <property name="label">gtk-save</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>

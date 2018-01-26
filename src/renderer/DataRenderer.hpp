@@ -54,6 +54,7 @@ namespace renderer
 
       int open(std::string filename);
       int select_timestamp(int timestamp);
+      void select_timestamp_async(int timestamp);
       void update_shader();
       void invalidate();
       float sample(NetCdfImageStream::Variable var, float x, float y, int timestamp = -1);
@@ -68,6 +69,7 @@ namespace renderer
       type_signal_update signal_update();
       typedef sigc::signal<void> type_signal_select;
       type_signal_select signal_select();
+      bool save_screenshot(string filename);
 
     protected:
     
@@ -110,8 +112,6 @@ namespace renderer
       void load_texture(std::string path, sf::Texture* tex);
       void update_coordinates();
       string float_to_string(float value);
-      void save_screenshot(string filename);
-
   };
 
 }

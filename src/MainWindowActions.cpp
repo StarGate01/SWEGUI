@@ -125,8 +125,13 @@ void MainWindow::on_action_screenshot()
     if(dialog_save->run() == Gtk::RESPONSE_OK)
     {
         std::string filename = dialog_save->get_filename();
-        data_renderer->save_screenshot(filename);
+        if(!data_renderer->save_screenshot(filename))
+        {
+            Gtk::MessageDialog d(*this, "Ooooops! Saving this screenshot failed. Sorry!");
+            d.run();
+        }
     }
+    dialog_save->hide();
 }
 
 void MainWindow::on_action_about()
