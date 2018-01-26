@@ -58,6 +58,7 @@ namespace widgets
       void on_dataset_change(void);
       bool on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr);
 
+      float calculate_legend_value(float x, float min, float max, float scale, int graph_height);
       float calculate_graph_height(float data, float min, float max, float scale, int graph_height);
       float calculate_graph_width(int timestep, int timesteps_total, int graph_width);
   };

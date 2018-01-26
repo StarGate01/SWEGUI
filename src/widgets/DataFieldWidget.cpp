@@ -118,10 +118,19 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     //Do not draw graph if bathymetry > 0
     if(probe->get_data(0, 0) > 0)
     {
-        cr->set_source_rgb(0.5,0,0);
-        cr->move_to(width / 3.5, height / 2.2);
-        cr->set_font_size(height / 3);
-        cr->show_text("DRY CELL");
+        cr->set_source_rgb(0,0,0);
+        Pango::FontDescription font;
+        font.set_family("Monospace");
+        font.set_weight(Pango::WEIGHT_BOLD);
+        // http://developer.gnome.org/pangomm/unstable/classPango_1_1Layout.html
+        auto layout = create_pango_layout("This probe is dry");
+        int text_width;
+        int text_height;
+        //get the text dimensions (it updates the variables -- by reference)
+        layout->get_pixel_size(text_width, text_height);
+        // Position the text in the middle
+        cr->move_to((width-text_width)/2, (height-text_height)/2);
+        layout->show_in_cairo_context(cr);
         return true;
     }
 
@@ -223,21 +232,29 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     //Draw legend
     cr->set_source_rgb(0.0, 0.0, 0.0);
     cr->set_font_size(LEGEND_FONT_SIZE);
-    cr->move_to(5, LEGEND_FONT_SIZE * 1.05);
+    cr->move_to(5, (1 - GRAPH_SCALE) * height - MIN_OFFSET * height + 0.5 * LEGEND_FONT_SIZE);
     cr->show_text(std::to_string(max_value));
     if(layer != 4)
     {
         cr->move_to(5, zero_height - 3);
         cr->show_text(std::to_string(0.0000));
     }
-    cr->move_to(5, height - 3);
+    cr->move_to(5, (GRAPH_SCALE) * height + MIN_OFFSET * height + 0.5 * LEGEND_FONT_SIZE);
     cr->show_text(std::to_string(min_value));
     return true;
 }
 
+//TODO: Needs debugging
+float DataFieldWidget::calculate_legend_value(float x, float min, float max, float scale, int graph_height)
+{
+    return 0;
+    //return -1 * (max-min)*((x/(float) graph_height)-1-MIN_OFFSET) * (1/scale) + min;
+}
+
 float DataFieldWidget::calculate_graph_height(float data, float min, float max, float scale, int graph_height)
 {
-    return graph_height - MIN_OFFSET * graph_height - ((data-min) / (max - min)) * scale * (float) graph_height;
+    return (1-MIN_OFFSET-(data-min) / (max-min) * scale) * (float) graph_height;
+    //return graph_height - MIN_OFFSET * (float) graph_height - ((data-min) / (max - min)) * scale * (float) graph_height;
 }
 
 float DataFieldWidget::calculate_graph_width(int timestep, int timesteps_total, int graph_width)
