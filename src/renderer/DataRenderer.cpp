@@ -116,3 +116,8 @@ string DataRenderer::float_to_string(float value)
     ss << value;
     return ss.str();
 }
+
+void save_screenshot(std::string filename)
+{
+    
+}

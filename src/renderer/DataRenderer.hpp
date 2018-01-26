@@ -111,6 +111,8 @@ namespace renderer
       void update_coordinates();
       string float_to_string(float value);
 
+      void save_screenshot();
+
   };
 
 }

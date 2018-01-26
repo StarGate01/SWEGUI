@@ -101,6 +101,7 @@ namespace swegui
             widgets::SFMLWidget* sfml_area = nullptr;               ///<Object pointer to the sfml widget (where the map is rendered)
             //Additional dialogs
             Gtk::FileChooserDialog* dialog_open = nullptr;          ///<Object pointer to the Gtk::FileChooserDialog, where the user can select a file to open
+            Gtk::FileChooserDialog* dialog_save = nullptr;          ///<Object pointer to the Gtk::FileChooserDialog, where the user can select a file to save
             Gtk::AboutDialog* dialog_about = nullptr;               ///<Object pointer to the about dialog
             EditProbeDialog* dialog_probe_edit = nullptr;           ///<Object pointer to the probe edit dialog
             //Additional windows
@@ -141,6 +142,7 @@ namespace swegui
             void on_action_probelist_context_edit();                ///<Event handler to update the probes when edited
             void on_probe_remove();                                 ///<Event handler to remove the currently selected probe in data_renderer->active_probe
             void on_action_button_probe_add();                      ///<Event handler to open the MainWindow::dialog_probe_edit to add a new probe 
+            void on_screenshot_save();
             //TODO: Implement documentation here
             /**
              * @brief 

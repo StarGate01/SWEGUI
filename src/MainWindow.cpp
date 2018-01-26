@@ -76,6 +76,7 @@ void MainWindow::setup_gui_elements()
     data_renderer = new renderer::DataRenderer(*sfml_area);
     //Dialogs
     m_refBuilder->get_widget("dialog_open", dialog_open);
+    m_refBuilder->get_widget("dialog_save", dialog_save);
     m_refBuilder->get_widget("dialog_about", dialog_about);
     dialog_probe_edit = EditProbeDialog::create(this);
     //Windows
@@ -106,7 +107,6 @@ void MainWindow::setup_gui_elements()
     tb_tool_cda->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_cda));
     tb_screenshot->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_screenshot));
     tb_crosssection->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_crosssection));
-    
     //Event handlers probe list
     probelist->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
     probelist->signal_row_activated().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_activate));

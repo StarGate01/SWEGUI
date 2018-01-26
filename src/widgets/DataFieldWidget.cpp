@@ -178,8 +178,8 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
             height);
         cr->stroke();
     }
-    //Draw min line
-    if(min_t >= 0)
+    //Draw min line (if not total flux)
+    if(min_t >= 0 && layer != 3)
     {
         cr->set_source_rgb(0.3,0.3,1);
         cr->move_to(
@@ -212,14 +212,12 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->stroke();
 
     float zero_height = calculate_graph_height(0, min_value, max_value, GRAPH_SCALE, height);
-    if(layer != 4)
-    {
-        //Draw zero line
-        cr->set_source_rgba(0.2, 0.2, 0.2, 1.0);
-        cr->move_to(0, zero_height);
-        cr->line_to(width, zero_height);
-        cr->stroke();
-    }
+
+    //Draw zero line
+    cr->set_source_rgba(0.2, 0.2, 0.2, 1.0);
+    cr->move_to(0, zero_height);
+    cr->line_to(width, zero_height);
+    cr->stroke();
 
     //Draw timestamp line
     cr->set_line_width(5);
