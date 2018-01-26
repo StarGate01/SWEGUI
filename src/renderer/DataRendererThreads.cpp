@@ -1,4 +1,5 @@
 #include "DataRenderer.hpp"
+#include "Errors.hpp"
 
 using namespace renderer;
 
