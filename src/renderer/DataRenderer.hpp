@@ -110,8 +110,7 @@ namespace renderer
       void load_texture(std::string path, sf::Texture* tex);
       void update_coordinates();
       string float_to_string(float value);
-
-      void save_screenshot();
+      void save_screenshot(string filename);
 
   };
 
