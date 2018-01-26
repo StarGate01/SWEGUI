@@ -72,7 +72,6 @@ namespace swegui
             Gtk::MenuItem* mb_tool_crosssection = nullptr;          ///<Object pointer to crosssection tool button in menubar
             Gtk::MenuItem* mb_help_about = nullptr;                 ///<Object pointer to About button in menubar
             //Toolbar
-            Gtk::Toolbar* toolbar_main = nullptr;                   ///<Object pointer to toolbar           //TODO: Remove object
             Gtk::ToolButton* tb_openfile = nullptr;                 ///<Object pointer to open file button in toolbar
             Gtk::ToolButton* tb_simulation_goto_start = nullptr;    ///<Object pointer to simulation go to start button in toolbar
             Gtk::ToolButton* tb_simulation_play = nullptr;          ///<Object pointer to play button in toolbar

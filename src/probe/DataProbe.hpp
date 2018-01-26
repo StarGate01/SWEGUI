@@ -1,3 +1,8 @@
+/**
+ * Implementation of data probes
+ * @file DataProbe.hpp
+*/
+
 #ifndef DATAPROBE_H
 #define DATAPROBE_H
 
@@ -18,7 +23,7 @@ namespace renderer
 namespace probe
 {
     /**
-     * @brief Manages the probe points and their data
+     * @brief Manages the probe points and their data and 
     */
     class DataProbe
     {
@@ -35,7 +40,7 @@ namespace probe
              * @param data_renderer The renderer in which the probe is located
             */
             DataProbe(float px, float py, renderer::DataRenderer* data_renderer);
-            ~DataProbe();
+            ~DataProbe();               ///<Deletes the associates ProbeDetailsWindow, if it exists
 
             float x = 0.f;
             float y = 0.f;
@@ -73,11 +78,10 @@ namespace probe
             */
             float get_data(int timestamp, int layer);
         private:
-
-            static ProbeColumns cols;
-            sf::Sprite sprite;
-            int timestamps = 0;
-            float** data = nullptr;
+            static ProbeColumns cols;           ///<Template for the columns of the probe list
+            sf::Sprite sprite;                  ///<Sprite, that is drawn on the map at the probes position
+            int timestamps = 0;                 ///<Number of timestamps of the simulation
+            float** data = nullptr;             ///<Contains a value for each layer for each datapoint
     };
 }
 

@@ -1,3 +1,8 @@
+/**
+ * @brief Window to display the details of a probe
+ * @file ProbeDetailsWindow.hpp
+*/
+
 #ifndef PROBE_DETAILS_WINDOW_H
 #define PROBE_DETAILS_WINDOW_H
 
@@ -16,12 +21,14 @@ namespace swegui
 
 namespace probe
 {
-
+    /**
+     * @brief Window to display the details of a probe, contains widgets::DataFieldWidget
+    */
     class ProbeDetailsWindow : public Gtk::Window
     {
 
         public:
-
+        
             ProbeDetailsWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
             static ProbeDetailsWindow* create(swegui::MainWindow* pa, std::string na);
 

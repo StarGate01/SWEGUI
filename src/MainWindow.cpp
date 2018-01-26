@@ -46,7 +46,6 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("mb_tools_crosssection", mb_tool_crosssection);
     m_refBuilder->get_widget("mb_help_about", mb_help_about);
     //Get toolbar
-    m_refBuilder->get_widget("main_toolbar", toolbar_main);
     m_refBuilder->get_widget("tbtn_open", tb_openfile);
     m_refBuilder->get_widget("tbtn_simulation_goto_start", tb_simulation_goto_start);
     m_refBuilder->get_widget("tbtn_simulation_play", tb_simulation_play);

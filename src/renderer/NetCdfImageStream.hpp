@@ -1,3 +1,9 @@
+/**
+ * @brief Stream parser for SWE netCDF files
+ * @file NetCdfImageStream.hpp
+*/
+
+
 #ifndef NETCDFIMAGESTREAM_H
 #define NETCDFIMAGESTREAM_H
 
@@ -7,12 +13,17 @@
 
 namespace renderer
 {
-
+    /**
+     * @brief Stream parser for SWE netCDF files
+    */
     class NetCdfImageStream : public sf::InputStream
     {
 
         public:
 
+            /**
+             * @brief Associates each layer with an int to simplify access
+            */
             enum Variable: int
             {
                 B = 0,
@@ -21,6 +32,9 @@ namespace renderer
                 Hv = 3
             };
 
+            /**
+             * @brief Meta information of the SWE netCDF files
+            */
             struct Meta
             {
                 int nx = 1, ny = 1;
@@ -31,12 +45,12 @@ namespace renderer
                 float ay() { return ymax - ymin; }
             };
 
-            Meta meta_info;
+            Meta meta_info;                                                 ///<Meta info of the processed SWE netCDF file
 
-            NetCdfImageStream() {}
-            ~NetCdfImageStream();
-            bool open(std::string filename);
-            bool select(Variable var, uint32_t index);
+            NetCdfImageStream() {}                                          ///<Default constructor
+            ~NetCdfImageStream();                                           ///<Deletes the NetCdfImageStream::reader if necessary
+            bool open(std::string filename);                                ///<Opens a SWE netCDF file
+            bool select(Variable var, uint32_t index);                      ///<
             float sample(Variable var, float x, float y, int timestamp);
             int get_num_timestamps();
             float get_time(int timestamp);
