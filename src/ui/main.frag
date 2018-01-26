@@ -2,11 +2,10 @@
  * @file main.frag
  * @brief The main shader for topographical rendering
  * @namespace shader
- * @class MainShader
+ * @class Main
  */
 
 #define NUM_LAYERS      5       ///< The number of layers
-#define NUM_TEXTURES    4       ///< The number of textures (non-computed layers)
 #define LUT_BW_I        0.25    ///< The y in the LUT for black and white
 #define LUT_BLR_I       0.75    ///< The y in the LUT for blue and red
 #define B_I             0       ///< Index of the bathymetry layer
@@ -14,6 +13,8 @@
 #define HU_I            2       ///< Index of the horizontal flux layer
 #define HV_I            3       ///< Index of the vertical flux layer
 #define HX_I            4       ///< Index of the total flux layer
+
+#define NUM_TEXTURES    4       ///< The number of textures (non-computed layers)
 
 uniform sampler2D[NUM_TEXTURES] tex;    ///< The data textures
 uniform mat4 transform;                 ///< Screen space to data space transformation

@@ -145,11 +145,8 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
         cr->line_to(
             calculate_graph_width(t, (int) data.size(), width), 
             calculate_graph_height(data[t], min_value, max_value, GRAPH_SCALE, height));
-
-        if(min_value == data[t])
-            min_t = t;
-        else if(max_value == data[t])
-            max_t = t;
+        if(min_value == data[t]) min_t = t;
+        else if(max_value == data[t]) max_t = t;
     }
 
     //Close path
@@ -173,7 +170,6 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
             height);
         cr->stroke();
     }
-
     //Draw min line
     if(min_t >= 0)
     {
