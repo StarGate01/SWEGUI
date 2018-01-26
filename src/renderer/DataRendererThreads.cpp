@@ -26,6 +26,8 @@ int DataRenderer::select_timestamp(int timestamp)
     if(res != ERROR_SUCCESS) return res;
     res = select_load(NetCdfImageStream::Variable::Hv, timestamp, hv);
     if(res != ERROR_SUCCESS) return res;
+    hx.meta_info.min = 0.f;
+    hx.meta_info.max = 1.f;
     current_timestamp = timestamp;
     return ERROR_SUCCESS;
 }

@@ -81,6 +81,7 @@ void MainWindow::on_action_simulation_next()
 void MainWindow::handle_timestamp_change()
 {
     data_renderer->select_timestamp(mb_spin_timestamp->get_value());
+    window_layers->update_ui();
     probedata->update_ui();
     for (auto const& probe : data_renderer->probes)
     {

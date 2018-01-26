@@ -12,6 +12,8 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
     b.enable = true;
     h.enable = true;
     h.clip = true;
+    hx.clip_min = 0.f;
+    hx.clip_max = 1.f;
 
     meta_info = &netcdf_stream.meta_info;
 
