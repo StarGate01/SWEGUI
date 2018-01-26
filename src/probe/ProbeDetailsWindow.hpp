@@ -28,25 +28,25 @@ namespace probe
     {
 
         public:
-        
+
             ProbeDetailsWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
             static ProbeDetailsWindow* create(swegui::MainWindow* pa, std::string na);
-
-            void update_ui();
+            
+            void update_ui();               ///<Updates the UI elements of the window
 
         protected:
 
-            Glib::RefPtr<Gtk::Builder> m_refBuilder;
+            Glib::RefPtr<Gtk::Builder> m_refBuilder;                ///<Builder of the window
 
         private:
 
-            swegui::MainWindow* parent;
-            std::string name;
+            swegui::MainWindow* parent;                             ///<Pointer to parent swegui::MainWindow
+            std::string name;                                       ///<Name of the window, respectivly the associated probe
 
-            Gtk::Window* window_probe = nullptr;
-            widgets::DataFieldWidget* probedata = nullptr;
+            Gtk::Window* window_probe = nullptr;                    ///<GTK:Window object that is represented by this class
+            widgets::DataFieldWidget* probedata = nullptr;          ///<widgets::DataFieldWidget of the ProbeDetailsWindow::window_probe
 
-            void setup_gui_elements();
+            void setup_gui_elements();                              ///<Initilializes the GUI elements
     };
 
 }
