@@ -30,6 +30,7 @@ void MainWindow::setup_gui_elements()
     //Get menu bar
     m_refBuilder->get_widget("main_menubar", menubar_main);
     m_refBuilder->get_widget("mb_file_open", mb_file_open);
+    m_refBuilder->get_widget("mb_file_save_screenshot", mb_file_save_screenshot);
     m_refBuilder->get_widget("mb_file_quit", mb_file_quit);
     m_refBuilder->get_widget("mb_view_layer", mb_view_layer);
     m_refBuilder->get_widget("mb_view_renderer", mb_view_renderer);
@@ -85,6 +86,7 @@ void MainWindow::setup_gui_elements()
 
     //Event handlers for menubar
     mb_file_open->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_fileopen));
+    mb_file_save_screenshot->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_screenshot));
     mb_file_quit->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_quit));
     mb_view_layer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_layer));
     mb_view_renderer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));

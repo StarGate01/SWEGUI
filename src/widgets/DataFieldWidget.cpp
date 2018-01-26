@@ -166,7 +166,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->fill();
 
     //Draw max_value
-    cr->set_line_width(8);
+    cr->set_line_width(4);
     if(max_t >= 0)
     {
         cr->set_source_rgb(1,0.2,0.7);

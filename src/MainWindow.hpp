@@ -55,6 +55,7 @@ namespace swegui
             //Menubar
             Gtk::MenuBar* menubar_main = nullptr;                   ///<Object pointer to menubar
             Gtk::MenuItem* mb_file_open = nullptr;                  ///<Object pointer to file open button in menubar
+            Gtk::MenuItem* mb_file_save_screenshot = nullptr;       ///<Object pointer to save screenshot button in menubar
             Gtk::MenuItem* mb_file_quit = nullptr;                  ///<Object pointer to quit button in menubar
             Gtk::MenuItem* mb_view_layer = nullptr;                 ///<Object pointer to layer button in menubar
             Gtk::MenuItem* mb_view_renderer = nullptr;              ///<Object pointer to renderer button in menubar
