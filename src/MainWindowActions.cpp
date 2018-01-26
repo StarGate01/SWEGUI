@@ -121,7 +121,12 @@ void MainWindow::on_action_crosssection()
 
 void MainWindow::on_action_screenshot()
 {
-    std::cout << "Clicked screenshot export button" << std::endl;
+    //Create sfd
+    if(dialog_save->run() == Gtk::RESPONSE_OK)
+    {
+        std::string filename = dialog_save->get_filename();
+        data_renderer->save_screenshot(filename);
+    }
 }
 
 void MainWindow::on_action_about()
@@ -192,19 +197,5 @@ void MainWindow::on_probe_select()
         Glib::RefPtr<Gtk::TreeSelection> selection = probelist->get_selection();
         selection->select(iter);
         update_probe_ui(data_renderer->active_probe_name);
-    }
-}
-
-void MainWindow::on_screenshot_save()
-{
-    //Create sfd
-    if(dialog->run() == Gtk::RESPONSE_OK)
-    {
-        std::string filename = dialog_save->get_filename();
-
-        //Create screenshot
-
-        //Save screenshot to file
-        
     }
 }

@@ -141,8 +141,7 @@ namespace swegui
             void on_action_probelist_changed();                     ///<Event handler to update the selected probe in the map and the list
             void on_action_probelist_context_edit();                ///<Event handler to update the probes when edited
             void on_probe_remove();                                 ///<Event handler to remove the currently selected probe in data_renderer->active_probe
-            void on_action_button_probe_add();                      ///<Event handler to open the MainWindow::dialog_probe_edit to add a new probe 
-            void on_screenshot_save();
+            void on_action_button_probe_add();                      ///<Event handler to open the MainWindow::dialog_probe_edit to add a new probe
             //TODO: Implement documentation here
             /**
              * @brief 
