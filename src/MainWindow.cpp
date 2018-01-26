@@ -89,7 +89,7 @@ void MainWindow::setup_gui_elements()
     mb_file_save_screenshot->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_screenshot));
     mb_file_quit->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_quit));
     mb_view_layer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_layer));
-    mb_view_renderer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));
+    mb_view_renderer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));  
     mb_view_reset->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_zoompan_reset));
     mb_simulation_goto_start->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_goto_start));
     mb_simulation_prev->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_prev));
