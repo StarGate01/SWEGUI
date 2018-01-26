@@ -78,6 +78,8 @@ void DataFieldWidget::update_ui()
 void DataFieldWidget::reset_gui()
 {
     for(auto label : labels) label->set_text("N/a");
+    on_dataset_change();
+
 }
 
 void DataFieldWidget::on_dataset_change(void)
