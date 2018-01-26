@@ -32,6 +32,11 @@ int DataRenderer::select_timestamp(int timestamp)
     return ERROR_SUCCESS;
 }
 
+void DataRenderer::select_timestamp_async(int timestamp)
+{
+    
+}
+
 float DataRenderer::get_current_time()
 {
     return netcdf_stream.get_time(current_timestamp);

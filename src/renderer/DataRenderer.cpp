@@ -119,7 +119,12 @@ string DataRenderer::float_to_string(float value)
     return ss.str();
 }
 
-void save_screenshot(std::string filename)
+void DataRenderer::save_screenshot(string filename)
 {
-    
+    sf::Vector2u windowSize = widget.renderWindow.getSize();
+    sf::Texture texture;
+    texture.create(windowSize.x, windowSize.y);
+    texture.update(widget.renderWindow);
+    sf::Image screenshot = texture.copyToImage();
+    screenshot.saveToFile(filename);
 }
