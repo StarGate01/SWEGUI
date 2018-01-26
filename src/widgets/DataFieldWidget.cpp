@@ -123,7 +123,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
         return true;
     }
 
-    cr->set_line_width(1.0);
+    cr->set_line_width(2.0);
 
     //Set drawing color based on selected layer
     switch(layer)
@@ -158,38 +158,41 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->fill();
 
     //Draw max_value
+    cr->set_line_width(8);
     if(max_t >= 0)
     {
         std::cout << "Min t: " << max_t  << " (max value: " << max_value << ")" << std::endl;
-        cr->set_source_rgb(1,0,0);
+        cr->set_source_rgb(1,0.2,0.7);
         cr->move_to(
             calculate_graph_width(max_t, (int) data.size(), width), 
             calculate_graph_height(data[max_t], min_value, max_value, GRAPH_SCALE, height));
         cr->line_to(
             calculate_graph_width(max_t, (int) data.size(), width),
             height);
+        cr->stroke();
     }
 
     //Draw min line
     if(min_t >= 0)
     {
-        std::cout << "Max t: " << min_t << " (min value: " << min_value << ")" << std::endl;
-        std::cout << "Min t: " << min_t << std::endl;
-        cr->set_source_rgb(0,1,0);
+        cr->set_source_rgb(0.3,0.3,1);
         cr->move_to(
             calculate_graph_width(min_t, (int) data.size(), width), 
             calculate_graph_height(data[min_t], min_value, max_value, GRAPH_SCALE, height));
         cr->line_to(
             calculate_graph_width(min_t, (int) data.size(), width),
             height);
+        cr->stroke();
     }
-    
+
     //Draw horizonal lines
+    cr->set_line_width(1);
     cr->set_source_rgba(0.5, 0.5, 0.5, 0.8);
     for(int i = 1; i < LEGEND_H_DEVISION; i++)
     {
         cr->move_to(0, (height/LEGEND_H_DEVISION) * i);
         cr->line_to(width, (height/LEGEND_H_DEVISION) * i);
+        cr->stroke();
     }
     
     //Draw vertical lines
@@ -198,6 +201,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     {
         cr->move_to((width/vlines) * i, 0);
         cr->line_to((width/vlines) * i, height);
+        cr->stroke();
     }
     cr->stroke();
 
@@ -212,6 +216,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     }
 
     //Draw timestamp line
+    cr->set_line_width(5);
     cr->set_source_rgb(1.0, 0.0, 0.0);
     float x = calculate_graph_width(parent->data_renderer->get_current_timestamp(), (int) data.size(), width);
     cr->move_to(x, height);
