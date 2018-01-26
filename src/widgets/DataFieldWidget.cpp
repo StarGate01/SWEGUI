@@ -160,7 +160,6 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->set_line_width(8);
     if(max_t >= 0)
     {
-        std::cout << "Min t: " << max_t  << " (max value: " << max_value << ")" << std::endl;
         cr->set_source_rgb(1,0.2,0.7);
         cr->move_to(
             calculate_graph_width(max_t, (int) data.size(), width), 
