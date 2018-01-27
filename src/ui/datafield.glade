@@ -325,30 +325,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkOverlay" id="overlay1">
+          <object class="GtkDrawingArea" id="drawingarea_chart">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_top">5</property>
-            <child>
-              <object class="GtkDrawingArea" id="drawingarea_chart">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-              <packing>
-                <property name="index">-1</property>
-              </packing>
-            </child>
-            <child type="overlay">
-              <object class="GtkSpinner" id="spinner_loading">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-            </child>
           </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>

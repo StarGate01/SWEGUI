@@ -20,7 +20,7 @@ void DataRenderer::select_timestamp_async(int timestamp)
     t_select_timestamp = new std::thread([this, timestamp] 
     {
         {
-            //std::lock_guard<std::mutex> lock(m_stream);
+            std::lock_guard<std::mutex> lock(m_stream);
             r_select_timestamp_async = select_timestamp(timestamp);
         }
         dispatcher_select_timestamp.emit();
@@ -97,7 +97,7 @@ void DataRenderer::open_async(std::string filename)
     t_open = new std::thread([this] 
     {
         {
-            //std::lock_guard<std::mutex> lock(m_stream);
+            std::lock_guard<std::mutex> lock(m_stream);
             r_open_async = select_timestamp(0);
         }
             dispatcher_open.emit();

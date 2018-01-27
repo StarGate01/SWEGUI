@@ -9,7 +9,6 @@ void MainWindow::on_action_fileopen()
         reset_probes();
         std::string filename = dialog_open->get_filename();
         data_renderer->open_async(filename);
-        mb_spin_timestamp->set_sensitive(false);
         spinner_loading->property_active() = true;
     }
     dialog_open->hide();
@@ -17,7 +16,6 @@ void MainWindow::on_action_fileopen()
 
 void MainWindow::on_done_open(int result)
 {
-    mb_spin_timestamp->set_sensitive(true);
     spinner_loading->property_active() = false;
     if(result != 0)
     {
@@ -80,13 +78,11 @@ void MainWindow::on_action_simulation_next()
 void MainWindow::handle_timestamp_change()
 {
     data_renderer->select_timestamp_async(mb_spin_timestamp->get_value());
-    mb_spin_timestamp->set_sensitive(false);
     spinner_loading->property_active() = true;
 }
 
 void MainWindow::on_done_select_timestep(int result)
 {
-    mb_spin_timestamp->set_sensitive(true);
     spinner_loading->property_active() = false;
     window_layers->update_ui();
     probedata->update_ui();
