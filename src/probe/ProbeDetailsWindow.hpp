@@ -28,8 +28,19 @@ namespace probe
     {
 
         public:
-
+            /**
+             * @brief Inherited constructor from Gtk::Window
+             * @param cobject Calling object
+             * @param refBuilder Gtk::Builder, from which the window is created
+            */
             ProbeDetailsWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
+
+            /**
+             * @brief Creates a new ProbeDetailsWindow
+             * @param pa Parent swegui::MainWindow
+             * @param na Intended name of the window
+             * @return Instance of new ProbeDetailsWindow
+            */
             static ProbeDetailsWindow* create(swegui::MainWindow* pa, std::string na);
             
             void update_ui();               ///<Updates the UI elements of the window

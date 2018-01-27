@@ -1,3 +1,8 @@
+/**
+ * @file DataFieldWidget.cpp
+ * @brief Implements the functionality defined in DataFieldWidget.hpp
+*/
+
 #include <iostream>
 #include <sstream>
 #include <math.h>
@@ -101,11 +106,7 @@ void DataFieldWidget::on_graph_export(void)
     if(sfd_save->run() == Gtk::RESPONSE_OK)
     {
         std::string filename = sfd_save->get_filename();
-        if(!save_screenshot(filename))
-        {
-            Gtk::MessageDialog d(*parent, "Ooooops! Saving this graph failed. Sorry!");
-            d.run();
-        }
+        save_screenshot(filename);
     }
     sfd_save->hide();
 }
@@ -297,10 +298,9 @@ float DataFieldWidget::calculate_graph_width(int timestep, int timesteps_total, 
     return ((float) timestep / ((float)timesteps_total - 1)) * (float)graph_width;
 }
 
-bool DataFieldWidget::save_screenshot(std::string path)
+void DataFieldWidget::save_screenshot(std::string path)
 {
     const Cairo::RefPtr<Cairo::Context>& cr = drawingarea_chart->get_window()->create_cairo_context();
     auto surface = cr->get_target();
     surface->write_to_png(path);
-    return true;
 }

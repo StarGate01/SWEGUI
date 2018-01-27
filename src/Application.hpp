@@ -1,6 +1,8 @@
 /**
  * @file Application.hpp
  * @brief Main class of the SWEGUI application
+ * 
+ * Main entry point for SWEGUI
 */
 
 
@@ -37,6 +39,10 @@ namespace swegui
              * @return Pointer to new instance of MainWindow
             */
             MainWindow* create_appwindow();
+            /**
+             * @brief Event handler for hiding the window
+             * @param window Reference to the Gtk::Window instance
+            */
             void on_hide_window(Gtk::Window* window);
     };
 

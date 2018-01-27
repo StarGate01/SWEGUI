@@ -3,7 +3,6 @@
  * @brief Editing dialog for probes
 */
 
-
 #ifndef EDIT_PROBE_DIALOG_H
 #define EDIT_PROBE_DIALOG_H
 
@@ -14,7 +13,7 @@
 
 namespace swegui
 {
-
+    
     class MainWindow;
 
     /**

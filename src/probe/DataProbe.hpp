@@ -79,14 +79,14 @@ namespace probe
             type_signal_done_fill_data m_signal_done_fill_data;
 
         private:
-            static ProbeColumns cols;           ///<Template for the columns of the probe list
-            sf::Sprite sprite;                  ///<Sprite, that is drawn on the map at the probes position
-            int timestamps = 0;                 ///<Number of timestamps of the simulation
-            float** data = nullptr;             ///<Contains a value for each layer for each datapoint
-            bool data_loaded = false;
-            bool data_loading = false;
+            static ProbeColumns cols;                   ///<Template for the columns of the probe list
+            sf::Sprite sprite;                          ///<Sprite, that is drawn on the map at the probes position
+            int timestamps = 0;                         ///<Number of timestamps of the simulation
+            float** data = nullptr;                     ///<Contains a value for each layer for each datapoint
+            bool data_loaded = false;                   ///<True if data is loaded, otherwise false
+            bool data_loading = false;                  ///<True if data loading in progess, otherwise false
 
-            void on_done_batch_sample(int result);
+            void on_done_batch_sample(int result);      ///< @brief Executed when batch sampling is completed
     };
 }
 

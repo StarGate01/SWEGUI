@@ -1,6 +1,6 @@
 /**
  * @file MainWindow.hpp
- * @brief Main GUI-Window of the application
+ * @brief Main GUI-Window of the SWEGUI application
 */
 
 #ifndef GUI_APPLICATION_WINDOW_H
@@ -23,7 +23,9 @@
 
 namespace swegui
 {
-
+    /**
+     * @brief Main GUI-Window of the SWEGUI application
+    */
     class MainWindow : public Gtk::ApplicationWindow
     {
         public:
@@ -135,7 +137,7 @@ namespace swegui
              * @brief Event handler to call the context menu in the MainWindow::probelist
              * @param event
             */
-            void on_action_probelist_button_press(GdkEventButton* event);
+            void on_action_probelist_button_press(GdkEventButton* event);   
             void on_action_probelist_changed();                     ///<Event handler to update the selected probe in the map and the list
             void on_action_probelist_context_edit();                ///<Event handler to update the probes when edited
             void on_probe_remove();                                 ///<Event handler to remove the currently selected probe in data_renderer->active_probe
@@ -172,7 +174,7 @@ namespace swegui
             /**
              * @brief Opens a new window, similar to MainWindow::dialog_probe_edit with data of the active probe, specified in  data_renderer::active_probe_name
             */
-            void open_probe_ui();
+            void open_probe_ui();                                   ///<Opens a new window with the data of the currently selected probe in MainWindow::data_renderer
             void handle_timestamp_change();                         ///<Handles switching to another timestamp by updating the UI and the shader
             void reset_probes();                                    ///<Removes all probes from the list and the map, as well clearing the data_renderer::active_probe
     };

@@ -1,4 +1,8 @@
-#include <iostream>
+/**
+ * @file DataProbe.cpp
+ * @brief Implements the functionality defined in DataProbe.hpp
+*/
+
 #include "DataProbe.hpp"
 #include "../renderer/DataRenderer.hpp"
 using namespace probe;
@@ -50,6 +54,7 @@ DataProbe::type_signal_done_fill_data DataProbe::signal_done_fill_data()
     return m_signal_done_fill_data;
 }
 
+//TODO: remove parameter
 void DataProbe::on_done_batch_sample(int result)
 {
     for(int ts = 0; ts < timestamps; ts++) 

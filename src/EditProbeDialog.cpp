@@ -1,3 +1,8 @@
+/**
+ * @file EditProbeDialog.cpp
+ * @brief Implements the functionality defined in EditProbeDialog.hpp
+*/
+
 #include "EditProbeDialog.hpp"
 #include "MainWindow.hpp"
 

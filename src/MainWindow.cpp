@@ -1,3 +1,11 @@
+/**
+ * @file MainWindow.cpp
+ * @brief Implements path of the functionality defined in MainWindow.hpp
+ * 
+ * Implementation of some probe related methods are outsourced into MainWindowProbe.cpp
+ * Implementation of some event handler related methods are outsourced into MainWindowActions.cpp
+*/
+
 #include "MainWindow.hpp"
 
 using namespace swegui;
