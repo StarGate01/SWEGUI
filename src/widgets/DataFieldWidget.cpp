@@ -115,12 +115,31 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     if(name == "") return true;
     probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
 
+    //Setup rendering
+    Gtk::Allocation allocation = drawingarea_chart->get_allocation();
+    const int width = allocation.get_width();
+    const int height = allocation.get_height();
+    Gdk::Color color(COLOR_DEFAULT);
+
     if(!probe->has_data()) 
     {
-        //todo display a message "loading data"
-        return true;                     //Check if data is available
+        cr->set_source_rgb(0,0,0);
+        Pango::FontDescription font;
+        font.set_family("Monospace");
+        font.set_weight(Pango::WEIGHT_BOLD);
+        // http://developer.gnome.org/pangomm/unstable/classPango_1_1Layout.html
+        auto layout = create_pango_layout("Loading data...");
+        int text_width;
+        int text_height;
+        //get the text dimensions (it updates the variables -- by reference)
+        layout->get_pixel_size(text_width, text_height);
+        // Position the text in the middle
+        cr->move_to((width-text_width)/2, (height-text_height)/2);
+        layout->show_in_cairo_context(cr);
+        return true;
     }
 
+    //Setup for data rendering
     int layer = cb_layer->get_active_row_number();          //Get current layer
     std::vector<float> data = probe->get_all_data(layer);   //Get data
     if(data.size() <= 0) return false;                      //Return if data is empty
@@ -129,11 +148,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     float max_value = *std::max_element(data.begin(), data.end());
     float min_value = *std::min_element(data.begin(), data.end());
 
-    //Setup rendering
-    Gtk::Allocation allocation = drawingarea_chart->get_allocation();
-    const int width = allocation.get_width();
-    const int height = allocation.get_height();
-    Gdk::Color color(COLOR_DEFAULT);
+    
 
     int min_t = -1;
     int max_t = -1;
