@@ -3,6 +3,8 @@
 
 #include <gtkmm.h>
 #include <glibmm.h>
+#include <mutex>
+#include <thread>
 #include <map>
 #include "../widgets/SFMLWidget.hpp"
 #include "NetCdfImageStream.hpp"
@@ -52,9 +54,6 @@ namespace renderer
 
       DataRenderer(widgets::SFMLWidget &widget);
 
-      int open(std::string filename);
-      int select_timestamp(int timestamp);
-      void select_timestamp_async(int timestamp);
       void update_shader();
       void invalidate();
       float sample(NetCdfImageStream::Variable var, float x, float y, int timestamp = -1);
@@ -69,12 +68,23 @@ namespace renderer
       type_signal_update signal_update();
       typedef sigc::signal<void> type_signal_select;
       type_signal_select signal_select();
+
       bool save_screenshot(string filename);
+
+      void select_timestamp_async(int timestamp);
+      typedef sigc::signal<void, int> type_signal_done_select_timestamp;
+      type_signal_done_select_timestamp signal_done_select_timestep();
+
+      void open_async(std::string filename);
+      typedef sigc::signal<void, int> type_signal_done_open;
+      type_signal_done_open signal_done_open();
 
     protected:
     
       type_signal_update m_signal_update;
       type_signal_select m_signal_select;
+      type_signal_done_select_timestamp m_signal_done_select_timestamp;
+      type_signal_done_open m_signal_done_open;
 
     private:
 
@@ -100,6 +110,15 @@ namespace renderer
       sf::Transform tm_screen_to_tex, tm_screen_to_data, tm_data_to_screen, tm_scale_to_tex;
       sf::Vector2i last_mouse;
       bool pan_active = false;
+
+      mutable std::mutex m_stream;
+      std::thread* t_select_timestamp = nullptr, *t_open = nullptr;
+      Glib::Dispatcher dispatcher_select_timestamp, dispatcher_open;
+      int r_select_timestamp_async = 0, r_open_async = 0;
+      void on_thread_select_timestamp_notify();
+      void on_thread_open_notify();
+
+      int select_timestamp(int timestamp);
 
       void draw();
       void resize_view();

@@ -1,19 +1,35 @@
+#include <iostream>
 #include "DataRenderer.hpp"
 #include "Errors.hpp"
 
 using namespace renderer;
 
-int DataRenderer::open(std::string filename)
+void DataRenderer::on_thread_select_timestamp_notify()
 {
-    bool ret = netcdf_stream.open(filename);
-    if(!ret) return ERROR_FILE;
-    int res = select_timestamp(0);
-    if(res != ERROR_SUCCESS) return res;
-    zoom = 1.f;
-    pan = sf::Vector2f(0.f, 0.f);
-    update_transform();
-    update_shader();
-    return ERROR_SUCCESS;
+    if(t_select_timestamp)
+    {
+        if (t_select_timestamp->joinable()) t_select_timestamp->join();
+        delete t_select_timestamp;
+        t_select_timestamp = nullptr;
+    }
+    m_signal_done_select_timestamp.emit(r_select_timestamp_async);
+}
+
+void DataRenderer::select_timestamp_async(int timestamp)
+{
+    t_select_timestamp = new std::thread([this, timestamp] 
+    {
+        {
+            std::lock_guard<std::mutex> lock(m_stream);
+            r_select_timestamp_async = select_timestamp(timestamp);
+            dispatcher_select_timestamp.emit();
+        }
+    });
+}
+
+DataRenderer::type_signal_done_select_timestamp DataRenderer::signal_done_select_timestep()
+{
+    return m_signal_done_select_timestamp;
 }
 
 int DataRenderer::select_timestamp(int timestamp)
@@ -32,13 +48,66 @@ int DataRenderer::select_timestamp(int timestamp)
     return ERROR_SUCCESS;
 }
 
-void DataRenderer::select_timestamp_async(int timestamp)
+int DataRenderer::select_load(NetCdfImageStream::Variable variable, int index, Layer& lay)
 {
-    
+    bool ret = netcdf_stream.select(variable, index);
+    if(!ret) return ERROR_SELECT;
+    lay.meta_info = netcdf_stream.meta_info;
+    sf::Image img;
+    ret = img.loadFromStream(netcdf_stream);
+    if(!ret) return ERROR_STREAM;
+    ret = lay.texture.loadFromImage(img);
+    if(!ret) return ERROR_IMAGE;
+    return ERROR_SUCCESS;
 }
+
+
+void DataRenderer::on_thread_open_notify()
+{
+    if(t_open)
+    {
+        if (t_open->joinable()) t_open->join();
+        delete t_open;
+        t_open = nullptr;
+    }
+    if(r_open_async == ERROR_SUCCESS)
+    {
+        zoom = 1.f;
+        pan = sf::Vector2f(0.f, 0.f);
+        update_transform();
+        update_shader();
+    }
+    m_signal_done_select_timestamp.emit(r_open_async);
+}
+
+DataRenderer::type_signal_done_open DataRenderer::signal_done_open()
+{
+    return m_signal_done_open;
+}
+
+void DataRenderer::open_async(std::string filename)
+{
+    bool ret = netcdf_stream.open(filename);
+    if(!ret)
+    {
+        r_open_async = ERROR_FILE;
+        on_thread_open_notify();
+        return;
+    }
+    t_open = new std::thread([this] 
+    {
+        {
+            std::lock_guard<std::mutex> lock(m_stream);
+            r_open_async = select_timestamp(0);
+            dispatcher_open.emit();
+        }
+    });
+}
+
 
 float DataRenderer::get_current_time()
 {
+    //std::lock_guard<std::mutex> lock(m_stream);
     return netcdf_stream.get_time(current_timestamp);
 }
 
@@ -46,22 +115,6 @@ float DataRenderer::sample(NetCdfImageStream::Variable var, float x, float y, in
 {
     if(timestamp == -1) timestamp = current_timestamp;
     if(timestamp == -1) return 0.f;
+    //std::lock_guard<std::mutex> lock(m_stream);
     return netcdf_stream.sample(var, x, y, timestamp);
-}
-
-int DataRenderer::select_load(NetCdfImageStream::Variable variable, int index, Layer& lay)
-{
-    bool ret = netcdf_stream.select(variable, index);
-    if(!ret) return ERROR_SELECT;
-    lay.meta_info = netcdf_stream.meta_info; //copy!
-    sf::Image img;
-    ret = img.loadFromStream(netcdf_stream);
-    if(!ret) return ERROR_STREAM;
-    // int max_tex = sf::Texture::getMaximumSize();
-    // sf::Rect<int> area(0, 0, 
-    //     max(netcdf_stream.meta_info->width, max_tex),
-    //     max(netcdf_stream.meta_info->height, max_tex));
-    ret = lay.texture.loadFromImage(img); //, area);
-    if(!ret) return ERROR_IMAGE;
-    return ERROR_SUCCESS;
 }

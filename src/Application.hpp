@@ -30,11 +30,6 @@ namespace swegui
         protected:
             Application();                  ///<Default constructor
             void on_activate() override;    ///<Event handler on activation. Creates and shows the main GUI
-            //TODO: Expand description
-            /**
-             * @brief Event handler that launches a main GUI with each of the files passed in \p files
-            */
-            void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
 
         private:
             /**

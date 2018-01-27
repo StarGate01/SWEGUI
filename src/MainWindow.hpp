@@ -45,9 +45,6 @@ namespace swegui
             */
             static MainWindow* create();
 
-            //TODO: Remove method
-            void open_file_view(const Glib::RefPtr<Gio::File>& file);
-
             renderer::DataRenderer* data_renderer = nullptr; ///< DataRenderer of this window
 
         private:
@@ -149,6 +146,8 @@ namespace swegui
             */
             void on_probe_update(bool added);                                                                   
             void on_probe_select();                                 ///<Event handler to handle selection of new item in probe list and raw-data-window
+            void on_done_select_timestep(int result);
+            void on_done_open(int result);
 
         protected:
 

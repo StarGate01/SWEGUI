@@ -122,4 +122,6 @@ void MainWindow::setup_gui_elements()
     //Event handlers for sfml widget
     data_renderer->signal_update().connect(sigc::mem_fun(this, &MainWindow::on_probe_update));
     data_renderer->signal_select().connect(sigc::mem_fun(this, &MainWindow::on_probe_select));
+    data_renderer->signal_done_select_timestep().connect(sigc::mem_fun(this, &MainWindow::on_done_select_timestep));
+    data_renderer->signal_done_open().connect(sigc::mem_fun(this, &MainWindow::on_done_open));
 }
