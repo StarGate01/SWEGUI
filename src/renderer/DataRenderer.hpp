@@ -56,7 +56,7 @@ namespace renderer
 
       void update_shader();
       void invalidate();
-      float sample(NetCdfImageStream::Variable var, float x, float y, int timestamp = -1);
+      float sample(NetCdfImageStream::Variable var, float x, float y, int timestamp = -1, bool lock = true);
       int get_current_timestamp();
       float get_current_time();
 
@@ -79,12 +79,17 @@ namespace renderer
       typedef sigc::signal<void, int> type_signal_done_open;
       type_signal_done_open signal_done_open();
 
+      void sample_batch_async(float x, float y, float**& data);
+      typedef sigc::signal<void, int> type_signal_done_sample_batch;
+      type_signal_done_sample_batch signal_done_sample_batch();
+
     protected:
     
       type_signal_update m_signal_update;
       type_signal_select m_signal_select;
       type_signal_done_select_timestamp m_signal_done_select_timestamp;
       type_signal_done_open m_signal_done_open;
+      type_signal_done_sample_batch m_signal_done_sample_batch;
 
     private:
 
@@ -112,11 +117,12 @@ namespace renderer
       bool pan_active = false;
 
       mutable std::mutex m_stream;
-      std::thread* t_select_timestamp = nullptr, *t_open = nullptr;
-      Glib::Dispatcher dispatcher_select_timestamp, dispatcher_open;
-      int r_select_timestamp_async = 0, r_open_async = 0;
+      std::thread* t_select_timestamp = nullptr, *t_open = nullptr, *t_sample_batch = nullptr;
+      Glib::Dispatcher dispatcher_select_timestamp, dispatcher_open, dispatcher_sample_batch;
+      int r_select_timestamp_async = 0, r_open_async = 0, r_sample_batch = 0;
       void on_thread_select_timestamp_notify();
       void on_thread_open_notify();
+      void on_thread_sample_batch_notify();
 
       int select_timestamp(int timestamp);
 

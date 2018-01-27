@@ -37,7 +37,7 @@ void MainWindow::handle_add_edit()
     if (data_renderer->probes.find(name) == data_renderer->probes.end())
     {
         if(dialog_probe_edit->existing) on_probe_remove();
-        probe::DataProbe probe(dialog_probe_edit->get_x(), dialog_probe_edit->get_y(), data_renderer);
+        probe::DataProbe probe(dialog_probe_edit->get_x(), dialog_probe_edit->get_y());
         data_renderer->probes[name] = probe;
         added = true;
     }

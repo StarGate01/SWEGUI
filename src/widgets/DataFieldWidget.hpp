@@ -56,7 +56,6 @@ namespace widgets
       Gtk::DrawingArea* drawingarea_chart = nullptr;
 
       void setup_gui_elements();
-      void populate_data();
 
       void on_dataset_change(void);
       void on_graph_export(void);
@@ -65,6 +64,8 @@ namespace widgets
       float calculate_legend_value(float x, float min, float max, float scale, int graph_height);
       float calculate_graph_height(float data, float min, float max, float scale, int graph_height);
       float calculate_graph_width(int timestep, int timesteps_total, int graph_width);
+
+      void on_done_fill_data();
 
       bool save_screenshot(std::string path);
   };

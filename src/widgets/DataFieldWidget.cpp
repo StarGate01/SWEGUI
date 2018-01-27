@@ -44,18 +44,12 @@ void DataFieldWidget::setup_gui_elements()
     update_ui();
 }
 
-void DataFieldWidget::populate_data()
-{
-    //todo fill presampled array thingy
-    
-}
-
 void DataFieldWidget::update_ui()
 {
     if(name != "")
     {
         probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
-        
+
         //Set labels
         float bathy = parent->data_renderer->sample((renderer::NetCdfImageStream::Variable)0, probe->x, probe->y);
         labels[0]->set_text(std::to_string(bathy));
@@ -75,8 +69,19 @@ void DataFieldWidget::update_ui()
                 renderer::NetCdfImageStream::Variable::Hv, probe->x, probe->y), 2)));
         labels[4]->set_text(std::to_string(hx));
 
-        //Update graph
-        on_dataset_change();
+        if(!probe->has_data() && !probe->loads_data()) 
+        {
+            std::cout << "3" << std::endl;
+            probe->signal_done_fill_data().connect(sigc::mem_fun(this, &DataFieldWidget::update_ui));
+            probe->fill_data_async(parent->data_renderer);
+        }
+        else
+        {
+             std::cout << "4" << std::endl;
+            //Update graph
+            on_dataset_change();
+        }
+         std::cout << "5" << name << std::endl;
     }
     else reset_gui();
 }
@@ -111,9 +116,15 @@ void DataFieldWidget::on_graph_export(void)
 
 bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
+    if(name == "") return true;
     probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
+    std::cout << "on_chart_draw" << probe->has_data() << std::endl;
 
-    if(!probe->has_data()) return true;                     //Check if data is available
+    if(!probe->has_data()) 
+    {
+        //todo display a message "loading data"
+        return true;                     //Check if data is available
+    }
     int layer = cb_layer->get_active_row_number();          //Get current layer
     std::vector<float> data = probe->get_all_data(layer);   //Get data
     if(data.size() <= 0) return false;                      //Return if data is empty

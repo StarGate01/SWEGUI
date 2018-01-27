@@ -80,6 +80,7 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
 
     dispatcher_select_timestamp.connect(sigc::mem_fun(this, &DataRenderer::on_thread_select_timestamp_notify));
     dispatcher_open.connect(sigc::mem_fun(this, &DataRenderer::on_thread_open_notify));
+    dispatcher_sample_batch.connect(sigc::mem_fun(this, &DataRenderer::on_thread_sample_batch_notify));
 }
 
 DataRenderer::type_signal_update DataRenderer::signal_update()
