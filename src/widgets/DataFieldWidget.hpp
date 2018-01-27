@@ -3,6 +3,7 @@
 
 #include <string>
 #include <gtkmm.h>
+#include <gtkmm/messagedialog.h>
 #include <pangomm/attrlist.h>   //Set attributes for labels
 #include <cairomm/context.h>
 
@@ -50,17 +51,22 @@ namespace widgets
       std::string layer_names[5] = { "b", "h", "hu", "hv", "hx" };
       Gtk::Label* labels[5];
       Gtk::ComboBox* cb_layer = nullptr;
+      Gtk::Button* btn_save_graph = nullptr;
+      Gtk::FileChooserDialog* sfd_save = nullptr;
       Gtk::DrawingArea* drawingarea_chart = nullptr;
 
       void setup_gui_elements();
       void populate_data();
 
       void on_dataset_change(void);
+      void on_graph_export(void);
       bool on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr);
 
       float calculate_legend_value(float x, float min, float max, float scale, int graph_height);
       float calculate_graph_height(float data, float min, float max, float scale, int graph_height);
       float calculate_graph_width(int timestep, int timesteps_total, int graph_width);
+
+      bool save_screenshot(std::string path);
   };
 
 }

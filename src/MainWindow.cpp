@@ -46,7 +46,6 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("mb_tools_crosssection", mb_tool_crosssection);
     m_refBuilder->get_widget("mb_help_about", mb_help_about);
     //Get toolbar
-    m_refBuilder->get_widget("main_toolbar", toolbar_main);
     m_refBuilder->get_widget("tbtn_open", tb_openfile);
     m_refBuilder->get_widget("tbtn_simulation_goto_start", tb_simulation_goto_start);
     m_refBuilder->get_widget("tbtn_simulation_play", tb_simulation_play);
@@ -89,7 +88,7 @@ void MainWindow::setup_gui_elements()
     mb_file_save_screenshot->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_screenshot));
     mb_file_quit->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_quit));
     mb_view_layer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_layer));
-    mb_view_renderer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));
+    mb_view_renderer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));  
     mb_view_reset->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_zoompan_reset));
     mb_simulation_goto_start->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_goto_start));
     mb_simulation_prev->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_prev));

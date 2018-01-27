@@ -30,10 +30,16 @@ void DataFieldWidget::setup_gui_elements()
     for(int i = 0; i < 5; i++) m_refBuilder->get_widget("lbl_"+layer_names[i], labels[i]);
     
     m_refBuilder->get_widget("cb_layer", cb_layer);
+    m_refBuilder->get_widget("btn_save_graph", btn_save_graph);
+    m_refBuilder->get_widget("sfd_graph_export", sfd_save);
     m_refBuilder->get_widget("drawingarea_chart", drawingarea_chart);
 
+    // widget->set_transient_for(*(widget->parent));
+    sfd_save->set_transient_for(*parent);
+
     drawingarea_chart->signal_draw().connect(sigc::mem_fun(this, &DataFieldWidget::on_chart_draw));
-    cb_layer->signal_changed().connect(sigc::mem_fun(this, &DataFieldWidget::on_dataset_change));           //TODO: Add parameter to function
+    cb_layer->signal_changed().connect(sigc::mem_fun(this, &DataFieldWidget::on_dataset_change));
+    btn_save_graph->signal_clicked().connect(sigc::mem_fun(this, &DataFieldWidget::on_graph_export));
 
     update_ui();
 }
@@ -86,6 +92,21 @@ void DataFieldWidget::on_dataset_change(void)
 {
     if(drawingarea_chart == nullptr || !drawingarea_chart->get_window()) return;
     on_chart_draw(drawingarea_chart->get_window()->create_cairo_context());
+}
+
+void DataFieldWidget::on_graph_export(void)
+{
+    std::cout << "ON GRAPH EXPORT" << std::endl;
+    if(sfd_save->run() == Gtk::RESPONSE_OK)
+    {
+        std::string filename = sfd_save->get_filename();
+        if(!save_screenshot(filename))
+        {
+            Gtk::MessageDialog d(*parent, "Ooooops! Saving this graph failed. Sorry!");
+            d.run();
+        }
+    }
+    sfd_save->hide();
 }
 
 bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
@@ -258,4 +279,12 @@ float DataFieldWidget::calculate_graph_height(float data, float min, float max, 
 float DataFieldWidget::calculate_graph_width(int timestep, int timesteps_total, int graph_width)
 {
     return ((float) timestep / ((float)timesteps_total - 1)) * (float)graph_width;
+}
+
+bool DataFieldWidget::save_screenshot(std::string path)
+{
+    const Cairo::RefPtr<Cairo::Context>& cr = drawingarea_chart->get_window()->create_cairo_context();
+    auto surface = cr->get_target();
+    surface->write_to_png(path);
+    return true;
 }
