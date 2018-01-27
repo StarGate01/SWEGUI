@@ -70,13 +70,6 @@ namespace probe
              * @return Vector with the probes data, or empty if no data or incorrect layer
             */
             std::vector<float> get_all_data(int layer);
-            /**
-             * @brief Gives a single data value for a given layer and timestamp
-             * @param timestamp Time for which data should be retreved
-             * @param layer Layer for which data should be retrieved
-             * @return float with the probes data value for given time and layer, or zero if no data or incorrect layer/timestamp
-            */
-            float get_data(int timestamp, int layer);
 
             typedef sigc::signal<void> type_signal_done_fill_data;
             type_signal_done_fill_data signal_done_fill_data();

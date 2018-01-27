@@ -71,17 +71,14 @@ void DataFieldWidget::update_ui()
 
         if(!probe->has_data() && !probe->loads_data()) 
         {
-            std::cout << "3" << std::endl;
             probe->signal_done_fill_data().connect(sigc::mem_fun(this, &DataFieldWidget::update_ui));
             probe->fill_data_async(parent->data_renderer);
         }
         else
         {
-             std::cout << "4" << std::endl;
             //Update graph
             on_dataset_change();
         }
-         std::cout << "5" << name << std::endl;
     }
     else reset_gui();
 }
@@ -96,12 +93,11 @@ void DataFieldWidget::reset_gui()
 void DataFieldWidget::on_dataset_change(void)
 {
     if(drawingarea_chart == nullptr || !drawingarea_chart->get_window()) return;
-    on_chart_draw(drawingarea_chart->get_window()->create_cairo_context());
+    queue_draw();
 }
 
 void DataFieldWidget::on_graph_export(void)
 {
-    std::cout << "ON GRAPH EXPORT" << std::endl;
     if(sfd_save->run() == Gtk::RESPONSE_OK)
     {
         std::string filename = sfd_save->get_filename();
@@ -118,13 +114,13 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
     if(name == "") return true;
     probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
-    std::cout << "on_chart_draw" << probe->has_data() << std::endl;
 
     if(!probe->has_data()) 
     {
         //todo display a message "loading data"
         return true;                     //Check if data is available
     }
+
     int layer = cb_layer->get_active_row_number();          //Get current layer
     std::vector<float> data = probe->get_all_data(layer);   //Get data
     if(data.size() <= 0) return false;                      //Return if data is empty
@@ -148,7 +144,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->paint();
 
     //Do not draw graph if bathymetry > 0
-    if(probe->get_data(0, 0) > 0)
+    if(false) //probe->get_data(0, 0) > 0)
     {
         cr->set_source_rgb(0,0,0);
         Pango::FontDescription font;
@@ -165,6 +161,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
         layout->show_in_cairo_context(cr);
         return true;
     }
+    //return true;
 
     cr->set_line_width(2.0);
 
@@ -272,13 +269,6 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->move_to(5, (GRAPH_SCALE) * height + MIN_OFFSET * height + 0.5 * LEGEND_FONT_SIZE);
     cr->show_text(std::to_string(min_value));
     return true;
-}
-
-//TODO: Needs debugging
-float DataFieldWidget::calculate_legend_value(float x, float min, float max, float scale, int graph_height)
-{
-    return 0;
-    //return -1 * (max-min)*((x/(float) graph_height)-1-MIN_OFFSET) * (1/scale) + min;
 }
 
 float DataFieldWidget::calculate_graph_height(float data, float min, float max, float scale, int graph_height)

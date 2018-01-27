@@ -20,7 +20,7 @@ void DataRenderer::select_timestamp_async(int timestamp)
     t_select_timestamp = new std::thread([this, timestamp] 
     {
         {
-            std::lock_guard<std::mutex> lock(m_stream);
+            //std::lock_guard<std::mutex> lock(m_stream);
             r_select_timestamp_async = select_timestamp(timestamp);
         }
         dispatcher_select_timestamp.emit();
@@ -97,7 +97,7 @@ void DataRenderer::open_async(std::string filename)
     t_open = new std::thread([this] 
     {
         {
-            std::lock_guard<std::mutex> lock(m_stream);
+            //std::lock_guard<std::mutex> lock(m_stream);
             r_open_async = select_timestamp(0);
         }
             dispatcher_open.emit();
@@ -121,7 +121,7 @@ void DataRenderer::sample_batch_async(float x, float y, float**& data)
     t_sample_batch = new std::thread([this, x, y, data] 
     {
         {
-            std::lock_guard<std::mutex> lock(m_stream);
+            //std::lock_guard<std::mutex> lock(m_stream);
             for(int i=0; i<meta_info->timestamps; i++)
             {
                 data[i][0] = sample(NetCdfImageStream::Variable::H, x, y, i, false);
@@ -145,7 +145,7 @@ float DataRenderer::sample(NetCdfImageStream::Variable var, float x, float y, in
     if(timestamp == -1) return 0.f;
 
     {
-        if(lock) std::lock_guard<std::mutex> lock(m_stream);
+        //if(lock) std::lock_guard<std::mutex> lock(m_stream);
         return netcdf_stream.sample(var, x, y, timestamp);
     }
 }
@@ -154,7 +154,7 @@ float DataRenderer::sample(NetCdfImageStream::Variable var, float x, float y, in
 float DataRenderer::get_current_time()
 {
     {
-        std::lock_guard<std::mutex> lock(m_stream);
+        //std::lock_guard<std::mutex> lock(m_stream);
         return netcdf_stream.get_time(current_timestamp);
     }
 }

@@ -38,7 +38,7 @@ void DataProbe::fill_data_async(renderer::DataRenderer* data_renderer)
     if(data_renderer == nullptr || data_renderer->meta_info == nullptr) return;
     if(has_data() || loads_data()) return;
     data_loading = true;
-    int timestamps = data_renderer->meta_info->timestamps;
+    timestamps = data_renderer->meta_info->timestamps;
     data = new float*[timestamps];
     for(int ts = 0; ts < timestamps; ts++) data[ts] = new float[4];
     data_renderer->signal_done_sample_batch().connect(sigc::mem_fun(this, &DataProbe::on_done_batch_sample));
@@ -80,12 +80,4 @@ std::vector<float> DataProbe::get_all_data(int layer)
     std::vector<float> vec;
     for(int i = 0; i < timestamps; i++) vec.push_back(data[i][layer]);
     return vec;
-}
-
-float DataProbe::get_data(int timestamp, int layer)
-{
-    if(!has_data()) return 0.f;
-    if(timestamp < 0 || timestamp >= timestamps) return 0.f;
-    if(layer < 0 || layer >= 4) return 0.f;
-    return data[timestamp][layer];
 }

@@ -55,6 +55,7 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("tbtn_tool_cda", tb_tool_cda);
     m_refBuilder->get_widget("tbtn_tool_crosssection", tb_crosssection);
     m_refBuilder->get_widget("tbtn_screenshot", tb_screenshot);
+    m_refBuilder->get_widget("spinner_loading", spinner_loading);
     //Get raw data label
     //m_refBuilder->get_widget("lbl_info", lbl_raw_data);
     m_refBuilder->get_widget("alignment_frame_probedata", alignment_frame_probedata);
