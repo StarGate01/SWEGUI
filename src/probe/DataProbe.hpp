@@ -71,12 +71,12 @@ namespace probe
             */
             std::vector<float> get_all_data(int layer);
 
-            typedef sigc::signal<void> type_signal_done_fill_data;
-            type_signal_done_fill_data signal_done_fill_data();
+            typedef sigc::signal<void> type_signal_done_fill_data;  ///<Signal that is fired, when async data loading is complete
+            type_signal_done_fill_data signal_done_fill_data();     ///<Event handler when data loading is complete
 
         protected:
     
-            type_signal_done_fill_data m_signal_done_fill_data;
+            type_signal_done_fill_data m_signal_done_fill_data;     ///<Signal fires, when data loading is complete
 
         private:
             static ProbeColumns cols;                   ///<Template for the columns of the probe list

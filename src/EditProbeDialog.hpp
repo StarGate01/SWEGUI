@@ -25,11 +25,10 @@ namespace swegui
     {
 
         public:
-        //TODO: Expand documentation
             /**
              * @brief Inherited constructor of Gtk::Dialog
              * @param cobject
-             * @refBuilder 
+             * @refBuilder Gtk::Builder of the parent window
             */
             EditProbeDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
             

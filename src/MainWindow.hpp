@@ -144,12 +144,13 @@ namespace swegui
             void on_action_button_probe_add();                      ///<Event handler to open the MainWindow::dialog_probe_edit to add a new probe
             //TODO: Implement documentation here
             /**
-             * @brief 
+             * @brief Updates probe list
+             * @param added True, if new probe was added
             */
             void on_probe_update(bool added);                                                                   
             void on_probe_select();                                 ///<Event handler to handle selection of new item in probe list and raw-data-window
-            void on_done_select_timestep(int result);
-            void on_done_open(int result);
+            void on_done_select_timestep(int result);               ///<Select timestamp after loading operation is complete
+            void on_done_open(int result);                          ///<Event handler to open file when loading is complete
 
         protected:
 
