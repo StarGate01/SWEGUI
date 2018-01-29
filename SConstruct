@@ -25,7 +25,7 @@ vars.AddVariables(
 )
 
 # Set environment
-env = Environment(ENV = {'PATH': os.environ['PATH']}, variables=vars, tools = ['default', 'cxxtest'])
+env = Environment(ENV = {'PATH': os.environ['PATH']}, variables=vars, tools = ['default'])
 
 # GTK resource builder
 gtkresbld = Builder(action = 'glib-compile-resources --target=$TARGET --generate-source $SOURCE', 

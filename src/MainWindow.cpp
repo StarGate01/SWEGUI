@@ -15,7 +15,7 @@ probe::ProbeColumns MainWindow::probelist_columns;
 MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
     : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder)
 {
-    play_timer = new Timer(std::chrono::milliseconds(PLAY_SPEED), this);
+    //play_timer = new Timer(std::chrono::milliseconds(PLAY_SPEED), this);
     setup_gui_elements();
 }
 

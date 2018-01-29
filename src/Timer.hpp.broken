@@ -7,6 +7,8 @@
 namespace swegui
 {
 
+    class MainWindow;
+
     class Timer
     {
         public:
@@ -20,7 +22,7 @@ namespace swegui
             std::chrono::milliseconds period;
             std::thread runner_thread;
             bool running = false;
-            swegui::MainWindow* parent = nullptr;
+            MainWindow* parent = nullptr;
 
             void wait_execute();
             void run();
