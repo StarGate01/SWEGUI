@@ -1,3 +1,12 @@
+/**
+ * @file DataRendererThreads.cpp
+ * @brief Implements async data loading related functionality defined in DataRenderer.hpp
+ * 
+ * General functionality is defined in DataRenderer.cpp
+ * Event handler related functionality is defined in DataRendererActions.cpp
+ * Renderer related functionality is defined in DataRendererCore.cpp
+*/
+
 #include <iostream>
 #include "DataRenderer.hpp"
 #include "Errors.hpp"

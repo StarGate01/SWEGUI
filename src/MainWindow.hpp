@@ -80,7 +80,7 @@ namespace swegui
             Gtk::ToolButton* tb_tool_cda = nullptr;                 ///<Object pointer to coastal damage analysis tool button in toolbar
             Gtk::ToolButton* tb_crosssection = nullptr;             ///<Object pointer to crosssection tool button in toolbar
             Gtk::ToolButton* tb_screenshot = nullptr;               ///<Object pointer to screenshot export button in toolbar
-            Gtk::Spinner* spinner_loading = nullptr;
+            Gtk::Spinner* spinner_loading = nullptr;                ///<Object pointer to loading spinner in toolbar
             //Raw data field
             Gtk::Alignment* alignment_frame_probedata = nullptr;    ///<Object pointer to frame of raw-data-field
             widgets::DataFieldWidget* probedata = nullptr;          ///<Object pointer to widgets::DataFieldWidget of raw-data-field

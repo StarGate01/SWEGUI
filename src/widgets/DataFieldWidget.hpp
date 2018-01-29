@@ -105,9 +105,6 @@ namespace widgets
       */
       float calculate_graph_width(int timestep, int timesteps_total, int graph_width);
 
-      //TODO: Add documentation
-      void on_done_fill_data();                                         ///<TODO: Add documentation
-
       /**
        * @brief Saves a screenshot to the path specified in /p path
        * 

@@ -18,6 +18,7 @@ void MainWindow::on_action_fileopen()
         std::string filename = dialog_open->get_filename();
         data_renderer->open_async(filename);
         spinner_loading->property_active() = true;
+        spinner_loading->property_visible() = true;
     }
     dialog_open->hide();
 }
@@ -25,6 +26,7 @@ void MainWindow::on_action_fileopen()
 void MainWindow::on_done_open(int result)
 {
     spinner_loading->property_active() = false;
+    spinner_loading->property_visible() = false;
     if(result != 0)
     {
         Gtk::MessageDialog d(*this, "Ooooops! Opening this file failed. Sorry!");
@@ -87,11 +89,13 @@ void MainWindow::handle_timestamp_change()
 {
     data_renderer->select_timestamp_async(mb_spin_timestamp->get_value());
     spinner_loading->property_active() = true;
+    spinner_loading->property_visible() = true;
 }
 
 void MainWindow::on_done_select_timestep(int result)
 {
     spinner_loading->property_active() = false;
+    spinner_loading->property_visible() = false;
     window_layers->update_ui();
     probedata->update_ui();
     for (auto const& probe : data_renderer->probes)

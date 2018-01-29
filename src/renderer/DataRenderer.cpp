@@ -1,3 +1,12 @@
+/**
+ * @file DataRenderer.cpp
+ * @brief Implements part of the functionality defined in DataRenderer.hpp
+ * 
+ * Event handler related functionality is defined in DataRendererActions.cpp
+ * Renderer related functionality is defined in DataRendererCore.cpp
+ * Async data loading related functionality is defined in DataRendererThreads.cpp
+*/
+
 #include <iostream>
 #include <sstream>
 #include "DataRenderer.hpp"
@@ -7,7 +16,7 @@
 using namespace renderer;
 
 DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
-{
+{* Async data loading related functionality is defined in DataRendererThreads.cpp
     hx.computed = true;
     b.enable = true;
     h.enable = true;

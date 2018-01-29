@@ -1,3 +1,8 @@
+/**
+ * @file Layer.cpp
+ * @brief Implements the functionality defined in Layer.hpp
+*/
+
 #include <string>
 #include <cmath>
 #include "Layer.hpp"
