@@ -97,11 +97,11 @@ namespace swegui
             Glib::RefPtr<Gtk::Adjustment> adjustment_x,                 ///<Pointer to the horizontal adjustment objects of EditProbeWindow::spin_x and EditProbeWindow::spin_y
             adjustment_y;                                               ///<Pointer to the vertical adjustment objects of EditProbeWindow::spin_x and EditProbeWindow::spin_y
             Gtk::Entry* entry_name = nullptr;                           ///<Pointer to the name Gtk::Entry of the GUI
-            Gtk::SpinButton* spin_x = nullptr,                          ///<Pointer to the horizonal Gtk::SpinButton element of the GUI
+            Gtk::SpinButton* spin_x = nullptr,                          ///<Pointer to the horizontal Gtk::SpinButton element of the GUI
             *spin_y = nullptr;                                          ///<Pointer to the vertical Gtk::SpinButton elements of the GUI
             Gtk::Button* button_okay = nullptr;                         ///<Pointer to the confirmation button of the GUI
 
-            void setup_gui_elements();                                  ///<Inititializes the individual elements of the GUI
+            void setup_gui_elements();                                  ///<Initializes the individual elements of the GUI
 
     };
 
