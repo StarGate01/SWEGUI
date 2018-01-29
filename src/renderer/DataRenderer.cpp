@@ -16,7 +16,7 @@
 using namespace renderer;
 
 DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
-{
+{* Async data loading related functionality is defined in DataRendererThreads.cpp
     hx.computed = true;
     b.enable = true;
     h.enable = true;
