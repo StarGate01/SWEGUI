@@ -51,8 +51,6 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("lbl_realtime", lbl_realtime);
     m_refBuilder->get_widget("mb_simulation_play", mb_simulation_play);
     m_refBuilder->get_widget("mb_simulation_next", mb_simulation_next); 
-    m_refBuilder->get_widget("mb_tools_shoreanalysis", mb_tool_cda);
-    m_refBuilder->get_widget("mb_tools_crosssection", mb_tool_crosssection);
     m_refBuilder->get_widget("mb_help_about", mb_help_about);
     //Get toolbar
     m_refBuilder->get_widget("tbtn_open", tb_openfile);
@@ -61,8 +59,6 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("tbtn_layer", tb_layer);
     m_refBuilder->get_widget("tbtn_renderer", tb_renderer);
     m_refBuilder->get_widget("tbtn_zoompan_reset", tb_zoompan_reset);
-    m_refBuilder->get_widget("tbtn_tool_cda", tb_tool_cda);
-    m_refBuilder->get_widget("tbtn_tool_crosssection", tb_crosssection);
     m_refBuilder->get_widget("tbtn_screenshot", tb_screenshot);
     m_refBuilder->get_widget("spinner_loading", spinner_loading);
     //Get raw data label
@@ -105,8 +101,6 @@ void MainWindow::setup_gui_elements()
     mb_spin_timestamp->signal_value_changed().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_set_timestamp));
     mb_simulation_play->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_play));
     mb_simulation_next->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_next));
-    mb_tool_cda->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_cda));
-    mb_tool_crosssection->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_crosssection));
     mb_help_about->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_about));
     //Event handlers for toolbar
     tb_openfile->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_fileopen));
@@ -115,9 +109,7 @@ void MainWindow::setup_gui_elements()
     tb_layer->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_layer));
     tb_renderer->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));
     tb_zoompan_reset->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_zoompan_reset));
-    tb_tool_cda->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_cda));
     tb_screenshot->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_screenshot));
-    tb_crosssection->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_crosssection));
     //Event handlers probe list
     probelist->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
     probelist->signal_row_activated().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_activate));

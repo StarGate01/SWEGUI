@@ -13,6 +13,12 @@
 #include <gtkmm.h>
 #include "MainWindow.hpp"
 
+
+/**
+ * @brief Main application namespace
+ * 
+ * Contains all major classes of the WWEGUI application
+*/
 namespace swegui
 {
     /**

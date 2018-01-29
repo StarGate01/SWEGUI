@@ -32,6 +32,9 @@ namespace swegui
 
 }
 
+/**
+ * @brief Namespace for custom GTK widgets
+*/
 namespace widgets
 {
 

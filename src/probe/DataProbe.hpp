@@ -19,6 +19,10 @@ namespace renderer
     class DataRenderer;
 }
 
+
+/**
+ * @brief For probe related classes and the probe::ProbeDetailsWindow
+*/
 namespace probe
 {
     /**
