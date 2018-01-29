@@ -143,7 +143,7 @@
 
 \begin{frame}[fragile]{Data visualisation}
 	\begin{figure}
-		\includegraphics[clip, width=80mm]{img/datavis.png}
+		\includegraphics[clip, width=60mm]{img/datavis.png}
 	\end{figure}
 	\begin{itemize}
 		\item Color shading is chosen according to the max/min values
@@ -154,7 +154,7 @@
 
 \begin{frame}[fragile]{Pan and Zoom}
 	\begin{figure}
-		\includegraphics[clip, width=80mm]{img/datavis.png}
+		\includegraphics[clip, width=60mm]{img/zoom.png}
 	\end{figure}
 	\begin{itemize}
 		\item Pan the view by holding the mouse and dragging
@@ -210,6 +210,29 @@
 	\end{itemize}
 \end{frame}
 
+
+\begin{frame}[fragile]{Code Structure}
+\textbf{Three major components:}\\
+\begin{itemize}
+		\item GUI
+			\begin{itemize}
+			\item Glade preset xml
+			\item Button and menu functions
+			\end{itemize}
+		\item Renderer
+			\begin{itemize}
+			\item Data visualization
+			\item Information display top left
+			\end{itemize}
+		\item Probes
+			\begin{itemize}
+			\item Manage creation and data of probes
+			\item Graphs and data output
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
 \begin{frame}[fragile]{UI implementation - toolset}
 	\begin{figure}
 		\includegraphics[clip, width=20mm]{img/GTK_logo.png}
@@ -261,15 +284,6 @@
 	\end{itemize}
 \end{frame}
 
-
-\begin{frame}[fragile]{Code Structure}
-\textbf{Three major classes:}\\
-\begin{itemize}
-		\item GUI
-		\item Renderer
-		\item Probes
-	\end{itemize}
-\end{frame}
 
 \begin{frame}[fragile]{Demonstration}
 	\begin{figure}
