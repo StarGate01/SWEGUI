@@ -1,3 +1,8 @@
+/**
+ * @brief Errors that can occur in the renderer
+ * @file Errors.hpp
+*/
+
 #ifndef RENDER_ERRORS_H
 #define RENDER_ERRORS_H
 

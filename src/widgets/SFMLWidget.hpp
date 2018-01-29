@@ -58,8 +58,8 @@ namespace widgets
        * @brief Allocates the render window according to /p allocation
       */
       virtual void on_size_allocate(Gtk::Allocation &allocation);
-      virtual void on_realize();                                  //TODO: Add documentation
-      virtual void on_unrealize();                                //TODO: Add documentation
+      virtual void on_realize();                                  //Sets the initial attributes for the window and draws the window
+      virtual void on_unrealize();                                //Clears the drawn window
 
       Glib::RefPtr<Gdk::Window> m_refGdkWindow;                   ///<Reference to associated Gdk::Window
 

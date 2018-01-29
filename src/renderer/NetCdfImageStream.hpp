@@ -26,10 +26,10 @@ namespace renderer
             */
             enum Variable: int
             {
-                B = 0, ///<Bathymetry
-                H = 1, ///<Water height
-                Hu = 2, ///<Horizontal flux
-                Hv = 3 ///<Vertical flux
+                B = 0,                  ///<Bathymetry
+                H = 1,                  ///<Water height
+                Hu = 2,                 ///<Horizontal flux
+                Hv = 3                  ///<Vertical flux
             };
 
             /**
@@ -103,15 +103,15 @@ namespace renderer
 
         private:
         
-            sf::Int64 stream_pos;       ///<Current position in the cdf file to retrieve data from
-            io::NetCdfReader* reader = nullptr; ///<cdf reader which reads the input file 
-            float* current_data = nullptr; ///<Pointer to the currently read data from the cdf file
-            bool add_bathymetry = false; ///<Select if bathymetry has be be added to water height for output
-            char header[BMP_HEADER_SIZE] = { 0 }; ///<Header of input file
-            sf::Int64 stream_size; ///<Size of data to stream from the input file
-            bool generate_meta(); ///<Fills in the information defined in struct Meta, false in unsuccessful, otherwise true
-            bool find_minmax(); ///<Finds minimum and maximum vales 
-            void copy_le(int32_t value, char* target);ue, char* target); ///<TODO
+            sf::Int64 stream_pos;                                       ///<Current position in the cdf file to retrieve data from
+            io::NetCdfReader* reader = nullptr;                         ///<cdf reader which reads the input file 
+            float* current_data = nullptr;                              ///<Pointer to the currently read data from the cdf file
+            bool add_bathymetry = false;                                ///<Select if bathymetry has be be added to water height for output
+            char header[BMP_HEADER_SIZE] = { 0 };                       ///<Header of input file
+            sf::Int64 stream_size;                                      ///<Size of data to stream from the input file
+            bool generate_meta();                                       ///<Fills in the information defined in struct Meta, false in unsuccessful, otherwise true
+            bool find_minmax();                                         ///<Finds minimum and maximum vales 
+            void copy_le(int32_t value, char* target);ue, char* target);///<TODO
 
     };
 

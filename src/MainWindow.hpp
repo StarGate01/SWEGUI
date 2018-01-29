@@ -132,17 +132,15 @@ namespace swegui
             void on_action_crosssection();                          ///<Event handler to execute the crosssection tool
             void on_action_screenshot();                            ///<Event handler to export a screenshot
             void on_action_about();                                 ///<Event handler to open the about window
-            //TODO: Implement documentation here
             /**
              * @brief Overloaded event handler to open the MainWindow::dialog_probe_edit dialog
-             * @param path
-             * @param column
+             * @param path The path of the list containing the probes
+             * @param column The column in the probelist that has been clicked
             */
             void on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
-            //TODO: Implement documentation here
             /**
              * @brief Event handler to call the context menu in the MainWindow::probelist
-             * @param event
+             * @param event Item that was clicked
             */
             void on_action_probelist_button_press(GdkEventButton* event);   
             void on_action_probelist_changed();                     ///<Event handler to update the selected probe in the map and the list
