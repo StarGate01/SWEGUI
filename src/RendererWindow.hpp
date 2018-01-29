@@ -48,9 +48,9 @@ namespace swegui
 
             MainWindow* parent;                                                             ///<Pointer to parent MainWindow
             
-            std::string switch_names[8] = 
-                { "probes", "names", "indicators", "coordinates", "zero", "gizmo", "scales", "info" };      ///<String array to simplify access to toggle controls                                
-            Gtk::Switch* switches[8];                                                       ///<Gtk::Switch elements of the GUI
+            std::string switch_names[7] = 
+                { "probes", "names", "coordinates", "zero", "gizmo", "scales", "info" };      ///<String array to simplify access to toggle controls                                
+            Gtk::Switch* switches[7];                                                       ///<Gtk::Switch elements of the GUI
         
             void setup_gui_elements();                                                      ///<Extracts GUI elements from glade file and initializes them  
             void on_action_switch();                                                        ///<Event handler if a switch was triggered

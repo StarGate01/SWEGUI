@@ -49,7 +49,6 @@ namespace renderer
         bool info = true;                                                                           ///<
         bool probes = true;                                                                         ///<
         bool probe_names = true;                                                                    ///<
-        bool probe_indicators = true;                                                               ///<
         bool coordinates = true;                                                                    ///<
         bool zero = true;                                                                           ///<
         bool gizmo = true;                                                                          ///<

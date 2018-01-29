@@ -705,7 +705,7 @@
     <property name="type_hint">normal</property>
     <property name="transient_for">window_main</property>
     <property name="program_name">SWEGUI</property>
-    <property name="version">Alpha 1.0.0</property>
+    <property name="version">Release 1.0.0</property>
     <property name="copyright" translatable="yes">(c) Bellamy, Honal, Wieser 2018</property>
     <property name="website">https://gitlab.lrz.de/ChristophHonal/SWEGUI</property>
     <property name="website_label" translatable="yes">https://gitlab.lrz.de/ChristophHonal/SWEGUI</property>
