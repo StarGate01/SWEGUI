@@ -15,6 +15,7 @@ probe::ProbeColumns MainWindow::probelist_columns;
 MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
     : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder)
 {
+    play_timer = new Timer(std::chrono::milliseconds(PLAY_SPEED), this);
     setup_gui_elements();
 }
 
@@ -132,4 +133,9 @@ void MainWindow::setup_gui_elements()
     data_renderer->signal_select().connect(sigc::mem_fun(this, &MainWindow::on_probe_select));
     data_renderer->signal_done_select_timestep().connect(sigc::mem_fun(this, &MainWindow::on_done_select_timestep));
     data_renderer->signal_done_open().connect(sigc::mem_fun(this, &MainWindow::on_done_open));
+}
+
+void on_action_timer_tick()
+{
+    std::cout << "TICK" << std::endl;
 }
