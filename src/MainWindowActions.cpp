@@ -72,18 +72,18 @@ void MainWindow::on_action_simulation_set_timestamp()
 
 void MainWindow::on_action_simulation_play()
 {
-    if(play_timer == nullptr)
-    {
-        std::cout << "Timer not initialized" << std::endl;
-    }
+    // if(play_timer == nullptr)
+    // {
+    //     std::cout << "Timer not initialized" << std::endl;
+    // }
 
-    if(!play_timer->isRunning())
-    {
-        std::cout << "Starting timer" << std::endl;
-        play_timer->start();
-    }
-    else
-        play_timer->stop();
+    // if(!play_timer->isRunning())
+    // {
+    //     std::cout << "Starting timer" << std::endl;
+    //     play_timer->start();
+    // }
+    // else
+    //     play_timer->stop();
 }
 
 void MainWindow::on_action_simulation_next()

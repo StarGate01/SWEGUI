@@ -15,6 +15,3 @@ env.Append(CPPPATH=['#submodules/swe/src'])
 
 # Build binary
 prog = env.Program(env.program_name, env.src_files)
-
-# Define tests
-# env.CxxTest('SWEGUITests', ['unit_tests/SWEGUITests.t.h', 'renderer/NetCdfImageStream.cpp', 'renderer/Layer.cpp', 'reader/NetCdfReader.cpp'])

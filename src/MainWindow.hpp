@@ -19,7 +19,7 @@
 #include "renderer/DataRenderer.hpp"
 #include "probe/ProbeColumns.hpp"
 #include "widgets/DataFieldWidget.hpp"
-#include "Timer.hpp"
+//#include "Timer.hpp"
 
 #define PATH_TO_MAIN_GUI "/main/src/ui/main.glade"
 #define PLAY_SPEED 2000
@@ -109,7 +109,7 @@ namespace swegui
             RendererWindow* window_renderer = nullptr;              ///<Object pointer to the renderer window
 
             //Play timer
-            Timer* play_timer;                                      ///<Timer for play button            
+            //Timer* play_timer;                                      ///<Timer for play button            
 
             //Handlers
             void setup_gui_elements();                              ///<Grabs all objects from PATH_TO_MAIN_GUI and initilizes event handler 

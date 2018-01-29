@@ -111,7 +111,7 @@ namespace renderer
             sf::Int64 stream_size;                                      ///<Size of data to stream from the input file
             bool generate_meta();                                       ///<Fills in the information defined in struct Meta, false in unsuccessful, otherwise true
             bool find_minmax();                                         ///<Finds minimum and maximum vales 
-            void copy_le(int32_t value, char* target);ue, char* target);///<TODO
+            void copy_le(int32_t value, char* target);                  ///<TODO
 
     };
 
