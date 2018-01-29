@@ -21,17 +21,20 @@ void DataRenderer::on_thread_select_timestamp_notify()
         delete t_select_timestamp;
         t_select_timestamp = nullptr;
     }
+    m_stream.unlock();
     m_signal_done_select_timestamp.emit(r_select_timestamp_async);
 }
 
 void DataRenderer::select_timestamp_async(int timestamp)
 {
+    if(!m_stream.try_lock()) 
+    {
+        m_signal_done_select_timestamp.emit(-1);
+        return;
+    }
     t_select_timestamp = new std::thread([this, timestamp] 
     {
-        {
-            std::lock_guard<std::mutex> lock(m_stream);
-            r_select_timestamp_async = select_timestamp(timestamp);
-        }
+        r_select_timestamp_async = select_timestamp(timestamp);
         dispatcher_select_timestamp.emit();
     });
 }
@@ -86,6 +89,7 @@ void DataRenderer::on_thread_open_notify()
         update_transform();
         update_shader();
     }
+    m_stream.unlock();
     m_signal_done_select_timestamp.emit(r_open_async);
 }
 
@@ -96,20 +100,22 @@ DataRenderer::type_signal_done_open DataRenderer::signal_done_open()
 
 void DataRenderer::open_async(std::string filename)
 {
+    if(!m_stream.try_lock())
+    {
+        m_signal_done_select_timestamp.emit(-1);
+        return;
+    }
     bool ret = netcdf_stream.open(filename);
     if(!ret)
     {
         r_open_async = ERROR_FILE;
-        on_thread_open_notify();
+        m_signal_done_select_timestamp.emit(r_open_async);
         return;
     }
     t_open = new std::thread([this] 
     {
-        {
-            std::lock_guard<std::mutex> lock(m_stream);
-            r_open_async = select_timestamp(0);
-        }
-            dispatcher_open.emit();
+        r_open_async = select_timestamp(0);
+        dispatcher_open.emit();
     });
 }
 

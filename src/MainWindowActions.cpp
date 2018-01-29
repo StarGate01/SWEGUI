@@ -105,6 +105,7 @@ void MainWindow::handle_timestamp_change()
 
 void MainWindow::on_done_select_timestep(int result)
 {
+    mb_spin_timestamp->set_value(data_renderer->get_current_timestamp());
     spinner_loading->property_active() = false;
     spinner_loading->property_visible() = false;
     window_layers->update_ui();
