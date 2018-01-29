@@ -135,16 +135,6 @@ void MainWindow::on_action_zoompan_reset()
     data_renderer->invalidate();
 }
 
-void MainWindow::on_action_cda()
-{
-    std::cout << "Clicked cda" << std::endl;
-}
-
-void MainWindow::on_action_crosssection()
-{
-    std::cout << "Clicked crossection" << std::endl;
-}
-
 void MainWindow::on_action_screenshot()
 {
     //Create sfd
