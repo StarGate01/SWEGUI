@@ -33,7 +33,7 @@ namespace swegui
             RendererWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
             ~RendererWindow() { }                                                           ///<Deletes all layers in RendererWindow::layer_uis
             /**
-             * @brief Creates a new instance of RendererWindow and initilializes them
+             * @brief Creates a new instance of RendererWindow and initializes them
              * @param pa Pointer to parent MainWindow
             */
             static RendererWindow* create(MainWindow* pa);

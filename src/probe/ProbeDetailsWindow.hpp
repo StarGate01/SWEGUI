@@ -52,12 +52,12 @@ namespace probe
         private:
 
             swegui::MainWindow* parent;                             ///<Pointer to parent swegui::MainWindow
-            std::string name;                                       ///<Name of the window, respectivly the associated probe
+            std::string name;                                       ///<Name of the window and respectively the associated probe
 
             Gtk::Window* window_probe = nullptr;                    ///<GTK:Window object that is represented by this class
             widgets::DataFieldWidget* probedata = nullptr;          ///<widgets::DataFieldWidget of the ProbeDetailsWindow::window_probe
 
-            void setup_gui_elements();                              ///<Initilializes the GUI elements
+            void setup_gui_elements();                              ///<Initializes the GUI elements
     };
 
 }

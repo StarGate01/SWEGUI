@@ -67,7 +67,7 @@ namespace swegui
             LayerWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
             ~LayerWindow();                                                         ///<Deletes all layers in LayerWindow::layer_uis
             /**
-             * @brief Creates a new instance of LayerWindow and initilializes them
+             * @brief Creates a new instance of LayerWindow and initializes them
              * @param pa Pointer to parent MainWindow
             */
             static LayerWindow* create(MainWindow* pa);

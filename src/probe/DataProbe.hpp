@@ -98,7 +98,7 @@ namespace probe
             int timestamps = 0;                         ///<Number of timestamps of the simulation
             float** data = nullptr;                     ///<Contains a value for each layer for each datapoint
             bool data_loaded = false;                   ///<True if data is loaded, otherwise false
-            bool data_loading = false;                  ///<True if data loading in progess, otherwise false
+            bool data_loading = false;                  ///<True if data loading in progress, otherwise false
 
             void on_done_batch_sample(int result);      ///< @brief Executed when batch sampling is completed
     };

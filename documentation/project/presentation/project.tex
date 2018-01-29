@@ -199,18 +199,6 @@
 \end{frame}
 
 
-\begin{frame}[fragile]{Cross Section}
-	\begin{figure}
-		\includegraphics[clip, width=80mm]{img/dummy_image.jpg}
-	\end{figure}
-	\begin{itemize}
-		\item Click two points on the rendered view and the cross section between these two is selected
-		\item A separate window shows the cross section graph
-		\item Screen shots can be exported
-	\end{itemize}
-\end{frame}
-
-
 \begin{frame}[fragile]{Code Structure}
 \textbf{Three major components:}\\
 \begin{itemize}
@@ -261,6 +249,18 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{Graphs implementation - toolset}
+	\begin{figure}
+		\includegraphics[clip, width=60mm]{img/cairo.png}
+	\end{figure}
+	\textbf{Cairo and Pango}\\
+	\begin{itemize}
+		\item Probes graph drawing
+		\item Cairo: 2D graphics library, integrates in to GTK
+		\item Pango: Text layout toolset, integrates in to cairo
+	\end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]{Shader implementation - toolset}
 	\begin{figure}
 		\includegraphics[clip, width=50mm]{img/sfml.png}
@@ -270,6 +270,7 @@
 		\item openGL interface
 		\item Rendering view uses openGL to display data
 	\end{itemize}
+	$\rightarrow$ \textbf{self implemented opengl pixelshader}\\
 	\vfill
 	\flushleft
 	{\fontsize{5}{5} \selectfont \url{https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/SFML2.svg/230px-SFML2.svg.png}}
