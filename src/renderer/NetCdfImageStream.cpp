@@ -1,3 +1,8 @@
+/**
+ * @file NetCdfImageStream.cpp
+ * @brief Implements the functionality defined in NetCdfImageStream.hpp
+*/
+
 #include <cmath>
 #include "NetCdfImageStream.hpp"
 

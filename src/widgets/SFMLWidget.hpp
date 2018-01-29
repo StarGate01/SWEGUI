@@ -1,5 +1,5 @@
 /**
- * @file ProbeDetailsWindow.cpp
+ * @file SFMLWidget.hpp
  * @brief Widget to draw the rendered map of the SWE simulation
 */
 

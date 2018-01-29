@@ -1,5 +1,5 @@
 /**
- * Implementation of data probes
+ * @brief Implementation of data probes
  * @file DataProbe.hpp
 */
 
@@ -41,17 +41,22 @@ namespace probe
             DataProbe(float px, float py);
             ~DataProbe();               ///<Deletes the associates ProbeDetailsWindow, if it exists
 
-            float x = 0.f;
-            float y = 0.f;
+            float x = 0.f;              ///<X position of the probe
+            float y = 0.f;              ///<Y position of the probe
 
             /**
              * @brief Returns the sprite which represents the visual for the probe
              * @return The probes corresponding sprite
             */
             sf::Sprite& getSprite();
+            /**
+             * @brief fills row with x and y value
+             * 
+             * @param row Row to fill
+            */
             void fill_row(const Gtk::TreeRow& row);
 
-            ProbeDetailsWindow* window = nullptr;
+            ProbeDetailsWindow* window = nullptr;           ///<Pointer to parent ProbeDetailsWindow
             /**
              * @brief Retrieves the values of the different properties for the probe 
              * and inserts them in to the probe data 
@@ -63,6 +68,11 @@ namespace probe
              * @return True if probe has data associated with it
             */
             bool has_data();
+            /**
+             * @brief Indicates if data is currently loaded
+             * 
+             * @return True, if data is currently loaded. False otherwise
+            */
             bool loads_data();
             /**
              * @brief Gives all the probes data as a vector for the specified layer
