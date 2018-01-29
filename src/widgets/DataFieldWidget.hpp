@@ -16,12 +16,12 @@
 
 #define GRAPH_SCALE 0.7                                             ///<Ratio maximal graph data height to graph window height
 #define COLOR_WATER "#005ce6"                                       ///<Hex color for water
-#define COLOR_SPEED1 "#bbff99"                                      ///<Hex color for speed visualisation (1)
-#define COLOR_SPEED2 "#aaff80"                                      ///<Hex color for speed visualisation (2)
-#define COLOR_SPEED3 "#99ff66"                                      ///<Hex color for speed visualisation (3)
+#define COLOR_SPEED1 "#bbff99"                                      ///<Hex color for speed visualization (1)
+#define COLOR_SPEED2 "#aaff80"                                      ///<Hex color for speed visualization (2)
+#define COLOR_SPEED3 "#99ff66"                                      ///<Hex color for speed visualization (3)
 #define COLOR_DEFAULT "#d3d3d3"                                     ///<Default hex color
 #define LEGEND_FONT_SIZE 10                                         ///<Font size of the min and max values
-#define LEGEND_H_DEVISION 6                                         ///<Maximum horizonal number of reference lines
+#define LEGEND_H_DEVISION 6                                         ///<Maximum horizontal number of reference lines
 #define LEGEND_V_MAX_DEVISION 10                                    ///<Vertical number of reference lines
 #define MIN_OFFSET 0.15                                             ///<Offset between bottom of the graph and its minimal value
 
@@ -75,7 +75,7 @@ namespace widgets
       Gtk::FileChooserDialog* sfd_save = nullptr;                       ///<Pointer to Gtk::FileChooserDialog, where hhe save location for a screenshot can be selected
       Gtk::DrawingArea* drawingarea_chart = nullptr;                    ///<Pointer to the Gtk::DrawingArea of the graph
 
-      void setup_gui_elements();                                        ///<Initilizes the GUI elements
+      void setup_gui_elements();                                        ///<Initializes the GUI elements
 
       void on_dataset_change(void);                                     ///<To be called whenever the dataset of the graph changes
       void on_graph_export(void);                                       ///<Event handler for screenshot export
