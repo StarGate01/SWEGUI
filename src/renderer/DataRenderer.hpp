@@ -22,6 +22,10 @@
 
 #define SCALE_WIDTH 100
 
+
+/**
+ * @brief Map rendering specific classes, such as the custom pixelshader and the DataRenderer class
+*/
 namespace renderer
 {
 
