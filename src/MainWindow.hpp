@@ -10,6 +10,7 @@
 #include <gtkmm/adjustment.h>
 #include <iostream>
 #include <stdexcept>
+#include <chrono>
 #include <stdlib.h>
 #include "LayerWindow.hpp"
 #include "RendererWindow.hpp"
@@ -18,8 +19,10 @@
 #include "renderer/DataRenderer.hpp"
 #include "probe/ProbeColumns.hpp"
 #include "widgets/DataFieldWidget.hpp"
+#include "Timer.hpp"
 
 #define PATH_TO_MAIN_GUI "/main/src/ui/main.glade"
+#define PLAY_SPEED 2000
 
 namespace swegui
 {
@@ -48,6 +51,7 @@ namespace swegui
             static MainWindow* create();
 
             renderer::DataRenderer* data_renderer = nullptr; ///< DataRenderer of this window
+            void on_action_timer_tick();                             ///<Event handler for timer tick
 
         private:
 
@@ -108,6 +112,9 @@ namespace swegui
             LayerWindow* window_layers = nullptr;                   ///<Object pointer to the layer window
             RendererWindow* window_renderer = nullptr;              ///<Object pointer to the renderer window
 
+            //Play timer
+            Timer* play_timer;                                      ///<Timer for play button            
+
             //Handlers
             void setup_gui_elements();                              ///<Grabs all objects from PATH_TO_MAIN_GUI and initilizes event handler 
             //Actual event handlers
@@ -142,7 +149,6 @@ namespace swegui
             void on_action_probelist_context_edit();                ///<Event handler to update the probes when edited
             void on_probe_remove();                                 ///<Event handler to remove the currently selected probe in data_renderer->active_probe
             void on_action_button_probe_add();                      ///<Event handler to open the MainWindow::dialog_probe_edit to add a new probe
-            //TODO: Implement documentation here
             /**
              * @brief Updates probe list
              * @param added True, if new probe was added
