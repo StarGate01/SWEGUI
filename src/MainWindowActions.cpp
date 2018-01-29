@@ -1,3 +1,11 @@
+/**
+ * @file MainWindowActions.cpp
+ * @brief Implements path of the functionality defined in MainWindow.hpp, which is related to event handling
+ * 
+ * Implementation of the general methods are implemented in MainWindow.cpp
+ * Implementation of some probe related methods are outsourced into MainWindowProbe.cpp
+*/
+
 #include "MainWindow.hpp"
 
 using namespace swegui;
@@ -6,30 +14,27 @@ void MainWindow::on_action_fileopen()
 {
     if(dialog_open->run() == Gtk::RESPONSE_OK)
     {
-        //Close all probes
         reset_probes();
         std::string filename = dialog_open->get_filename();
-        int res = data_renderer->open(filename);
-        //Show message box if opening file fails
-        if(res != 0)
-        {
-            Gtk::MessageDialog d(*this, "Ooooops! Opening this file failed. Sorry!");
-            d.run();
-            dialog_open->hide();
-            return;
-        }
-        cout << "Open result: " << res << endl;
-        adjustment_timestamp->set_upper(data_renderer->meta_info->timestamps - 1);    //Set max frame of spin_timestamp
-        lbl_realtime->set_text(std::to_string(data_renderer->get_current_time()));
-        window_layers->update_ui();
+        data_renderer->open_async(filename);
+        spinner_loading->property_active() = true;
     }
     dialog_open->hide();
 }
 
-//TODO: Remove method
-void MainWindow::open_file_view(const Glib::RefPtr<Gio::File>& file)
+void MainWindow::on_done_open(int result)
 {
-    //data_renderer->open(file->get_path());
+    spinner_loading->property_active() = false;
+    if(result != 0)
+    {
+        Gtk::MessageDialog d(*this, "Ooooops! Opening this file failed. Sorry!");
+        d.run();
+        dialog_open->hide();
+        return;
+    }
+    adjustment_timestamp->set_upper(data_renderer->meta_info->timestamps - 1);    //Set max frame of spin_timestamp
+    lbl_realtime->set_text(std::to_string(data_renderer->get_current_time()));
+    window_layers->update_ui();
 }
 
 void MainWindow::on_action_quit()
@@ -80,7 +85,14 @@ void MainWindow::on_action_simulation_next()
 
 void MainWindow::handle_timestamp_change()
 {
-    data_renderer->select_timestamp(mb_spin_timestamp->get_value());
+    data_renderer->select_timestamp_async(mb_spin_timestamp->get_value());
+    spinner_loading->property_active() = true;
+}
+
+void MainWindow::on_done_select_timestep(int result)
+{
+    spinner_loading->property_active() = false;
+    window_layers->update_ui();
     probedata->update_ui();
     for (auto const& probe : data_renderer->probes)
     {
@@ -120,7 +132,17 @@ void MainWindow::on_action_crosssection()
 
 void MainWindow::on_action_screenshot()
 {
-    std::cout << "Clicked screenshot export button" << std::endl;
+    //Create sfd
+    if(dialog_save->run() == Gtk::RESPONSE_OK)
+    {
+        std::string filename = dialog_save->get_filename();
+        if(!data_renderer->save_screenshot(filename))
+        {
+            Gtk::MessageDialog d(*this, "Ooooops! Saving this screenshot failed. Sorry!");
+            d.run();
+        }
+    }
+    dialog_save->hide();
 }
 
 void MainWindow::on_action_about()

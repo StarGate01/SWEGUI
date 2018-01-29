@@ -3,7 +3,6 @@
  * @brief Editing dialog for probes
 */
 
-
 #ifndef EDIT_PROBE_DIALOG_H
 #define EDIT_PROBE_DIALOG_H
 
@@ -14,7 +13,7 @@
 
 namespace swegui
 {
-
+    
     class MainWindow;
 
     /**
@@ -26,11 +25,10 @@ namespace swegui
     {
 
         public:
-        //TODO: Expand documentation
             /**
              * @brief Inherited constructor of Gtk::Dialog
              * @param cobject
-             * @refBuilder 
+             * @refBuilder Gtk::Builder of the parent window
             */
             EditProbeDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
             

@@ -12,6 +12,8 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
     b.enable = true;
     h.enable = true;
     h.clip = true;
+    hx.clip_min = 0.f;
+    hx.clip_max = 1.f;
 
     meta_info = &netcdf_stream.meta_info;
 
@@ -68,12 +70,17 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
 
     widget.signal_draw().connect(sigc::bind_return(sigc::hide(sigc::mem_fun(this, &DataRenderer::draw)), true));
     widget.signal_size_allocate().connect(sigc::hide(sigc::mem_fun(this, &DataRenderer::resize_view)));
+
     widget.add_events(Gdk::EventMask::BUTTON_PRESS_MASK | Gdk::EventMask::BUTTON_RELEASE_MASK
         | Gdk::EventMask::BUTTON2_MOTION_MASK | Gdk::EventMask::BUTTON3_MOTION_MASK | Gdk::EventMask::SCROLL_MASK);
     widget.signal_button_press_event().connect(sigc::mem_fun(this, &DataRenderer::on_button_press_event));
     widget.signal_button_release_event().connect(sigc::mem_fun(this, &DataRenderer::on_button_release_event));
     widget.signal_scroll_event().connect(sigc::mem_fun(this, &DataRenderer::on_scroll_event));
     widget.signal_motion_notify_event().connect(sigc::mem_fun(this, &DataRenderer::on_motion_notify_event));
+
+    dispatcher_select_timestamp.connect(sigc::mem_fun(this, &DataRenderer::on_thread_select_timestamp_notify));
+    dispatcher_open.connect(sigc::mem_fun(this, &DataRenderer::on_thread_open_notify));
+    dispatcher_sample_batch.connect(sigc::mem_fun(this, &DataRenderer::on_thread_sample_batch_notify));
 }
 
 DataRenderer::type_signal_update DataRenderer::signal_update()
@@ -115,4 +122,14 @@ string DataRenderer::float_to_string(float value)
     stringstream ss;
     ss << value;
     return ss.str();
+}
+
+bool DataRenderer::save_screenshot(string filename)
+{
+    sf::Vector2u windowSize = widget.renderWindow.getSize();
+    sf::Texture texture;
+    texture.create(windowSize.x, windowSize.y);
+    texture.update(widget.renderWindow);
+    sf::Image screenshot = texture.copyToImage();
+    return screenshot.saveToFile(filename);
 }

@@ -1,3 +1,8 @@
+/**
+ * @file SFMLWidget.cpp
+ * @brief Implements the functionality defined in SFMLWidget.hpp
+*/
+
 #include "SFMLWidget.hpp"
 #include "../MainWindow.hpp"
 #include <gdk/gdkx.h>

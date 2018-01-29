@@ -52,7 +52,8 @@
         "valarray": "cpp",
         "vector": "cpp",
         "map": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "mutex": "cpp"
     },
     "typescript.tsc.autoDetect": "off",
     "jake.autoDetect": "off",

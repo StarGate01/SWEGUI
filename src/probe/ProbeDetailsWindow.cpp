@@ -1,4 +1,8 @@
-#include <iostream>
+/**
+ * @file ProbeDetailsWindow.cpp
+ * @brief Implements the functionality defined in ProbeDetailsWindow.hpp
+*/
+
 #include "ProbeDetailsWindow.hpp"
 #include "../MainWindow.hpp"
 

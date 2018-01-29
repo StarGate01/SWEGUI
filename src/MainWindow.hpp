@@ -1,6 +1,6 @@
 /**
  * @file MainWindow.hpp
- * @brief Main GUI-Window of the application
+ * @brief Main GUI-Window of the SWEGUI application
 */
 
 #ifndef GUI_APPLICATION_WINDOW_H
@@ -23,7 +23,9 @@
 
 namespace swegui
 {
-
+    /**
+     * @brief Main GUI-Window of the SWEGUI application
+    */
     class MainWindow : public Gtk::ApplicationWindow
     {
         public:
@@ -45,9 +47,6 @@ namespace swegui
             */
             static MainWindow* create();
 
-            //TODO: Remove method
-            void open_file_view(const Glib::RefPtr<Gio::File>& file);
-
             renderer::DataRenderer* data_renderer = nullptr; ///< DataRenderer of this window
 
         private:
@@ -55,6 +54,7 @@ namespace swegui
             //Menubar
             Gtk::MenuBar* menubar_main = nullptr;                   ///<Object pointer to menubar
             Gtk::MenuItem* mb_file_open = nullptr;                  ///<Object pointer to file open button in menubar
+            Gtk::MenuItem* mb_file_save_screenshot = nullptr;       ///<Object pointer to save screenshot button in menubar
             Gtk::MenuItem* mb_file_quit = nullptr;                  ///<Object pointer to quit button in menubar
             Gtk::MenuItem* mb_view_layer = nullptr;                 ///<Object pointer to layer button in menubar
             Gtk::MenuItem* mb_view_renderer = nullptr;              ///<Object pointer to renderer button in menubar
@@ -71,7 +71,6 @@ namespace swegui
             Gtk::MenuItem* mb_tool_crosssection = nullptr;          ///<Object pointer to crosssection tool button in menubar
             Gtk::MenuItem* mb_help_about = nullptr;                 ///<Object pointer to About button in menubar
             //Toolbar
-            Gtk::Toolbar* toolbar_main = nullptr;                   ///<Object pointer to toolbar           //TODO: Remove object
             Gtk::ToolButton* tb_openfile = nullptr;                 ///<Object pointer to open file button in toolbar
             Gtk::ToolButton* tb_simulation_goto_start = nullptr;    ///<Object pointer to simulation go to start button in toolbar
             Gtk::ToolButton* tb_simulation_play = nullptr;          ///<Object pointer to play button in toolbar
@@ -81,6 +80,7 @@ namespace swegui
             Gtk::ToolButton* tb_tool_cda = nullptr;                 ///<Object pointer to coastal damage analysis tool button in toolbar
             Gtk::ToolButton* tb_crosssection = nullptr;             ///<Object pointer to crosssection tool button in toolbar
             Gtk::ToolButton* tb_screenshot = nullptr;               ///<Object pointer to screenshot export button in toolbar
+            Gtk::Spinner* spinner_loading = nullptr;
             //Raw data field
             Gtk::Alignment* alignment_frame_probedata = nullptr;    ///<Object pointer to frame of raw-data-field
             widgets::DataFieldWidget* probedata = nullptr;          ///<Object pointer to widgets::DataFieldWidget of raw-data-field
@@ -101,6 +101,7 @@ namespace swegui
             widgets::SFMLWidget* sfml_area = nullptr;               ///<Object pointer to the sfml widget (where the map is rendered)
             //Additional dialogs
             Gtk::FileChooserDialog* dialog_open = nullptr;          ///<Object pointer to the Gtk::FileChooserDialog, where the user can select a file to open
+            Gtk::FileChooserDialog* dialog_save = nullptr;          ///<Object pointer to the Gtk::FileChooserDialog, where the user can select a file to save
             Gtk::AboutDialog* dialog_about = nullptr;               ///<Object pointer to the about dialog
             EditProbeDialog* dialog_probe_edit = nullptr;           ///<Object pointer to the probe edit dialog
             //Additional windows
@@ -136,17 +137,20 @@ namespace swegui
              * @brief Event handler to call the context menu in the MainWindow::probelist
              * @param event
             */
-            void on_action_probelist_button_press(GdkEventButton* event);
+            void on_action_probelist_button_press(GdkEventButton* event);   
             void on_action_probelist_changed();                     ///<Event handler to update the selected probe in the map and the list
             void on_action_probelist_context_edit();                ///<Event handler to update the probes when edited
             void on_probe_remove();                                 ///<Event handler to remove the currently selected probe in data_renderer->active_probe
-            void on_action_button_probe_add();                      ///<Event handler to open the MainWindow::dialog_probe_edit to add a new probe 
+            void on_action_button_probe_add();                      ///<Event handler to open the MainWindow::dialog_probe_edit to add a new probe
             //TODO: Implement documentation here
             /**
-             * @brief 
+             * @brief Updates probe list
+             * @param added True, if new probe was added
             */
             void on_probe_update(bool added);                                                                   
             void on_probe_select();                                 ///<Event handler to handle selection of new item in probe list and raw-data-window
+            void on_done_select_timestep(int result);               ///<Select timestamp after loading operation is complete
+            void on_done_open(int result);                          ///<Event handler to open file when loading is complete
 
         protected:
 
@@ -171,7 +175,7 @@ namespace swegui
             /**
              * @brief Opens a new window, similar to MainWindow::dialog_probe_edit with data of the active probe, specified in  data_renderer::active_probe_name
             */
-            void open_probe_ui();
+            void open_probe_ui();                                   ///<Opens a new window with the data of the currently selected probe in MainWindow::data_renderer
             void handle_timestamp_change();                         ///<Handles switching to another timestamp by updating the UI and the shader
             void reset_probes();                                    ///<Removes all probes from the list and the map, as well clearing the data_renderer::active_probe
     };

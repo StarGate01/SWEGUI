@@ -1,6 +1,8 @@
 /**
  * @file Application.hpp
  * @brief Main class of the SWEGUI application
+ * 
+ * Main entry point for SWEGUI
 */
 
 
@@ -30,11 +32,6 @@ namespace swegui
         protected:
             Application();                  ///<Default constructor
             void on_activate() override;    ///<Event handler on activation. Creates and shows the main GUI
-            //TODO: Expand description
-            /**
-             * @brief Event handler that launches a main GUI with each of the files passed in \p files
-            */
-            void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
 
         private:
             /**
@@ -42,6 +39,10 @@ namespace swegui
              * @return Pointer to new instance of MainWindow
             */
             MainWindow* create_appwindow();
+            /**
+             * @brief Event handler for hiding the window
+             * @param window Reference to the Gtk::Window instance
+            */
             void on_hide_window(Gtk::Window* window);
     };
 

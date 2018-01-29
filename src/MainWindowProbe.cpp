@@ -1,3 +1,11 @@
+/**
+ * @file MainWindowProbe.cpp
+ * @brief Implements path of the functionality defined in MainWindow.hpp, which is related to probes
+ * 
+ * Implementation of the general methods are implemented in MainWindow.cpp
+ * Implementation of some event handler related methods are outsourced into MainWindowActions.cpp
+*/
+
 #include "MainWindow.hpp"
 
 using namespace swegui;
@@ -37,7 +45,7 @@ void MainWindow::handle_add_edit()
     if (data_renderer->probes.find(name) == data_renderer->probes.end())
     {
         if(dialog_probe_edit->existing) on_probe_remove();
-        probe::DataProbe probe(dialog_probe_edit->get_x(), dialog_probe_edit->get_y(), data_renderer);
+        probe::DataProbe probe(dialog_probe_edit->get_x(), dialog_probe_edit->get_y());
         data_renderer->probes[name] = probe;
         added = true;
     }

@@ -1,3 +1,11 @@
+/**
+ * @file MainWindow.cpp
+ * @brief Implements path of the functionality defined in MainWindow.hpp
+ * 
+ * Implementation of some probe related methods are outsourced into MainWindowProbe.cpp
+ * Implementation of some event handler related methods are outsourced into MainWindowActions.cpp
+*/
+
 #include "MainWindow.hpp"
 
 using namespace swegui;
@@ -30,6 +38,7 @@ void MainWindow::setup_gui_elements()
     //Get menu bar
     m_refBuilder->get_widget("main_menubar", menubar_main);
     m_refBuilder->get_widget("mb_file_open", mb_file_open);
+    m_refBuilder->get_widget("mb_file_save_screenshot", mb_file_save_screenshot);
     m_refBuilder->get_widget("mb_file_quit", mb_file_quit);
     m_refBuilder->get_widget("mb_view_layer", mb_view_layer);
     m_refBuilder->get_widget("mb_view_renderer", mb_view_renderer);
@@ -45,7 +54,6 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("mb_tools_crosssection", mb_tool_crosssection);
     m_refBuilder->get_widget("mb_help_about", mb_help_about);
     //Get toolbar
-    m_refBuilder->get_widget("main_toolbar", toolbar_main);
     m_refBuilder->get_widget("tbtn_open", tb_openfile);
     m_refBuilder->get_widget("tbtn_simulation_goto_start", tb_simulation_goto_start);
     m_refBuilder->get_widget("tbtn_simulation_play", tb_simulation_play);
@@ -55,6 +63,7 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("tbtn_tool_cda", tb_tool_cda);
     m_refBuilder->get_widget("tbtn_tool_crosssection", tb_crosssection);
     m_refBuilder->get_widget("tbtn_screenshot", tb_screenshot);
+    m_refBuilder->get_widget("spinner_loading", spinner_loading);
     //Get raw data label
     //m_refBuilder->get_widget("lbl_info", lbl_raw_data);
     m_refBuilder->get_widget("alignment_frame_probedata", alignment_frame_probedata);
@@ -76,6 +85,7 @@ void MainWindow::setup_gui_elements()
     data_renderer = new renderer::DataRenderer(*sfml_area);
     //Dialogs
     m_refBuilder->get_widget("dialog_open", dialog_open);
+    m_refBuilder->get_widget("dialog_save", dialog_save);
     m_refBuilder->get_widget("dialog_about", dialog_about);
     dialog_probe_edit = EditProbeDialog::create(this);
     //Windows
@@ -84,9 +94,10 @@ void MainWindow::setup_gui_elements()
 
     //Event handlers for menubar
     mb_file_open->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_fileopen));
+    mb_file_save_screenshot->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_screenshot));
     mb_file_quit->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_quit));
     mb_view_layer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_layer));
-    mb_view_renderer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));
+    mb_view_renderer->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_renderer));  
     mb_view_reset->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_zoompan_reset));
     mb_simulation_goto_start->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_goto_start));
     mb_simulation_prev->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_prev));
@@ -106,7 +117,6 @@ void MainWindow::setup_gui_elements()
     tb_tool_cda->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_cda));
     tb_screenshot->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_screenshot));
     tb_crosssection->signal_clicked().connect(sigc::mem_fun(this, &MainWindow::on_action_crosssection));
-    
     //Event handlers probe list
     probelist->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
     probelist->signal_row_activated().connect(sigc::mem_fun(this, &MainWindow::on_action_probelist_activate));
@@ -120,4 +130,6 @@ void MainWindow::setup_gui_elements()
     //Event handlers for sfml widget
     data_renderer->signal_update().connect(sigc::mem_fun(this, &MainWindow::on_probe_update));
     data_renderer->signal_select().connect(sigc::mem_fun(this, &MainWindow::on_probe_select));
+    data_renderer->signal_done_select_timestep().connect(sigc::mem_fun(this, &MainWindow::on_done_select_timestep));
+    data_renderer->signal_done_open().connect(sigc::mem_fun(this, &MainWindow::on_done_open));
 }

@@ -61,8 +61,8 @@ namespace swegui
 
             /**
              * @brief Inherited constructor from Gtk::Window
-             * @param cobject
-             * @param refBuilder
+             * @param cobject Calling object
+             * @param refBuilder Reference to Gtk::Builder object of the parent window
             */
             LayerWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
             ~LayerWindow();                                                         ///<Deletes all layers in LayerWindow::layer_uis

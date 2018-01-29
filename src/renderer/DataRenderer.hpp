@@ -3,6 +3,8 @@
 
 #include <gtkmm.h>
 #include <glibmm.h>
+#include <mutex>
+#include <thread>
 #include <map>
 #include "../widgets/SFMLWidget.hpp"
 #include "NetCdfImageStream.hpp"
@@ -52,11 +54,9 @@ namespace renderer
 
       DataRenderer(widgets::SFMLWidget &widget);
 
-      int open(std::string filename);
-      int select_timestamp(int timestamp);
       void update_shader();
       void invalidate();
-      float sample(NetCdfImageStream::Variable var, float x, float y, int timestamp = -1);
+      float sample(NetCdfImageStream::Variable var, float x, float y, int timestamp = -1, bool lock = true);
       int get_current_timestamp();
       float get_current_time();
 
@@ -69,10 +69,27 @@ namespace renderer
       typedef sigc::signal<void> type_signal_select;
       type_signal_select signal_select();
 
+      bool save_screenshot(string filename);
+
+      void select_timestamp_async(int timestamp);
+      typedef sigc::signal<void, int> type_signal_done_select_timestamp;
+      type_signal_done_select_timestamp signal_done_select_timestep();
+
+      void open_async(std::string filename);
+      typedef sigc::signal<void, int> type_signal_done_open;
+      type_signal_done_open signal_done_open();
+
+      void sample_batch_async(float x, float y, float**& data);
+      typedef sigc::signal<void, int> type_signal_done_sample_batch;
+      type_signal_done_sample_batch signal_done_sample_batch();
+
     protected:
     
       type_signal_update m_signal_update;
       type_signal_select m_signal_select;
+      type_signal_done_select_timestamp m_signal_done_select_timestamp;
+      type_signal_done_open m_signal_done_open;
+      type_signal_done_sample_batch m_signal_done_sample_batch;
 
     private:
 
@@ -99,6 +116,16 @@ namespace renderer
       sf::Vector2i last_mouse;
       bool pan_active = false;
 
+      mutable std::mutex m_stream;
+      std::thread* t_select_timestamp = nullptr, *t_open = nullptr, *t_sample_batch = nullptr;
+      Glib::Dispatcher dispatcher_select_timestamp, dispatcher_open, dispatcher_sample_batch;
+      int r_select_timestamp_async = 0, r_open_async = 0, r_sample_batch = 0;
+      void on_thread_select_timestamp_notify();
+      void on_thread_open_notify();
+      void on_thread_sample_batch_notify();
+
+      int select_timestamp(int timestamp);
+
       void draw();
       void resize_view();
       int select_load(NetCdfImageStream::Variable variable, int index, Layer& lay);
@@ -110,7 +137,6 @@ namespace renderer
       void load_texture(std::string path, sf::Texture* tex);
       void update_coordinates();
       string float_to_string(float value);
-
   };
 
 }

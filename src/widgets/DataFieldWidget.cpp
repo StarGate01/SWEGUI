@@ -1,3 +1,8 @@
+/**
+ * @file DataFieldWidget.cpp
+ * @brief Implements the functionality defined in DataFieldWidget.hpp
+*/
+
 #include <iostream>
 #include <sstream>
 #include <math.h>
@@ -30,18 +35,18 @@ void DataFieldWidget::setup_gui_elements()
     for(int i = 0; i < 5; i++) m_refBuilder->get_widget("lbl_"+layer_names[i], labels[i]);
     
     m_refBuilder->get_widget("cb_layer", cb_layer);
+    m_refBuilder->get_widget("btn_save_graph", btn_save_graph);
+    m_refBuilder->get_widget("sfd_graph_export", sfd_save);
     m_refBuilder->get_widget("drawingarea_chart", drawingarea_chart);
 
+    // widget->set_transient_for(*(widget->parent));
+    sfd_save->set_transient_for(*parent);
+
     drawingarea_chart->signal_draw().connect(sigc::mem_fun(this, &DataFieldWidget::on_chart_draw));
-    cb_layer->signal_changed().connect(sigc::mem_fun(this, &DataFieldWidget::on_dataset_change));           //TODO: Add parameter to function
+    cb_layer->signal_changed().connect(sigc::mem_fun(this, &DataFieldWidget::on_dataset_change));
+    btn_save_graph->signal_clicked().connect(sigc::mem_fun(this, &DataFieldWidget::on_graph_export));
 
     update_ui();
-}
-
-void DataFieldWidget::populate_data()
-{
-    //todo fill presampled array thingy
-    
 }
 
 void DataFieldWidget::update_ui()
@@ -49,7 +54,7 @@ void DataFieldWidget::update_ui()
     if(name != "")
     {
         probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
-        
+
         //Set labels
         float bathy = parent->data_renderer->sample((renderer::NetCdfImageStream::Variable)0, probe->x, probe->y);
         labels[0]->set_text(std::to_string(bathy));
@@ -69,8 +74,16 @@ void DataFieldWidget::update_ui()
                 renderer::NetCdfImageStream::Variable::Hv, probe->x, probe->y), 2)));
         labels[4]->set_text(std::to_string(hx));
 
-        //Update graph
-        on_dataset_change();
+        if(!probe->has_data() && !probe->loads_data()) 
+        {
+            probe->signal_done_fill_data().connect(sigc::mem_fun(this, &DataFieldWidget::update_ui));
+            probe->fill_data_async(parent->data_renderer);
+        }
+        else
+        {
+            //Update graph
+            on_dataset_change();
+        }
     }
     else reset_gui();
 }
@@ -85,14 +98,49 @@ void DataFieldWidget::reset_gui()
 void DataFieldWidget::on_dataset_change(void)
 {
     if(drawingarea_chart == nullptr || !drawingarea_chart->get_window()) return;
-    on_chart_draw(drawingarea_chart->get_window()->create_cairo_context());
+    queue_draw();
+}
+
+void DataFieldWidget::on_graph_export(void)
+{
+    if(sfd_save->run() == Gtk::RESPONSE_OK)
+    {
+        std::string filename = sfd_save->get_filename();
+        save_screenshot(filename);
+    }
+    sfd_save->hide();
 }
 
 bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
+    if(name == "") return true;
     probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
 
-    if(!probe->has_data()) return true;                     //Check if data is available
+    //Setup rendering
+    Gtk::Allocation allocation = drawingarea_chart->get_allocation();
+    const int width = allocation.get_width();
+    const int height = allocation.get_height();
+    Gdk::Color color(COLOR_DEFAULT);
+
+    if(!probe->has_data()) 
+    {
+        cr->set_source_rgb(0,0,0);
+        Pango::FontDescription font;
+        font.set_family("Monospace");
+        font.set_weight(Pango::WEIGHT_BOLD);
+        // http://developer.gnome.org/pangomm/unstable/classPango_1_1Layout.html
+        auto layout = create_pango_layout("Loading data...");
+        int text_width;
+        int text_height;
+        //get the text dimensions (it updates the variables -- by reference)
+        layout->get_pixel_size(text_width, text_height);
+        // Position the text in the middle
+        cr->move_to((width-text_width)/2, (height-text_height)/2);
+        layout->show_in_cairo_context(cr);
+        return true;
+    }
+
+    //Setup for data rendering
     int layer = cb_layer->get_active_row_number();          //Get current layer
     std::vector<float> data = probe->get_all_data(layer);   //Get data
     if(data.size() <= 0) return false;                      //Return if data is empty
@@ -101,11 +149,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     float max_value = *std::max_element(data.begin(), data.end());
     float min_value = *std::min_element(data.begin(), data.end());
 
-    //Setup rendering
-    Gtk::Allocation allocation = drawingarea_chart->get_allocation();
-    const int width = allocation.get_width();
-    const int height = allocation.get_height();
-    Gdk::Color color(COLOR_DEFAULT);
+    
 
     int min_t = -1;
     int max_t = -1;
@@ -116,14 +160,24 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->paint();
 
     //Do not draw graph if bathymetry > 0
-    if(probe->get_data(0, 0) > 0)
+    if(false) //probe->get_data(0, 0) > 0)
     {
-        cr->set_source_rgb(0.5,0,0);
-        cr->move_to(width / 3.5, height / 2.2);
-        cr->set_font_size(height / 3);
-        cr->show_text("DRY CELL");
+        cr->set_source_rgb(0,0,0);
+        Pango::FontDescription font;
+        font.set_family("Monospace");
+        font.set_weight(Pango::WEIGHT_BOLD);
+        // http://developer.gnome.org/pangomm/unstable/classPango_1_1Layout.html
+        auto layout = create_pango_layout("This probe is dry");
+        int text_width;
+        int text_height;
+        //get the text dimensions (it updates the variables -- by reference)
+        layout->get_pixel_size(text_width, text_height);
+        // Position the text in the middle
+        cr->move_to((width-text_width)/2, (height-text_height)/2);
+        layout->show_in_cairo_context(cr);
         return true;
     }
+    //return true;
 
     cr->set_line_width(2.0);
 
@@ -157,7 +211,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->fill();
 
     //Draw max_value
-    cr->set_line_width(8);
+    cr->set_line_width(4);
     if(max_t >= 0)
     {
         cr->set_source_rgb(1,0.2,0.7);
@@ -169,8 +223,8 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
             height);
         cr->stroke();
     }
-    //Draw min line
-    if(min_t >= 0)
+    //Draw min line (if not total flux)
+    if(min_t >= 0 && layer != 3)
     {
         cr->set_source_rgb(0.3,0.3,1);
         cr->move_to(
@@ -203,14 +257,12 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->stroke();
 
     float zero_height = calculate_graph_height(0, min_value, max_value, GRAPH_SCALE, height);
-    if(layer != 4)
-    {
-        //Draw zero line
-        cr->set_source_rgba(0.2, 0.2, 0.2, 1.0);
-        cr->move_to(0, zero_height);
-        cr->line_to(width, zero_height);
-        cr->stroke();
-    }
+
+    //Draw zero line
+    cr->set_source_rgba(0.2, 0.2, 0.2, 1.0);
+    cr->move_to(0, zero_height);
+    cr->line_to(width, zero_height);
+    cr->stroke();
 
     //Draw timestamp line
     cr->set_line_width(5);
@@ -223,24 +275,32 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     //Draw legend
     cr->set_source_rgb(0.0, 0.0, 0.0);
     cr->set_font_size(LEGEND_FONT_SIZE);
-    cr->move_to(5, LEGEND_FONT_SIZE * 1.05);
+    cr->move_to(5, (1 - GRAPH_SCALE) * height - MIN_OFFSET * height + 0.5 * LEGEND_FONT_SIZE);
     cr->show_text(std::to_string(max_value));
     if(layer != 4)
     {
         cr->move_to(5, zero_height - 3);
         cr->show_text(std::to_string(0.0000));
     }
-    cr->move_to(5, height - 3);
+    cr->move_to(5, (GRAPH_SCALE) * height + MIN_OFFSET * height + 0.5 * LEGEND_FONT_SIZE);
     cr->show_text(std::to_string(min_value));
     return true;
 }
 
 float DataFieldWidget::calculate_graph_height(float data, float min, float max, float scale, int graph_height)
 {
-    return graph_height - MIN_OFFSET * graph_height - ((data-min) / (max - min)) * scale * (float) graph_height;
+    return (1-MIN_OFFSET-(data-min) / (max-min) * scale) * (float) graph_height;
+    //return graph_height - MIN_OFFSET * (float) graph_height - ((data-min) / (max - min)) * scale * (float) graph_height;
 }
 
 float DataFieldWidget::calculate_graph_width(int timestep, int timesteps_total, int graph_width)
 {
     return ((float) timestep / ((float)timesteps_total - 1)) * (float)graph_width;
+}
+
+void DataFieldWidget::save_screenshot(std::string path)
+{
+    const Cairo::RefPtr<Cairo::Context>& cr = drawingarea_chart->get_window()->create_cairo_context();
+    auto surface = cr->get_target();
+    surface->write_to_png(path);
 }
