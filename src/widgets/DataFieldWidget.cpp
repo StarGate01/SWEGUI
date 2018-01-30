@@ -180,7 +180,6 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
         layout->show_in_cairo_context(cr);
         return true;
     }
-    //return true;
 
     cr->set_line_width(2.0);
 
@@ -192,19 +191,30 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
         case 2: cr->set_source_rgb(179.0/255.0, 255.0/255.0, 102.0/255.0); break; //V flux
         case 3: cr->set_source_rgb(140.0/255.0, 255.0/255.0, 102.0/255.0); break; //T flux
     }
-    
+
     //Move to lower left corner
     cr->move_to(0, height);
 
     //Iterate though items
-    for(int t = 0; t < (int)data.size(); t++)
-    {
-        cr->line_to(
-            calculate_graph_width(t, (int) data.size(), width), 
-            calculate_graph_height(data[t], min_value, max_value, GRAPH_SCALE, height));
-        if(min_value == data[t]) min_t = t;
-        else if(max_value == data[t]) max_t = t;
+    if(min_value != max_value)
+    {    
+        for(int t = 0; t < (int)data.size(); t++)
+        {
+            cr->line_to(
+                calculate_graph_width(t, (int) data.size(), width), 
+                calculate_graph_height(data[t], min_value, max_value, GRAPH_SCALE, height));
+            if(min_value == data[t]) min_t = t;
+            else if(max_value == data[t]) max_t = t;
+        }
     }
+    else    //min_value == max_value
+    {
+        cr->line_to(0, height/2);
+        cr->line_to(width, height/2);
+        cr->line_to(width, height);
+        cr->fill();
+    }
+    
 
     //Close path
     double c_x, c_y;
