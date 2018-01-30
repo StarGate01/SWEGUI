@@ -25,7 +25,8 @@
 #define PATH_TO_GIZMO_TEX               "/main/src/ui/gizmo.png"
 #define PATH_TO_ZERO_TEX                "/main/src/ui/zero.png"
 
-#define SCALE_WIDTH 100
+#define SCALE_WIDTH 200
+#define SCALE_HEIGHT 15
 
 
 /**

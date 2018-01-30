@@ -69,8 +69,13 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
     zero_rect.setTexture(&zero_tex);
     zero_rect.setOrigin(12.5, 12.5);
 
-    scale_rect.setSize(sf::Vector2f(100, 20));
+    scale_rect.setSize(sf::Vector2f(SCALE_WIDTH, SCALE_HEIGHT));
     scale_bg_rect.setFillColor(sf::Color(0, 0, 0, 70));
+
+    scale_text.setFont(font);
+    scale_text.setCharacterSize(16);
+    scale_text.setColor(sf::Color::White);
+    scale_text.setOrigin(0.f, 0.f);
 
     coordinate_text.setFont(font);
     coordinate_text.setCharacterSize(12);

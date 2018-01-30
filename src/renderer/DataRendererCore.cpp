@@ -7,6 +7,7 @@
  * Async data loading related functionality is defined in DataRendererThreads.cpp
 */
 
+#include <iostream>
 #include "DataRenderer.hpp"
 
 using namespace renderer;
@@ -93,13 +94,13 @@ void DataRenderer::draw()
             if(!layers[i]->enable) continue;
             active_layers++;
         }
-        scale_bg_rect.setSize(sf::Vector2f(SCALE_WIDTH + 10, (active_layers * 30.f)));
+        scale_bg_rect.setSize(sf::Vector2f(SCALE_WIDTH + 35, 5 + (active_layers * (SCALE_HEIGHT + 20.f))));
         widget.renderWindow.draw(scale_bg_rect);
         int current_layer = 0;
         for(int i=0; i<5; i++)
         {
             if(!layers[i]->enable) continue;
-            float yoff = 10 + (current_layer * 30.f);
+            float yoff = 10 + (current_layer * (SCALE_HEIGHT + 20.f));
             sf::Vector2f cpos = scale_rect.getPosition();
             scale_rect.setPosition(cpos.x, yoff);
             sf::Transform trans = sf::Transform::Identity;
@@ -108,6 +109,49 @@ void DataRenderer::draw()
             shader_scale.setParameter("layer", i);
             shader_scale.setParameter("transform", trans);
             widget.renderWindow.draw(scale_rect, &shader_scale);
+            switch(i)
+            {
+                case 0: scale_text.setString("Ba"); break;
+                case 1: scale_text.setString("Wh"); break;
+                case 2: scale_text.setString("Hu"); break;
+                case 3: scale_text.setString("Hv"); break;
+                case 4: scale_text.setString("Hx"); break;
+            }
+            sf::FloatRect text_bounds = scale_text.getGlobalBounds();
+            scale_text.setPosition(cpos.x - text_bounds.width - 5, yoff - 1);
+            widget.renderWindow.draw(scale_text);
+            coordinate_text.setPosition(0, 0);
+            coordinate_text.setRotation(0);
+            coordinate_text.setOrigin(0, 0);
+            float min = layers[i]->meta_info.min;
+            float max = layers[i]->meta_info.max;
+            if(layers[i]->clip)
+            {
+                min = layers[i]->clip_min;
+                max = layers[i]->clip_max;
+            }
+            if(min < 0 && max > 0)
+            {
+                sf::VertexArray zeroline = sf::VertexArray(sf::Lines, 2);
+                float zerox = ((abs(min) / (max - min)) * SCALE_WIDTH) + cpos.x;
+                zeroline[0] = sf::Vertex(sf::Vector2f(zerox, yoff));
+                zeroline[1] = sf::Vertex(sf::Vector2f(zerox, yoff + SCALE_HEIGHT + 10));
+                widget.renderWindow.draw(zeroline);
+            }
+            sf::VertexArray outerlines = sf::VertexArray(sf::Lines, 4);
+            outerlines[0] = sf::Vertex(sf::Vector2f(cpos.x, yoff));
+            outerlines[1] = sf::Vertex(sf::Vector2f(cpos.x, yoff + SCALE_HEIGHT + 15));
+            outerlines[2] = sf::Vertex(sf::Vector2f(cpos.x + SCALE_WIDTH, yoff));
+            outerlines[3] = sf::Vertex(sf::Vector2f(cpos.x + SCALE_WIDTH, yoff + SCALE_HEIGHT + 15));
+            widget.renderWindow.draw(outerlines);
+            coordinate_text.setString(float_to_string(min));
+            text_bounds = coordinate_text.getGlobalBounds();
+            coordinate_text.setPosition(cpos.x + 5, yoff + SCALE_HEIGHT + 10 - text_bounds.height);
+            widget.renderWindow.draw(coordinate_text);
+            coordinate_text.setString(float_to_string(max));
+            text_bounds = coordinate_text.getGlobalBounds();
+            coordinate_text.setPosition(cpos.x + SCALE_WIDTH - text_bounds.width - 5, yoff + SCALE_HEIGHT + 10 - text_bounds.height);
+            widget.renderWindow.draw(coordinate_text);
             current_layer++;
         }
     }
@@ -173,9 +217,9 @@ void DataRenderer::update_transform()
     gizmo_rect.setPosition(10, ssz.y - 42);
 
     scale_rect.setPosition(ssz.x - SCALE_WIDTH - 10, 0);
-    scale_bg_rect.setPosition(ssz.x - SCALE_WIDTH - 15, 5);
+    scale_bg_rect.setPosition(ssz.x - SCALE_WIDTH - 40, 5);
     tm_scale_to_tex = sf::Transform::Identity;
-    tm_scale_to_tex.scale(1.f / (float)SCALE_WIDTH, 1.f / 20.f);
+    tm_scale_to_tex.scale(1.f / (float)SCALE_WIDTH, 1.f / (float)SCALE_HEIGHT);
     tm_scale_to_tex.translate(-(ssz.x - SCALE_WIDTH - 10), 0);
 
     update_coordinates();
