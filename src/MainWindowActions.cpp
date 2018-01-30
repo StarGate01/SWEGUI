@@ -244,6 +244,9 @@ void MainWindow::on_action_timer_tick()
 {
     //Stop timer if max frame is reached
     if(data_renderer->get_current_timestamp() >= data_renderer->meta_info->timestamps - 1)
+    {
         on_action_simulation_play();
+        return;
+    }
     on_action_simulation_next();
 }
