@@ -3,9 +3,9 @@
  * @brief Implements the functionality defined in DataProbe.hpp
 */
 
-#include <iostream>
 #include "DataProbe.hpp"
 #include "../renderer/DataRenderer.hpp"
+
 using namespace probe;
 
 ProbeColumns DataProbe::cols;
@@ -25,7 +25,6 @@ DataProbe::DataProbe(float px, float py, renderer::DataRenderer* data_renderer)
 
 DataProbe::~DataProbe()
 {
-    std::cout << "DataProbe::~DataProbe" << std::endl;
     signal_done_sample_batch_handler.disconnect();
 }
 
@@ -49,6 +48,7 @@ void DataProbe::fill_data_async(renderer::DataRenderer* data_renderer)
     data = new float*[timestamps];
     for(int ts = 0; ts < timestamps; ts++) data[ts] = new float[4];
     signal_done_sample_batch_handler = data_renderer->signal_done_sample_batch().connect(sigc::mem_fun(this, &DataProbe::on_done_batch_sample));
+    dry = data_renderer->sample(renderer::NetCdfImageStream::Variable::B, x, y, 0) > 0;
     data_renderer->sample_batch_async(x, y, data);
 }
 
@@ -73,6 +73,11 @@ void DataProbe::on_done_batch_sample(int result)
 bool DataProbe::has_data()
 {
     return data != nullptr && data_loaded;
+}
+
+bool DataProbe::is_dry()
+{
+    return dry;
 }
 
 bool DataProbe::loads_data()

@@ -3,7 +3,6 @@
  * @brief Implements the functionality defined in LayerWindow.hpp
 */
 
-#include <iostream>
 #include "LayerWindow.hpp"
 #include "MainWindow.hpp"
 #include "renderer/Layer.hpp"

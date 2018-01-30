@@ -5,8 +5,8 @@
  * Main entry point for SWEGUI
 */
 
-#include <exception>
 #include <iostream>
+#include <exception>
 #include "Application.hpp"
 #include "MainWindow.hpp"
 

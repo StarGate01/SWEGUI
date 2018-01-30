@@ -8,7 +8,6 @@
 
 #include <gtkmm.h>
 #include <gtkmm/adjustment.h>
-#include <iostream>
 #include <stdexcept>
 #include <chrono>
 #include <stdlib.h>

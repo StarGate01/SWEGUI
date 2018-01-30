@@ -6,6 +6,7 @@
  * Implementation of some probe related methods are outsourced into MainWindowProbe.cpp
 */
 
+#include <iostream>
 #include "MainWindow.hpp"
 
 using namespace swegui;
@@ -237,10 +238,10 @@ void MainWindow::on_probe_select()
 
 void MainWindow::on_action_probes_clear()
 {
-    std::cout << "on_action_probes_clear" << std::endl;
-    std::cout << "There are " << data_renderer->probes.size() << " probes" << std::endl;
-    for(auto& probe : data_renderer->probes) std::cout << probe.first << ": " << probe.second << std::endl;
     reset_probes();
-    std::cout << "There are now " << data_renderer->probes.size() << " probes" << std::endl;
-    for(auto& probe : data_renderer->probes) std::cout << probe.first << ": " << probe.second << std::endl;
+}
+
+void on_action_timer_tick()
+{
+    std::cout << "TICK" << std::endl;
 }

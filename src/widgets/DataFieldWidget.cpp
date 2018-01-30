@@ -3,7 +3,6 @@
  * @brief Implements the functionality defined in DataFieldWidget.hpp
 */
 
-#include <iostream>
 #include <sstream>
 #include <math.h>
 #include <vector>
@@ -19,7 +18,6 @@ DataFieldWidget::DataFieldWidget(BaseObjectType* cobject, const Glib::RefPtr<Gtk
 
 DataFieldWidget::~DataFieldWidget()
 {
-    std::cout << "DataFieldWidget::~DataFieldWidget" << std::endl;
     signal_done_fill_data_handler.disconnect();
 }
 
@@ -62,7 +60,6 @@ void DataFieldWidget::update_ui()
         probe::DataProbe* probe = parent->data_renderer->probes[name];
         if(probe == nullptr)
         {
-            std::cout << "name -> nullptr, awaiting harakiri" << std::endl;
             reset_gui();
             return;
         }
@@ -157,8 +154,6 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     float max_value = *std::max_element(data.begin(), data.end());
     float min_value = *std::min_element(data.begin(), data.end());
 
-    
-
     int min_t = -1;
     int max_t = -1;
 
@@ -168,7 +163,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->paint();
 
     //Do not draw graph if bathymetry > 0
-    if(false) //probe->get_data(0, 0) > 0)
+    if(probe->is_dry()) //probe->get_data(0, 0) > 0)
     {
         cr->set_source_rgb(0,0,0);
         Pango::FontDescription font;

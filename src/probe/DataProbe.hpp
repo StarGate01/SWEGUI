@@ -85,6 +85,8 @@ namespace probe
             */
             std::vector<float> get_all_data(int layer);
 
+            bool is_dry();
+
             typedef sigc::signal<void> type_signal_done_fill_data;  ///<Signal that is fired, when async data loading is complete
             type_signal_done_fill_data signal_done_fill_data();     ///<Event handler when data loading is complete
 
@@ -100,6 +102,7 @@ namespace probe
             sf::Sprite sprite;                          ///<Sprite, that is drawn on the map at the probes position
             int timestamps = 0;                         ///<Number of timestamps of the simulation
             float** data = nullptr;                     ///<Contains a value for each layer for each datapoint
+            bool dry = false;
             bool data_loaded = false;                   ///<True if data is loaded, otherwise false
             bool data_loading = false;                  ///<True if data loading in progress, otherwise false
 

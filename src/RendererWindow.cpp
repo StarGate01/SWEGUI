@@ -3,7 +3,6 @@
  * @brief Implements the functionality defined in RendererWindow.hpp
 */
 
-#include <iostream>
 #include "RendererWindow.hpp"
 #include "MainWindow.hpp"
 #include "renderer/DataRenderer.hpp"

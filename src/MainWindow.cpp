@@ -128,8 +128,3 @@ void MainWindow::setup_gui_elements()
     data_renderer->signal_done_select_timestep().connect(sigc::mem_fun(this, &MainWindow::on_done_select_timestep));
     data_renderer->signal_done_open().connect(sigc::mem_fun(this, &MainWindow::on_done_open));
 }
-
-void on_action_timer_tick()
-{
-    std::cout << "TICK" << std::endl;
-}

@@ -7,7 +7,6 @@
  * Renderer related functionality is defined in DataRendererCore.cpp
 */
 
-#include <iostream>
 #include "DataRenderer.hpp"
 #include "Errors.hpp"
 

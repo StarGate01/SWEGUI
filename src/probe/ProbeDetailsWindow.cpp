@@ -14,7 +14,6 @@ ProbeDetailsWindow::ProbeDetailsWindow(BaseObjectType* cobject, const Glib::RefP
 
 ProbeDetailsWindow::~ProbeDetailsWindow()
 {
-    std::cout << "ProbeDetailsWindow::~ProbeDetailsWindow" << std::endl;
     if(probedata != nullptr) delete probedata;
 }
 

@@ -9,7 +9,6 @@
 #ifndef GTKMM_SWE_APPLICATION_H
 #define GTKMM_SWE_APPLICATION_H
 
-#include <iostream>
 #include <gtkmm.h>
 #include "MainWindow.hpp"
 

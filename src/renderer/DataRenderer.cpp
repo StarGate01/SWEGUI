@@ -7,7 +7,6 @@
  * Async data loading related functionality is defined in DataRendererThreads.cpp
 */
 
-#include <iostream>
 #include <sstream>
 #include "DataRenderer.hpp"
 #include "../resources/ResourceHelper.hpp"
@@ -26,7 +25,11 @@ DataRenderer::DataRenderer(widgets::SFMLWidget &widget) : widget(widget)
 
     meta_info = &netcdf_stream.meta_info;
 
-    if (!sf::Shader::isAvailable()) perror("Shaders are not available on this GPU");
+    if (!sf::Shader::isAvailable())
+    {
+        Gtk::MessageDialog d("Critical error: Shaders are not available on this system.");
+        d.run();
+    }
     string shader_src = resources::ResourceHelper::global_to_string(PATH_TO_FRAG_SHADER);
     shader.loadFromMemory(sf::String(shader_src), sf::Shader::Fragment);
     string shader_scale_src = resources::ResourceHelper::global_to_string(PATH_TO_FRAG_SCALE_SHADER);
