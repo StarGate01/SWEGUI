@@ -1,5 +1,6 @@
 /**
  * @file Timer.hpp
+ * 
  * @brief Multi-threaded timer implementation for periodic events
 */
 
