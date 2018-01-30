@@ -1,6 +1,6 @@
 /**
  * @file scale.frag
- * @brief The shader for displaying a color scale
+ * @brief Implements the shader for displaying a color scale
  * @namespace shader
  * @class Scale
  */

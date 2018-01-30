@@ -139,9 +139,9 @@ void DataRenderer::sample_batch_async(float x, float y, float**& data)
             //std::lock_guard<std::mutex> lock(m_stream);
             for(int i=0; i<meta_info->timestamps; i++)
             {
-                data[i][0] = sample(NetCdfImageStream::Variable::H, x, y, i, false);
-                data[i][1] = sample(NetCdfImageStream::Variable::Hu, x, y, i, false);
-                data[i][2] = sample(NetCdfImageStream::Variable::Hv, x, y, i, false);
+                data[i][0] = sample(NetCdfImageStream::Variable::H, x, y, i);
+                data[i][1] = sample(NetCdfImageStream::Variable::Hu, x, y, i);
+                data[i][2] = sample(NetCdfImageStream::Variable::Hv, x, y, i);
             }
             r_sample_batch = 0;
         }
@@ -154,22 +154,15 @@ DataRenderer::type_signal_done_sample_batch DataRenderer::signal_done_sample_bat
     return m_signal_done_sample_batch;
 }
 
-float DataRenderer::sample(NetCdfImageStream::Variable var, float x, float y, int timestamp, bool lock)
+float DataRenderer::sample(NetCdfImageStream::Variable var, float x, float y, int timestamp)
 {
     if(timestamp == -1) timestamp = current_timestamp;
     if(timestamp == -1) return 0.f;
-
-    {
-        //if(lock) std::lock_guard<std::mutex> lock(m_stream);
-        return netcdf_stream.sample(var, x, y, timestamp);
-    }
+    return netcdf_stream.sample(var, x, y, timestamp);
 }
 
 
 float DataRenderer::get_current_time()
 {
-    {
-        //std::lock_guard<std::mutex> lock(m_stream);
-        return netcdf_stream.get_time(current_timestamp);
-    }
+    return netcdf_stream.get_time(current_timestamp);
 }
