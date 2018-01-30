@@ -84,6 +84,11 @@ namespace probe
             bool has_data();
 
             /**
+             * @brief Resets the data
+            */
+            void reset_data(renderer::DataRenderer* data_renderer);
+
+            /**
              * @brief Indicates if data is currently loaded
              * 
              * @return True, if data is currently loaded. False otherwise

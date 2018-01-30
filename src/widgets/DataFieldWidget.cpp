@@ -82,10 +82,7 @@ void DataFieldWidget::update_ui()
                 renderer::NetCdfImageStream::Variable::Hv, probe->x, probe->y), 2)));
         labels[4]->set_text(std::to_string(hx));
 
-        if(!probe->has_data()) 
-        {
-            signal_done_fill_data_handler = probe->signal_done_fill_data().connect(sigc::mem_fun(this, &DataFieldWidget::update_ui));
-        }
+        signal_done_fill_data_handler = probe->signal_done_fill_data().connect(sigc::mem_fun(this, &DataFieldWidget::update_ui));
         on_dataset_change();
     }
     else reset_gui();

@@ -60,6 +60,7 @@ void MainWindow::handle_add_edit()
         {
             probe->x = dialog_probe_edit->get_x();
             probe->y = dialog_probe_edit->get_y();
+            probe->reset_data(data_renderer);
         }
     }
     data_renderer->active_probe_name = name;
