@@ -18,7 +18,7 @@
 
 \begin{document}
 	\maketitle
-	\thispagestyle{plain}	%Disable page numbers
+	\pagestyle{plain}	%Disable page numbers
 	\section{Overview}
 		This is a graphical user interface to interactively visualize the output of the SWE tsunami simulation and provide basic analysis functions. It takes pre-calculated data sets as NetCDF and displays these. 
 		
@@ -62,7 +62,7 @@ The epicenter of the tsunami is shown as pointed cones in a cross shape. On the 
 		
 		To monitor the data of more than one point you can right click on a point in the list and choose the display option from the drop down menu. A new window will open and allow you to monitor the probes data independently. You can close this window at any point, this will not delete the probe.
 		
-		T		\subsection{Data display}
+		\subsection{Data display}
 		Above the probes on the right or in an extra window if opened by using the drop down menu of a probe. Here the data of the chosen probe is shown. The active probe can be changed by clicking on one in the list or in the rendered view. At the top you can select between displaying the current data as numbers or to graph the data from the probes point. The graph will draw the data from the probe point over the simulation time. A solid red line form the top to the bottom of the graph will indicate the current time of the simulation, a blue line in the graph will indicate the lowest and a pink line the highest value. To the left the values of these extrema will be displayed. To view the graph in more detail open the graph in an extra window by right clicking on the probe in the probe list and clicking open. Then you can resize the window to any size. The graph can also be exported as a png picture file by clicking on save.
 
 \end{document}
