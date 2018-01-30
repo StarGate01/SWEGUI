@@ -15,7 +15,6 @@ probe::ProbeColumns MainWindow::probelist_columns;
 MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
     : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder)
 {
-    //play_timer = new Timer(std::chrono::milliseconds(PLAY_SPEED), this);
     setup_gui_elements();
 }
 
@@ -36,6 +35,7 @@ MainWindow* MainWindow::create()
 
 void MainWindow::setup_gui_elements()
 {
+    play_timer = new Timer(std::chrono::milliseconds(PLAY_SPEED));
     //Get menu bar
     m_refBuilder->get_widget("main_menubar", menubar_main);
     m_refBuilder->get_widget("mb_file_open", mb_file_open);
@@ -63,7 +63,6 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("tbtn_screenshot", tb_screenshot);
     m_refBuilder->get_widget("spinner_loading", spinner_loading);
     //Get raw data label
-    //m_refBuilder->get_widget("lbl_info", lbl_raw_data);
     m_refBuilder->get_widget("alignment_frame_probedata", alignment_frame_probedata);
     probedata = widgets::DataFieldWidget::create(this, "");
     alignment_frame_probedata->add(*probedata);
@@ -90,6 +89,7 @@ void MainWindow::setup_gui_elements()
     window_layers = LayerWindow::create(this);
     window_renderer = RendererWindow::create(this);
 
+    play_timer->signal_tick().connect(sigc::mem_fun(this, &MainWindow::on_action_timer_tick));
     //Event handlers for menubar
     mb_file_open->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_fileopen));
     mb_file_save_screenshot->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_screenshot));

@@ -15,6 +15,7 @@ void MainWindow::on_action_fileopen()
 {
     if(dialog_open->run() == Gtk::RESPONSE_OK)
     {
+        play_timer->stop();
         reset_probes();
         std::string filename = dialog_open->get_filename();
         data_renderer->open_async(filename);
@@ -73,18 +74,16 @@ void MainWindow::on_action_simulation_set_timestamp()
 
 void MainWindow::on_action_simulation_play()
 {
-    // if(play_timer == nullptr)
-    // {
-    //     std::cout << "Timer not initialized" << std::endl;
-    // }
-
-    // if(!play_timer->isRunning())
-    // {
-    //     std::cout << "Starting timer" << std::endl;
-    //     play_timer->start();
-    // }
-    // else
-    //     play_timer->stop();
+    if(!play_timer->is_running())
+    {
+        std::cout << "Starting timer" << std::endl;
+        play_timer->start();
+    }
+    else 
+    {
+        std::cout << "Stopping timer" << std::endl;
+        play_timer->stop();
+    }
 }
 
 void MainWindow::on_action_simulation_next()
@@ -142,7 +141,6 @@ void MainWindow::on_action_zoompan_reset()
 
 void MainWindow::on_action_screenshot()
 {
-    //Create sfd
     if(dialog_save->run() == Gtk::RESPONSE_OK)
     {
         std::string filename = dialog_save->get_filename();
@@ -241,7 +239,8 @@ void MainWindow::on_action_probes_clear()
     reset_probes();
 }
 
-void on_action_timer_tick()
+void MainWindow::on_action_timer_tick()
 {
     std::cout << "TICK" << std::endl;
+    on_action_simulation_next();
 }
