@@ -1,3 +1,8 @@
+/**
+ * @file Timer.cpp
+ * @brief Implements the functionality defined in Timer.hpp
+*/
+
 #include "Timer.hpp"
 
 using namespace swegui;
