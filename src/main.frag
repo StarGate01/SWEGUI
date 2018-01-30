@@ -1,7 +1,10 @@
 /**
  * @file main.frag
+
  * @brief The main shader for topographical rendering
+
  * @namespace shader
+ 
  * @class Main
  */
 

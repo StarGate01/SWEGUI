@@ -1,5 +1,6 @@
 /**
  * @file Application.hpp
+ * 
  * @brief Main class of the SWEGUI application
  * 
  * Main entry point for SWEGUI
@@ -28,24 +29,31 @@ namespace swegui
     {
 
         public:
+
             /**
              * @brief Creates a new instance of swegui::Application
+             * 
              * @return Glib:RefPtr to new Instance of swegui_Application
             */
             static Glib::RefPtr<Application> create(); 
 
         protected:
+
             Application();                  ///<Default constructor
             void on_activate() override;    ///<Event handler on activation. Creates and shows the main GUI
 
         private:
+
             /**
              * @brief Creates a new window by calling Application::create, presents it and attaches the Application::on_hide_window() event handler on closing
+             * 
              * @return Pointer to new instance of MainWindow
             */
             MainWindow* create_appwindow();
+
             /**
              * @brief Event handler for hiding the window
+             * 
              * @param window Reference to the Gtk::Window instance
             */
             void on_hide_window(Gtk::Window* window);

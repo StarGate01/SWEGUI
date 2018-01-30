@@ -1,5 +1,6 @@
 /**
  * @file MainWindowActions.cpp
+ * 
  * @brief Implements path of the functionality defined in MainWindow.hpp, which is related to event handling
  * 
  * Implementation of the general methods are implemented in MainWindow.cpp
@@ -76,12 +77,12 @@ void MainWindow::on_action_simulation_play()
 {
     if(!play_timer->is_running())
     {
-        std::cout << "Starting timer" << std::endl;
+        tb_simulation_play->set_icon_name("media-playback-stop");
         play_timer->start();
     }
     else 
     {
-        std::cout << "Stopping timer" << std::endl;
+        tb_simulation_play->set_icon_name("media-playback-start");
         play_timer->stop();
     }
 }
@@ -241,6 +242,11 @@ void MainWindow::on_action_probes_clear()
 
 void MainWindow::on_action_timer_tick()
 {
-    std::cout << "TICK" << std::endl;
+    //Stop timer if max frame is reached
+    if(data_renderer->get_current_timestamp() >= data_renderer->meta_info->timestamps - 1)
+    {
+        on_action_simulation_play();
+        return;
+    }
     on_action_simulation_next();
 }
