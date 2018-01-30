@@ -1,4 +1,4 @@
-# Authors  {#authorspageswe}
+# Authors  {#authorspageswegui}
 
 ## Technische Universität München
 ## Bachelor-Praktikum: Tsunami-Simulation WS 2017/2018
