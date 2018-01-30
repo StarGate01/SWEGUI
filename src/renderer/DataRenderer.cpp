@@ -122,6 +122,10 @@ string DataRenderer::unique_name()
         ss << "probe_" << index;
         string name = ss.str();
         if(probes.find(name) == probes.end()) return name;
+        else
+        {
+            if(probes[name] == nullptr) return name;
+        }
         index++;
     }
 }

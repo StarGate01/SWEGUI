@@ -61,11 +61,12 @@ void DataRenderer::draw()
     {
         for(auto& probe: probes) 
         {
-            sf::Vector2f d2s = tm_data_to_screen * sf::Vector2f(probe.second.x, probe.second.y);
-            probe.second.getSprite().setPosition(d2s.x, d2s.y);
-            if(probe.first == active_probe_name) probe.second.getSprite().setTexture(crosshair_active_tex);
-            else probe.second.getSprite().setTexture(crosshair_tex);
-            widget.renderWindow.draw(probe.second.getSprite());
+            if(probe.second == nullptr) continue;
+            sf::Vector2f d2s = tm_data_to_screen * sf::Vector2f(probe.second->x, probe.second->y);
+            probe.second->getSprite().setPosition(d2s.x, d2s.y);
+            if(probe.first == active_probe_name) probe.second->getSprite().setTexture(crosshair_active_tex);
+            else probe.second->getSprite().setTexture(crosshair_tex);
+            widget.renderWindow.draw(probe.second->getSprite());
             if(settings.probe_names)
             {
                 probe_text.setString(probe.first);

@@ -21,13 +21,16 @@ void MainWindow::prepare_add_edit(bool clear)
         {
             Gtk::TreeModel::Row row = *iter;
             string name = row[probelist_columns.col_name];
-            probe::DataProbe& probe = data_renderer->probes[name];
-            dialog_probe_edit->set_name(name);
-            dialog_probe_edit->set_x(probe.x);
-            dialog_probe_edit->set_y(probe.y);
-            dialog_probe_edit->existing = true;
-            dialog_probe_edit->set_title("Edit probe");
-            return;
+            probe::DataProbe* probe = data_renderer->probes[name];
+            if(probe != nullptr)
+            {
+                dialog_probe_edit->set_name(name);
+                dialog_probe_edit->set_x(probe->x);
+                dialog_probe_edit->set_y(probe->y);
+                dialog_probe_edit->existing = true;
+                dialog_probe_edit->set_title("Edit probe");
+                return;
+            }
         }
     }
     dialog_probe_edit->set_name("");
@@ -45,14 +48,18 @@ void MainWindow::handle_add_edit()
     if (data_renderer->probes.find(name) == data_renderer->probes.end())
     {
         if(dialog_probe_edit->existing) on_probe_remove();
-        probe::DataProbe probe(dialog_probe_edit->get_x(), dialog_probe_edit->get_y(), data_renderer);
+        probe::DataProbe* probe = new probe::DataProbe(dialog_probe_edit->get_x(), dialog_probe_edit->get_y(), data_renderer);
         data_renderer->probes[name] = probe;
         added = true;
     }
     else
     {
-        data_renderer->probes[name].x = dialog_probe_edit->get_x();
-        data_renderer->probes[name].y = dialog_probe_edit->get_y();
+        probe::DataProbe* probe = data_renderer->probes[name];
+        if(probe != nullptr)
+        {
+            probe->x = dialog_probe_edit->get_x();
+            probe->y = dialog_probe_edit->get_y();
+        }
     }
     data_renderer->active_probe_name = name;
     data_renderer->invalidate();
@@ -76,12 +83,13 @@ Gtk::TreeStore::iterator MainWindow::search_probelist(std::string name)
 
 void MainWindow::on_probe_update(bool added)
 {
-    probe::DataProbe& probe = data_renderer->probes[data_renderer->active_probe_name];
+    probe::DataProbe* probe = data_renderer->probes[data_renderer->active_probe_name];
+    if(probe == nullptr) return;
     if(added)
     {
         Gtk::TreeModel::Row row = *(probelist_store->append());
         row[probelist_columns.col_name] = data_renderer->active_probe_name;
-        probe.fill_row(row);
+        probe->fill_row(row);
     }
     else
     {
@@ -89,7 +97,7 @@ void MainWindow::on_probe_update(bool added)
         if(iter)
         {
             Gtk::TreeModel::Row row = *iter;
-            probe.fill_row(row);
+            probe->fill_row(row);
         }
     }
 }
@@ -98,34 +106,44 @@ void MainWindow::update_probe_ui(string name)
 {
     probedata->name = name;
     probedata->update_ui();
-    probe::ProbeDetailsWindow* window = data_renderer->probes[name].window;
-    if(window != nullptr) window->update_ui();
+    probe::DataProbe* probe = data_renderer->probes[name];
+    if(probe != nullptr)
+    {
+        probe::ProbeDetailsWindow* window = probe->window;
+        if(window != nullptr) window->update_ui();
+    }
 }
 
 
 void MainWindow::open_probe_ui()
 {
-    probe::ProbeDetailsWindow** window = &(data_renderer->probes[data_renderer->active_probe_name].window);
-    if(*window == nullptr) *window = probe::ProbeDetailsWindow::create(this, data_renderer->active_probe_name);
-    (*window)->update_ui();
-    (*window)->show();
+    probe::DataProbe* probe = data_renderer->probes[data_renderer->active_probe_name];
+    if(probe != nullptr)
+    {
+        probe::ProbeDetailsWindow** window = &(probe->window);
+        if(*window == nullptr) *window = probe::ProbeDetailsWindow::create(this, data_renderer->active_probe_name);
+        (*window)->update_ui();
+        (*window)->show();
+    }
 }
 
 void MainWindow::reset_probes()
 {
-    //Reset active probe
     data_renderer->active_probe_name = "";
-
-    //For each probe
-    for(auto const& probe : data_renderer->probes)
-        //Close probe window
-        if(probe.second.window != nullptr)
+    probedata->name = "";
+    probedata->reset_gui();
+    for(auto& probe : data_renderer->probes)
+    {
+        if(probe.second == nullptr) continue;
+        if(probe.second->window != nullptr)
         {
-            probe.second.window->close();
+            probe.second->window->close();
+            delete probe.second->window;
         }
-
+        delete probe.second;
+        probe.second = nullptr;
+    }
     probelist_store->clear();
     data_renderer->probes.clear();
-    //Update raw data window
-    probedata->reset_gui();
+    data_renderer->invalidate();
 }

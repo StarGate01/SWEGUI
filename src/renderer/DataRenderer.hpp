@@ -60,7 +60,7 @@ namespace renderer
 
       Layer b, h, hu, hv, hx;                                                                       ///<
       Layer* layers[5] = { &b, &h, &hu, &hv, &hx };                                                 ///<
-      map<std::string, probe::DataProbe> probes;                                                    ///<
+      map<std::string, probe::DataProbe*> probes;                                                    ///<
       std::string active_probe_name;                                                                ///<
       Settings settings;                                                                            ///<
 

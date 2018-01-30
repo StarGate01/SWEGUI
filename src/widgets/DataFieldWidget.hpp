@@ -52,6 +52,7 @@ namespace widgets
        * @return New instance of widgets::DataFieldWidget
       */
       DataFieldWidget(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
+      ~DataFieldWidget();
 
       /**
        * @brief Creates a new instance of widgets::DataFieldWidget
@@ -69,6 +70,8 @@ namespace widgets
       Glib::RefPtr<Gtk::Builder> m_refBuilder;        ///<Gtk::Builder object of this widget
 
     private:
+
+      sigc::connection signal_done_fill_data_handler;
 
       swegui::MainWindow* parent = nullptr;           ///<Parent swegui::MainWindow
       std::string layer_names[5] = { "b", "h", "hu", "hv", "hx" };      ///<Helper array to access layer names

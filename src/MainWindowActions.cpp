@@ -14,7 +14,7 @@ void MainWindow::on_action_fileopen()
 {
     if(dialog_open->run() == Gtk::RESPONSE_OK)
     {
-        //reset_probes();
+        reset_probes();
         std::string filename = dialog_open->get_filename();
         data_renderer->open_async(filename);
         spinner_loading->property_active() = true;
@@ -112,7 +112,10 @@ void MainWindow::on_done_select_timestep(int result)
     probedata->update_ui();
     for (auto const& probe : data_renderer->probes)
     {
-        if(probe.second.window != nullptr) probe.second.window->update_ui();
+        if(probe.second != nullptr)
+        {
+            if(probe.second->window != nullptr) probe.second->window->update_ui();
+        }
     }
     data_renderer->update_shader();
     lbl_realtime->set_text(std::to_string(data_renderer->get_current_time()));
@@ -196,8 +199,18 @@ void MainWindow::on_probe_remove()
     {
         Gtk::TreeModel::Row row = *iter;
         string name = row[probelist_columns.col_name];
-        probe::ProbeDetailsWindow* window = data_renderer->probes[name].window;
-        if(window != nullptr) window->hide();
+        if(name == data_renderer->active_probe_name || name == probedata->name)
+        {
+            probedata->reset_gui();
+        }
+        probe::DataProbe* probe = data_renderer->probes[name];
+        if(probe != nullptr)
+        {
+            probe::ProbeDetailsWindow* window = probe->window;
+            if(window != nullptr) window->hide();
+            delete probe;
+            data_renderer->probes[name] = nullptr;
+        }
         data_renderer->probes.erase(name);
         probelist_store->erase(iter);
         data_renderer->invalidate();
@@ -220,4 +233,14 @@ void MainWindow::on_probe_select()
         selection->select(iter);
         update_probe_ui(data_renderer->active_probe_name);
     }
+}
+
+void MainWindow::on_action_probes_clear()
+{
+    std::cout << "on_action_probes_clear" << std::endl;
+    std::cout << "There are " << data_renderer->probes.size() << " probes" << std::endl;
+    for(auto& probe : data_renderer->probes) std::cout << probe.first << ": " << probe.second << std::endl;
+    reset_probes();
+    std::cout << "There are now " << data_renderer->probes.size() << " probes" << std::endl;
+    for(auto& probe : data_renderer->probes) std::cout << probe.first << ": " << probe.second << std::endl;
 }

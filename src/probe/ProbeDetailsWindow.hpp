@@ -34,6 +34,7 @@ namespace probe
              * @param refBuilder Gtk::Builder, from which the window is created
             */
             ProbeDetailsWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
+            ~ProbeDetailsWindow();
 
             /**
              * @brief Creates a new ProbeDetailsWindow

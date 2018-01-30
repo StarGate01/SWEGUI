@@ -20,7 +20,7 @@ bool DataRenderer::on_button_press_event(GdkEventButton* event)
     {
         sf::Vector2f s2d = tm_screen_to_data * sf::Vector2f(event->x, event->y);
         string name = unique_name();
-        probe::DataProbe probe(s2d.x, s2d.y, this);
+        probe::DataProbe* probe = new probe::DataProbe(s2d.x, s2d.y, this);
         probes[name] = probe;
         active_probe_name = name;
         invalidate();
@@ -32,8 +32,9 @@ bool DataRenderer::on_button_press_event(GdkEventButton* event)
     {
         for(auto& probe: probes)
         {
-            float dx = probe.second.getSprite().getPosition().x - event->x;
-            float dy = probe.second.getSprite().getPosition().y - event->y;
+            if(probe.second == nullptr) continue;
+            float dx = probe.second->getSprite().getPosition().x - event->x;
+            float dy = probe.second->getSprite().getPosition().y - event->y;
             if(sqrt(dx*dx + dy*dy) <= 16.f)
             {
                 active_probe_name = probe.first;

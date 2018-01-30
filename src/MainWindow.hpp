@@ -72,6 +72,7 @@ namespace swegui
             Gtk::MenuItem* mb_simulation_next = nullptr;            ///<Object pointer to next frame button in menubar
             Gtk::MenuItem* mb_simulation_prev = nullptr;            ///<Object pointer to previous frame button in menubar
             Gtk::MenuItem* mb_help_about = nullptr;                 ///<Object pointer to About button in menubar
+            Gtk::MenuItem* mb_simulation_clearprobes = nullptr;
             //Toolbar
             Gtk::ToolButton* tb_openfile = nullptr;                 ///<Object pointer to open file button in toolbar
             Gtk::ToolButton* tb_simulation_goto_start = nullptr;    ///<Object pointer to simulation go to start button in toolbar
@@ -126,6 +127,7 @@ namespace swegui
             void on_action_zoompan_reset();                         ///<Event handler to reset zoom and pan
             void on_action_screenshot();                            ///<Event handler to export a screenshot
             void on_action_about();                                 ///<Event handler to open the about window
+            void on_action_probes_clear();
             /**
              * @brief Overloaded event handler to open the MainWindow::dialog_probe_edit dialog
              * @param path The path of the list containing the probes

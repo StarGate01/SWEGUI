@@ -93,6 +93,9 @@ namespace probe
             type_signal_done_fill_data m_signal_done_fill_data;     ///<Signal fires, when data loading is complete
 
         private:
+
+            sigc::connection signal_done_sample_batch_handler;
+
             static ProbeColumns cols;                   ///<Template for the columns of the probe list
             sf::Sprite sprite;                          ///<Sprite, that is drawn on the map at the probes position
             int timestamps = 0;                         ///<Number of timestamps of the simulation

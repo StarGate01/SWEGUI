@@ -21,13 +21,12 @@ DataProbe::DataProbe(float px, float py, renderer::DataRenderer* data_renderer)
 {
     sprite.setOrigin(16.f, 16.f);
     fill_data_async(data_renderer);
-    //fill_data_async(data_renderer);
 }
 
 DataProbe::~DataProbe()
 {
     std::cout << "DataProbe::~DataProbe" << std::endl;
-    if(window != nullptr) delete window;
+    signal_done_sample_batch_handler.disconnect();
 }
 
 sf::Sprite& DataProbe::getSprite()
@@ -49,7 +48,7 @@ void DataProbe::fill_data_async(renderer::DataRenderer* data_renderer)
     timestamps = data_renderer->meta_info->timestamps;
     data = new float*[timestamps];
     for(int ts = 0; ts < timestamps; ts++) data[ts] = new float[4];
-    data_renderer->signal_done_sample_batch().connect(sigc::mem_fun(this, &DataProbe::on_done_batch_sample));
+    signal_done_sample_batch_handler = data_renderer->signal_done_sample_batch().connect(sigc::mem_fun(this, &DataProbe::on_done_batch_sample));
     data_renderer->sample_batch_async(x, y, data);
 }
 
@@ -58,7 +57,6 @@ DataProbe::type_signal_done_fill_data DataProbe::signal_done_fill_data()
     return m_signal_done_fill_data;
 }
 
-//TODO: remove parameter
 void DataProbe::on_done_batch_sample(int result)
 {
     for(int ts = 0; ts < timestamps; ts++) 

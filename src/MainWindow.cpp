@@ -46,6 +46,7 @@ void MainWindow::setup_gui_elements()
     m_refBuilder->get_widget("mb_view_reset", mb_view_reset);
     m_refBuilder->get_widget("mb_simulation_goto_start", mb_simulation_goto_start);
     m_refBuilder->get_widget("mb_simulation_prev", mb_simulation_prev);
+    m_refBuilder->get_widget("mb_simulation_clearprobes", mb_simulation_clearprobes);
     m_refBuilder->get_widget("spin_timestamp", mb_spin_timestamp);
     adjustment_timestamp = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(m_refBuilder->get_object("adjustment_timestamp"));
     m_refBuilder->get_widget("lbl_realtime", lbl_realtime);
@@ -98,6 +99,7 @@ void MainWindow::setup_gui_elements()
     mb_view_reset->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_zoompan_reset));
     mb_simulation_goto_start->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_goto_start));
     mb_simulation_prev->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_prev));
+    mb_simulation_clearprobes->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_probes_clear));
     mb_spin_timestamp->signal_value_changed().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_set_timestamp));
     mb_simulation_play->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_play));
     mb_simulation_next->signal_activate().connect(sigc::mem_fun(this, &MainWindow::on_action_simulation_next));

@@ -12,6 +12,12 @@ ProbeDetailsWindow::ProbeDetailsWindow(BaseObjectType* cobject, const Glib::RefP
     : Gtk::Window(cobject), m_refBuilder(refBuilder)
 { }
 
+ProbeDetailsWindow::~ProbeDetailsWindow()
+{
+    std::cout << "ProbeDetailsWindow::~ProbeDetailsWindow" << std::endl;
+    if(probedata != nullptr) delete probedata;
+}
+
 ProbeDetailsWindow* ProbeDetailsWindow::create(swegui::MainWindow* pa, std::string na)
 {
     auto refBuilder = Gtk::Builder::create_from_resource(PATH_TO_PROBE_DETAIL_GUI);

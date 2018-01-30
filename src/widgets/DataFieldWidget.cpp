@@ -17,6 +17,12 @@ DataFieldWidget::DataFieldWidget(BaseObjectType* cobject, const Glib::RefPtr<Gtk
     : Gtk::Notebook(cobject), m_refBuilder(refBuilder)
 { }
 
+DataFieldWidget::~DataFieldWidget()
+{
+    std::cout << "DataFieldWidget::~DataFieldWidget" << std::endl;
+    signal_done_fill_data_handler.disconnect();
+}
+
 DataFieldWidget* DataFieldWidget::create(swegui::MainWindow* pa, std::string na)
 {
     auto refBuilder = Gtk::Builder::create_from_resource(PATH_TO_DATAFIELD_GUI);
@@ -53,7 +59,13 @@ void DataFieldWidget::update_ui()
 {
     if(name != "")
     {
-        probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
+        probe::DataProbe* probe = parent->data_renderer->probes[name];
+        if(probe == nullptr)
+        {
+            std::cout << "name -> nullptr, awaiting harakiri" << std::endl;
+            reset_gui();
+            return;
+        }
 
         //Set labels
         float bathy = parent->data_renderer->sample((renderer::NetCdfImageStream::Variable)0, probe->x, probe->y);
@@ -76,7 +88,7 @@ void DataFieldWidget::update_ui()
 
         if(!probe->has_data()) 
         {
-            probe->signal_done_fill_data().connect(sigc::mem_fun(this, &DataFieldWidget::update_ui));
+            signal_done_fill_data_handler = probe->signal_done_fill_data().connect(sigc::mem_fun(this, &DataFieldWidget::update_ui));
         }
         on_dataset_change();
     }
@@ -86,6 +98,7 @@ void DataFieldWidget::update_ui()
 void DataFieldWidget::reset_gui()
 {
     for(auto label : labels) label->set_text("N/a");
+    signal_done_fill_data_handler.disconnect();
     on_dataset_change();
 
 }
@@ -109,7 +122,7 @@ void DataFieldWidget::on_graph_export(void)
 bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
     if(name == "") return true;
-    probe::DataProbe* probe = &(parent->data_renderer->probes[name]);
+    probe::DataProbe* probe = parent->data_renderer->probes[name];
 
     //Setup rendering
     Gtk::Allocation allocation = drawingarea_chart->get_allocation();
@@ -117,7 +130,7 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     const int height = allocation.get_height();
     Gdk::Color color(COLOR_DEFAULT);
 
-    if(!probe->has_data()) 
+    if(probe == nullptr || !probe->has_data()) 
     {
         cr->set_source_rgb(0,0,0);
         Pango::FontDescription font;
