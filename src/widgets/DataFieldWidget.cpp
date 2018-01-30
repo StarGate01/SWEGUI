@@ -29,7 +29,6 @@ DataFieldWidget* DataFieldWidget::create(swegui::MainWindow* pa, std::string na)
     refBuilder->get_widget_derived("notebook_main", widget);
     widget->parent = pa;
     widget->name = na;
-    // widget->set_transient_for(*(widget->parent));
     widget->setup_gui_elements();
     return widget;
 }
@@ -44,7 +43,6 @@ void DataFieldWidget::setup_gui_elements()
     m_refBuilder->get_widget("sfd_graph_export", sfd_save);
     m_refBuilder->get_widget("drawingarea_chart", drawingarea_chart);
 
-    // widget->set_transient_for(*(widget->parent));
     sfd_save->set_transient_for(*parent);
 
     drawingarea_chart->signal_draw().connect(sigc::mem_fun(this, &DataFieldWidget::on_chart_draw));

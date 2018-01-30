@@ -51,7 +51,7 @@ namespace probe
             */
             static ProbeDetailsWindow* create(swegui::MainWindow* pa, std::string na);
             
-            void update_ui();               ///<Updates the UI elements of the window
+            void update_ui();                                       ///<Updates the UI elements of the window
 
         protected:
 
