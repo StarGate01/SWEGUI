@@ -7,6 +7,7 @@
  * Renderer related functionality is defined in DataRendererCore.cpp
 */
 
+#include <math.h>
 #include "DataRenderer.hpp"
 #include "Errors.hpp"
 
@@ -54,7 +55,7 @@ int DataRenderer::select_timestamp(int timestamp)
     res = select_load(NetCdfImageStream::Variable::Hv, timestamp, hv);
     if(res != ERROR_SUCCESS) return res;
     hx.meta_info.min = 0.f;
-    hx.meta_info.max = 1.f;
+    hx.meta_info.max = std::sqrt((hu.meta_info.max * hu.meta_info.max) + (hv.meta_info.max * hv.meta_info.max));
     current_timestamp = timestamp;
     return ERROR_SUCCESS;
 }
