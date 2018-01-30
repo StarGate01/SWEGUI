@@ -76,7 +76,7 @@ namespace widgets
 
     private:
 
-      sigc::connection signal_done_fill_data_handler;                   ///<TODO
+      sigc::connection signal_done_fill_data_handler;                   ///<Pointer to the bound handler (You are not expected to understand this)
       swegui::MainWindow* parent = nullptr;                             ///<Parent swegui::MainWindow
       std::string layer_names[5] = { "b", "h", "hu", "hv", "hx" };      ///<Helper array to access layer names
       Gtk::Label* labels[5];                                            ///<Pointer to Gtk::Labels showing the layer values in the GUI of this widget
