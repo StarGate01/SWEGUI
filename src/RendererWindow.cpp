@@ -1,5 +1,6 @@
 /**
  * @file RendererWindow.cpp
+ * 
  * @brief Implements the functionality defined in RendererWindow.hpp
 */
 

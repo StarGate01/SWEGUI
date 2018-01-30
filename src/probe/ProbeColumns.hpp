@@ -1,5 +1,6 @@
 /**
  * @brief Template for the columns represented in the probe data window
+ * 
  * @file ProbeColumns.hpp
 */
 
@@ -11,6 +12,7 @@
 
 namespace probe
 {
+    
     /**
      * @brief Template for probe columns, consisting of a x and y coordinate and a name
     */
@@ -20,7 +22,6 @@ namespace probe
         public:
 
             ProbeColumns();                                 ///<Initializes all columns
-
             Gtk::TreeModelColumn<std::string> col_name;     ///<Name column
             Gtk::TreeModelColumn<float> col_x;              ///<X column
             Gtk::TreeModelColumn<float> col_y;              ///<Y column

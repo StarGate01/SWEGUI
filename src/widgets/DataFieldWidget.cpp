@@ -1,5 +1,6 @@
 /**
  * @file DataFieldWidget.cpp
+ * 
  * @brief Implements the functionality defined in DataFieldWidget.hpp
 */
 

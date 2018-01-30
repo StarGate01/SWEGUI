@@ -1,5 +1,6 @@
 /**
  * @file LayerWindow.hpp
+ * 
  * @brief Window to toggle and configure the rendered layers
 */
 
@@ -29,14 +30,17 @@ namespace swegui
     {
 
         public:
+
             /**
              * @brief Subclass of swegui::LayerWindow to simplify management of some GUI elements
+             * 
              * Contains pointer to all relevent GUI elements for one layer and methods for setup and event handling
             */
             class LayerUI
             {
 
                 public:
+
                     Gtk::Switch* switch_enable = nullptr,                           ///<Pointer to layer toggle switch
                     *switch_clip = nullptr;                                         ///<Pointer to clipping toggle switch
                     Gtk::SpinButton* spin_min = nullptr,                            ///<Pointer to minimum selection Gtk::SpinButton
@@ -61,17 +65,19 @@ namespace swegui
 
             /**
              * @brief Inherited constructor from Gtk::Window
+             * 
              * @param cobject Calling object
              * @param refBuilder Reference to Gtk::Builder object of the parent window
             */
             LayerWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
             ~LayerWindow();                                                         ///<Deletes all layers in LayerWindow::layer_uis
+
             /**
              * @brief Creates a new instance of LayerWindow and initializes them
+             * 
              * @param pa Pointer to parent MainWindow
             */
             static LayerWindow* create(MainWindow* pa);
-
             void update_ui();                                                       ///<Updates the UI by triggering the LayerUI::update_ui() function of each layer
 
         protected:

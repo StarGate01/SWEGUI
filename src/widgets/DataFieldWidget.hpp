@@ -1,5 +1,6 @@
 /**
  * @file DataFieldWidget.hpp
+ * 
  * @brief Custom widget to visualize probe data as raw data and as graph
 */
 
@@ -9,7 +10,7 @@
 #include <string>
 #include <gtkmm.h>
 #include <gtkmm/messagedialog.h>
-#include <pangomm/attrlist.h>   //Set attributes for labels
+#include <pangomm/attrlist.h>                                       //Set attributes for labels
 #include <cairomm/context.h>
 
 #define PATH_TO_DATAFIELD_GUI "/main/src/ui/datafield.glade"        ///<Path to Glade file of the widget
@@ -45,10 +46,13 @@ namespace widgets
   {
 
     public:
+
       /**
        * @brief Inherited constructor of Gtk::Notebook
+       * 
        * @param cobject Calling object
        * @param refBuilder Gtk::Builder object for this widget
+       * 
        * @return New instance of widgets::DataFieldWidget
       */
       DataFieldWidget(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
@@ -56,24 +60,24 @@ namespace widgets
 
       /**
        * @brief Creates a new instance of widgets::DataFieldWidget
+       * 
        * @param pa Parent swegui::MainWindow
        * @param na Intended name for this widget
       */
       static DataFieldWidget* create(swegui::MainWindow* pa, std::string na);
 
-      void update_ui();                               ///<Updates the GUI elements
-      void reset_gui();                               ///<Resets the GUI elements
-      std::string name;                               ///<Name of the probe displayed in this widget
+      void update_ui();                                                 ///<Updates the GUI elements
+      void reset_gui();                                                 ///<Resets the GUI elements
+      std::string name;                                                 ///<Name of the probe displayed in this widget
 
     protected:
 
-      Glib::RefPtr<Gtk::Builder> m_refBuilder;        ///<Gtk::Builder object of this widget
+      Glib::RefPtr<Gtk::Builder> m_refBuilder;                          ///<Gtk::Builder object of this widget
 
     private:
 
-      sigc::connection signal_done_fill_data_handler;
-
-      swegui::MainWindow* parent = nullptr;           ///<Parent swegui::MainWindow
+      sigc::connection signal_done_fill_data_handler;                   ///<TODO
+      swegui::MainWindow* parent = nullptr;                             ///<Parent swegui::MainWindow
       std::string layer_names[5] = { "b", "h", "hu", "hv", "hx" };      ///<Helper array to access layer names
       Gtk::Label* labels[5];                                            ///<Pointer to Gtk::Labels showing the layer values in the GUI of this widget
       Gtk::ComboBox* cb_layer = nullptr;                                ///<Pointer to Gtk::Combobox, where a layer can be selected, which is then rendered in the graph
@@ -82,7 +86,6 @@ namespace widgets
       Gtk::DrawingArea* drawingarea_chart = nullptr;                    ///<Pointer to the Gtk::DrawingArea of the graph
 
       void setup_gui_elements();                                        ///<Initializes the GUI elements
-
       void on_dataset_change(void);                                     ///<To be called whenever the dataset of the graph changes
       void on_graph_export(void);                                       ///<Event handler for screenshot export
       bool on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr);      ///<Refreshes the graph

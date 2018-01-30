@@ -1,5 +1,6 @@
 /**
  * @file MainWindow.hpp
+ * 
  * @brief Main GUI-Window of the SWEGUI application
 */
 
@@ -25,14 +26,18 @@
 
 namespace swegui
 {
+
     /**
      * @brief Main GUI-Window of the SWEGUI application
     */
     class MainWindow : public Gtk::ApplicationWindow
     {
+
         public:
+
             /**
              * @brief Overloaded constructor from Gtk::ApplicationWindow
+             * 
              * @param cobject Calling object
              * @param refBuilder Gtk::Builder, from which the window is created
             */
@@ -45,11 +50,12 @@ namespace swegui
 
             /**
              * @brief Creates a new Gtk::MainWindow
+             * 
              * @return New instance of Gtk::MainWindow
             */
             static MainWindow* create();
 
-            renderer::DataRenderer* data_renderer = nullptr; ///< DataRenderer of this window
+            renderer::DataRenderer* data_renderer = nullptr;        ///< DataRenderer of this window
 
         private:
 
@@ -70,7 +76,7 @@ namespace swegui
             Gtk::MenuItem* mb_simulation_next = nullptr;            ///<Object pointer to next frame button in menubar
             Gtk::MenuItem* mb_simulation_prev = nullptr;            ///<Object pointer to previous frame button in menubar
             Gtk::MenuItem* mb_help_about = nullptr;                 ///<Object pointer to About button in menubar
-            Gtk::MenuItem* mb_simulation_clearprobes = nullptr;
+            Gtk::MenuItem* mb_simulation_clearprobes = nullptr;     ///<Object pointer to Clear Probes in menubar
             //Toolbar
             Gtk::ToolButton* tb_openfile = nullptr;                 ///<Object pointer to open file button in toolbar
             Gtk::ToolButton* tb_simulation_goto_start = nullptr;    ///<Object pointer to simulation go to start button in toolbar
@@ -106,11 +112,9 @@ namespace swegui
             //Additional windows
             LayerWindow* window_layers = nullptr;                   ///<Object pointer to the layer window
             RendererWindow* window_renderer = nullptr;              ///<Object pointer to the renderer window
-
             //Play timer
-            Timer* play_timer = nullptr;                                      ///<Timer for play button      
-            void on_action_timer_tick();      
-
+            Timer* play_timer = nullptr;                            ///<Timer for play button      
+            void on_action_timer_tick();                            ///<Event Handler for tick of MainWindow::play_timer  
             //Handlers
             void setup_gui_elements();                              ///<Grabs all objects from PATH_TO_MAIN_GUI and initilizes event handler 
             //Actual event handlers
@@ -126,15 +130,19 @@ namespace swegui
             void on_action_zoompan_reset();                         ///<Event handler to reset zoom and pan
             void on_action_screenshot();                            ///<Event handler to export a screenshot
             void on_action_about();                                 ///<Event handler to open the about window
-            void on_action_probes_clear();
+            void on_action_probes_clear();                          ///<Event handler to clear all probes form the probe list
+
             /**
              * @brief Overloaded event handler to open the MainWindow::dialog_probe_edit dialog
+             * 
              * @param path The path of the list containing the probes
              * @param column The column in the probelist that has been clicked
             */
             void on_action_probelist_activate(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
+
             /**
              * @brief Event handler to call the context menu in the MainWindow::probelist
+             * 
              * @param event Item that was clicked
             */
             void on_action_probelist_button_press(GdkEventButton* event);   
@@ -142,8 +150,10 @@ namespace swegui
             void on_action_probelist_context_edit();                ///<Event handler to update the probes when edited
             void on_probe_remove();                                 ///<Event handler to remove the currently selected probe in data_renderer->active_probe
             void on_action_button_probe_add();                      ///<Event handler to open the MainWindow::dialog_probe_edit to add a new probe
+
             /**
              * @brief Updates probe list
+             * 
              * @param added True, if new probe was added
             */
             void on_probe_update(bool added);                                                                   
@@ -154,26 +164,30 @@ namespace swegui
         protected:
 
             Glib::RefPtr<Gtk::Builder> m_refBuilder;                ///<Glib::RefPtr Builder of this MainWindow
+
             /**
              * @brief Searches probelist for entry specified by \p name
+             * 
              * @param name Name of the probe to search for
+             * 
              * @return Gtk::TreeStore::Iterator to probe
             */
             Gtk::TreeStore::iterator search_probelist(std::string name);
+
             /**
              * @brief Prepares the MainWindow::dialog_probe_edit
+             * 
              * @param clear Specifies if the dialog should be initialized with default values
             */
             void prepare_add_edit(bool clear);
             void handle_add_edit();                                 ///<Calls the MainWindow::dialog_probe_edit, shows it and updates/inserts the probe after editing
+
             /**
              * @brief Updates MainWindow::probedata with a selected probe
+             * 
              * @param name of the probe, of which the data is presented
             */
             void update_probe_ui(string name);
-            /**
-             * @brief Opens a new window, similar to MainWindow::dialog_probe_edit with data of the active probe, specified in  data_renderer::active_probe_name
-            */
             void open_probe_ui();                                   ///<Opens a new window with the data of the currently selected probe in MainWindow::data_renderer
             void handle_timestamp_change();                         ///<Handles switching to another timestamp by updating the UI and the shader
             void reset_probes();                                    ///<Removes all probes from the list and the map, as well clearing the data_renderer::active_probe

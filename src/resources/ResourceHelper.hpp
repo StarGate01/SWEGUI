@@ -1,5 +1,6 @@
 /**
  * @file ResourceHelper.hpp
+ * 
  * @brief Provides easy access to GTK resources
  */
 

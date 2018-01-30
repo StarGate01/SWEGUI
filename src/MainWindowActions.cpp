@@ -1,5 +1,6 @@
 /**
  * @file MainWindowActions.cpp
+ * 
  * @brief Implements path of the functionality defined in MainWindow.hpp, which is related to event handling
  * 
  * Implementation of the general methods are implemented in MainWindow.cpp
