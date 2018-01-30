@@ -287,17 +287,20 @@ bool DataFieldWidget::on_chart_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->stroke();
 
     //Draw legend
+    //maximum
     cr->set_source_rgb(0.0, 0.0, 0.0);
     cr->set_font_size(LEGEND_FONT_SIZE);
     cr->move_to(5, (1 - GRAPH_SCALE) * height - MIN_OFFSET * height + 0.5 * LEGEND_FONT_SIZE);
     cr->show_text(std::to_string(max_value));
-    if(layer != 4)
+    //zero line
+    cr->move_to(5, zero_height - 3);
+    cr->show_text(std::to_string(0.0000));
+    //minimum
+    if(layer != 3) //total flux 0 is minimum
     {
-        cr->move_to(5, zero_height - 3);
-        cr->show_text(std::to_string(0.0000));
+        cr->move_to(5, (GRAPH_SCALE) * height + MIN_OFFSET * height + 0.5 * LEGEND_FONT_SIZE);
+        cr->show_text(std::to_string(min_value));
     }
-    cr->move_to(5, (GRAPH_SCALE) * height + MIN_OFFSET * height + 0.5 * LEGEND_FONT_SIZE);
-    cr->show_text(std::to_string(min_value));
     return true;
 }
 
