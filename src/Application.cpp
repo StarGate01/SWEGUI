@@ -1,5 +1,6 @@
 /**
  * @file Application.cpp
+ * 
  * @brief Implements the functionality defined in Application.hpp
  * 
  * Main entry point for SWEGUI

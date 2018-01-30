@@ -1,5 +1,6 @@
 /**
  * @file ProbeColumns.cpp
+ * 
  * @brief Implements the functionality defined in ProbeColumns.hpp
 */
 

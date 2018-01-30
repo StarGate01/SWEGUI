@@ -1,5 +1,6 @@
 /**
  * @file SFMLWidget.cpp
+ * 
  * @brief Implements the functionality defined in SFMLWidget.hpp
 */
 

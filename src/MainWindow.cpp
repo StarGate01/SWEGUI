@@ -1,5 +1,6 @@
 /**
  * @file MainWindow.cpp
+ * 
  * @brief Implements path of the functionality defined in MainWindow.hpp
  * 
  * Implementation of some probe related methods are outsourced into MainWindowProbe.cpp

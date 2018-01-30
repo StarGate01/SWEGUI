@@ -1,5 +1,6 @@
 /**
  * @file ResourceHelper.cpp
+ * 
  * @brief Implements the functionality defined in Resourcehelper.hpp
  */
 

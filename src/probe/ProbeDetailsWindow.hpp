@@ -1,5 +1,6 @@
 /**
  * @brief Window to display the details of a probe
+ * 
  * @file ProbeDetailsWindow.hpp
 */
 
@@ -14,7 +15,9 @@
 
 namespace swegui
 {
-
+    /**
+     * @brief The main GUI window
+    */
     class MainWindow;
 
 }
@@ -28,8 +31,10 @@ namespace probe
     {
 
         public:
+
             /**
              * @brief Inherited constructor from Gtk::Window
+             * 
              * @param cobject Calling object
              * @param refBuilder Gtk::Builder, from which the window is created
             */
@@ -38,8 +43,10 @@ namespace probe
 
             /**
              * @brief Creates a new ProbeDetailsWindow
+             * 
              * @param pa Parent swegui::MainWindow
              * @param na Intended name of the window
+             * 
              * @return Instance of new ProbeDetailsWindow
             */
             static ProbeDetailsWindow* create(swegui::MainWindow* pa, std::string na);
@@ -54,7 +61,6 @@ namespace probe
 
             swegui::MainWindow* parent;                             ///<Pointer to parent swegui::MainWindow
             std::string name;                                       ///<Name of the window and respectively the associated probe
-
             Gtk::Window* window_probe = nullptr;                    ///<GTK:Window object that is represented by this class
             widgets::DataFieldWidget* probedata = nullptr;          ///<widgets::DataFieldWidget of the ProbeDetailsWindow::window_probe
 

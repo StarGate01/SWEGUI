@@ -1,5 +1,6 @@
 /**
  * @file SFMLWidget.hpp
+ * 
  * @brief Widget to draw the rendered map of the SWE simulation
 */
 
@@ -13,7 +14,9 @@
 
 namespace swegui
 {
-
+  /**
+   * @brief Main GUI window
+  */
   class MainWindow;
 
 }

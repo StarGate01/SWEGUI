@@ -1,5 +1,6 @@
 /**
  * @file ProbeDetailsWindow.cpp
+ * 
  * @brief Implements the functionality defined in ProbeDetailsWindow.hpp
 */
 

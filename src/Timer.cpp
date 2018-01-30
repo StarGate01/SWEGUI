@@ -1,3 +1,9 @@
+/**
+ * @file Timer.cpp
+ * 
+ * @brief Timer for the play functionality
+*/
+
 #include "Timer.hpp"
 
 using namespace swegui;

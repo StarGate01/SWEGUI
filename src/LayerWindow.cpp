@@ -1,5 +1,6 @@
 /**
  * @file LayerWindow.cpp
+ * 
  * @brief Implements the functionality defined in LayerWindow.hpp
 */
 
