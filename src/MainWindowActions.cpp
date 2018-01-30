@@ -14,7 +14,7 @@ void MainWindow::on_action_fileopen()
 {
     if(dialog_open->run() == Gtk::RESPONSE_OK)
     {
-        reset_probes();
+        //reset_probes();
         std::string filename = dialog_open->get_filename();
         data_renderer->open_async(filename);
         spinner_loading->property_active() = true;

@@ -74,16 +74,11 @@ void DataFieldWidget::update_ui()
                 renderer::NetCdfImageStream::Variable::Hv, probe->x, probe->y), 2)));
         labels[4]->set_text(std::to_string(hx));
 
-        if(!probe->has_data() && !probe->loads_data()) 
+        if(!probe->has_data()) 
         {
             probe->signal_done_fill_data().connect(sigc::mem_fun(this, &DataFieldWidget::update_ui));
-            probe->fill_data_async(parent->data_renderer);
         }
-        else
-        {
-            //Update graph
-            on_dataset_change();
-        }
+        on_dataset_change();
     }
     else reset_gui();
 }

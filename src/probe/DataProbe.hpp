@@ -42,7 +42,7 @@ namespace probe
              * @param py Y Position of the probe
              * @param data_renderer The renderer in which the probe is located
             */
-            DataProbe(float px, float py);
+            DataProbe(float px, float py, renderer::DataRenderer* data_renderer);
             ~DataProbe();               ///<Deletes the associates ProbeDetailsWindow, if it exists
 
             float x = 0.f;              ///<X position of the probe

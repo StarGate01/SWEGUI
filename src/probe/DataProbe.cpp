@@ -3,6 +3,7 @@
  * @brief Implements the functionality defined in DataProbe.hpp
 */
 
+#include <iostream>
 #include "DataProbe.hpp"
 #include "../renderer/DataRenderer.hpp"
 using namespace probe;
@@ -10,19 +11,22 @@ using namespace probe;
 ProbeColumns DataProbe::cols;
 
 DataProbe::DataProbe()
-    : DataProbe(0.f, 0.f)
+   : x(0), y(0)
 {
+    sprite.setOrigin(16.f, 16.f);
 }
 
-DataProbe::DataProbe(float px, float py)
+DataProbe::DataProbe(float px, float py, renderer::DataRenderer* data_renderer)
     : x(px), y(py)
 {
     sprite.setOrigin(16.f, 16.f);
+    fill_data_async(data_renderer);
     //fill_data_async(data_renderer);
 }
 
 DataProbe::~DataProbe()
 {
+    std::cout << "DataProbe::~DataProbe" << std::endl;
     if(window != nullptr) delete window;
 }
 
