@@ -115,7 +115,7 @@ namespace probe
 
         private:
 
-            sigc::connection signal_done_sample_batch_handler;      ///< TODO
+            sigc::connection signal_done_sample_batch_handler;      ///<Pointer to the bound handler (You are not expected to understand this)
             static ProbeColumns cols;                               ///<Template for the columns of the probe list
             sf::Sprite sprite;                                      ///<Sprite, that is drawn on the map at the probes position
             int timestamps = 0;                                     ///<Number of timestamps of the simulation

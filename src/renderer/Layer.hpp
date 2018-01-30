@@ -12,6 +12,7 @@
 
 namespace renderer
 {
+
     /**
      * @brief  Layer for displaying a single variable in the renderer
     */
@@ -20,18 +21,19 @@ namespace renderer
 
     public:
 
-        NetCdfImageStream::Meta meta_info;          ///<
+        NetCdfImageStream::Meta meta_info;          ///<Meta information about this layer
 
-        int index;                                  ///<
-        bool clip = false;                          ///<
-        float clip_min = -1.f, clip_max = 1.f;      ///<
-        bool enable = false;                        ///<
-        bool computed = false;                      ///<
-        sf::Texture texture;                        ///<
-        sf::Shader* shader = nullptr;               ///<
+        int index;                                  ///<Numerical index of this layer
+        bool clip = false;                          ///<Wether clipping is active
+        float   clip_min = -1.f,                    ///<Clipping minimum
+                clip_max = 1.f;                     ///<Clipping maximum
+        bool enable = false;                        ///<Wether this layer should be displayed
+        bool computed = false;                      ///<Wether this layer consists purely of dynamic computed data
+        sf::Texture texture;                        ///<The texture used as data
+        sf::Shader* shader = nullptr;               ///<Reference to the shader to update its uniforms
 
-        Layer() { }                                 ///<
-        void update_shader(bool use_tex = false);   ///<
+        Layer() { }                                 ///<Constructor
+        void update_shader(bool use_tex = false);   ///<Updates the shader by setting its uniforms
         
     };
 

@@ -1,7 +1,6 @@
 /**
  * @file Timer.cpp
- * 
- * @brief Timer for the play functionality
+ * @brief Implements the functionality defined in Timer.hpp
 */
 
 #include "Timer.hpp"
